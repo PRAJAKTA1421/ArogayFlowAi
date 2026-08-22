@@ -1,0 +1,464 @@
+{% extends 'base.html' %}{% block title %}PHC Network | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash network-page">
+ <aside class="sidebar">
+  <a class="brand" href="/">
+   <span class="brand-mark">
+    +
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+    <small>
+     Smart Health. Stronger Tomorrow.
+    </small>
+   </span>
+  </a>
+  <nav>
+   <a href="/dashboard">
+    ⌂
+    <span>
+     Dashboard
+    </span>
+   </a>
+   <a class="selected" href="/phc-network">
+    ⚯
+    <span>
+     PHC Network
+    </span>
+   </a>
+   <a href="#">
+    ⚭
+    <span>
+     Medicine Inventory
+    </span>
+   </a>
+   <a href="#">
+    ▦
+    <span>
+     Beds Overview
+    </span>
+   </a>
+   <a href="#">
+    ♙
+    <span>
+     Medical Staff
+    </span>
+   </a>
+   <a href="#">
+    ✧
+    <span>
+     AI Predictions
+    </span>
+   </a>
+   <a href="#">
+    ⇄
+    <span>
+     Resource Transfer
+    </span>
+   </a>
+   <a href="#">
+    ♪
+    <span>
+     Alerts &amp; Notifications
+    </span>
+    <b>
+     12
+    </b>
+   </a>
+   <a href="#">
+    ▣
+    <span>
+     Reports &amp; Analytics
+    </span>
+   </a>
+   <a href="#">
+    □
+    <span>
+     My PHC
+    </span>
+   </a>
+   <a href="#">
+    ⚙
+    <span>
+     Settings
+    </span>
+   </a>
+  </nav>
+  <div class="health-score">
+   <small>
+    AI Health Resilience Score
+   </small>
+   <div class="score">
+    82
+    <em>
+     /100
+    </em>
+   </div>
+   <strong>
+    Good
+   </strong>
+   <p>
+    Network Health Status
+   </p>
+  </div>
+  <a class="logout" href="/">
+   ➔ Logout
+  </a>
+ </aside>
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     PHC Network
+    </h1>
+    <p>
+     All India PHC Network Overview
+    </p>
+   </div>
+   <button class="location">
+    ◉ All India　⌄
+   </button>
+   <span class="bell">
+    ♪
+    <i>
+     10
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body network-body">
+   <div class="network-kpis">
+    <article class="net-kpi blue">
+     <span>
+      Total PHCs
+     </span>
+     <strong>
+      2,845
+     </strong>
+     <small>
+      Across India
+     </small>
+     <i>
+      ▥
+     </i>
+    </article>
+    <article class="net-kpi green">
+     <span>
+      ●　Normal
+     </span>
+     <strong>
+      1,804
+     </strong>
+     <small>
+      63.4%
+     </small>
+    </article>
+    <article class="net-kpi amber">
+     <span>
+      ●　At Risk
+     </span>
+     <strong>
+      728
+     </strong>
+     <small>
+      25.6%
+     </small>
+    </article>
+    <article class="net-kpi red">
+     <span>
+      ●　Critical
+     </span>
+     <strong>
+      313
+     </strong>
+     <small>
+      11.0%
+     </small>
+    </article>
+    <article class="net-kpi blue">
+     <span>
+      Total Districts
+     </span>
+     <strong>
+      732
+     </strong>
+     <small>
+      Covered
+     </small>
+    </article>
+    <article class="net-kpi blue">
+     <span>
+      Total States/UTs
+     </span>
+     <strong>
+      28
+     </strong>
+     <small>
+      Covered
+     </small>
+    </article>
+   </div>
+   <div class="network-grid">
+    <article class="panel network-map">
+     <h3>
+      Live PHC Network Map
+     </h3>
+     <div class="map-controls">
+      +
+      <br/>
+      <hr/>
+      −
+      <br/>
+      <hr/>
+      ⛶
+     </div>
+     <img alt="PHC network map" src="{{ url_for('static', filename='images/india-network.svg') }}"/>
+     <div class="network-dots">
+      <b class="n1">
+       82
+      </b>
+      <b class="n2">
+       30
+      </b>
+      <b class="n3">
+       74
+      </b>
+      <b class="n4">
+       49
+      </b>
+      <b class="n5">
+       57
+      </b>
+      <b class="n6">
+       61
+      </b>
+     </div>
+     <div class="legend">
+      <p>
+       <b>
+       </b>
+       Normal (1,804)
+      </p>
+      <p>
+       <b>
+       </b>
+       At Risk (728)
+      </p>
+      <p>
+       <b>
+       </b>
+       Critical (313)
+      </p>
+     </div>
+    </article>
+    <article class="panel state-list">
+     <h3>
+      PHCs by State
+      <small>
+       (Top 6)
+      </small>
+     </h3>
+     <div>
+      <b>
+       Uttar Pradesh
+      </b>
+      <span>
+       342
+      </span>
+      <i style="width:54%">
+      </i>
+     </div>
+     <div>
+      <b>
+       Maharashtra
+      </b>
+      <span>
+       342
+      </span>
+      <i style="width:54%">
+      </i>
+     </div>
+     <div>
+      <b>
+       Karnataka
+      </b>
+      <span>
+       310
+      </span>
+      <i style="width:48%">
+      </i>
+     </div>
+     <div>
+      <b>
+       Tamil Nadu
+      </b>
+      <span>
+       295
+      </span>
+      <i style="width:43%">
+      </i>
+     </div>
+     <div class="risk">
+      <b>
+       Rajasthan
+      </b>
+      <span>
+       287
+      </span>
+      <i style="width:40%">
+      </i>
+     </div>
+     <div class="risk">
+      <b>
+       Gujarat
+      </b>
+      <span>
+       228
+      </span>
+      <i style="width:30%">
+      </i>
+     </div>
+     <a>
+      View All States　→
+     </a>
+    </article>
+    <article class="panel critical-list">
+     <h3>
+      Critical PHCs
+      <a>
+       View All
+      </a>
+     </h3>
+     <p>
+      <i>
+       !
+      </i>
+      <b>
+       Palghar PHC
+      </b>
+      <span>
+       Maharashtra
+      </span>
+      <span>
+       Medicine Shortage
+      </span>
+      <em>
+       91%
+      </em>
+     </p>
+     <p>
+      <i>
+       !
+      </i>
+      <b>
+       Nashik PHC
+      </b>
+      <span>
+       Maharashtra
+      </span>
+      <span>
+       High Bed Occupancy
+      </span>
+      <em>
+       88%
+      </em>
+     </p>
+     <p>
+      <i>
+       !
+      </i>
+      <b>
+       Mysore PHC
+      </b>
+      <span>
+       Karnataka
+      </span>
+      <span>
+       Staff Shortage
+      </span>
+      <em>
+       85%
+      </em>
+     </p>
+     <p>
+      <i>
+       !
+      </i>
+      <b>
+       Surat PHC
+      </b>
+      <span>
+       Gujarat
+      </span>
+      <span>
+       Medicine Shortage
+      </span>
+      <em>
+       79%
+      </em>
+     </p>
+     <p>
+      <i>
+       !
+      </i>
+      <b>
+       Aurangabad PHC
+      </b>
+      <span>
+       Maharashtra
+      </span>
+      <span>
+       High Patient Load
+      </span>
+      <em>
+       76%
+      </em>
+     </p>
+    </article>
+    <article class="panel network-summary">
+     <h3>
+      Network Summary
+     </h3>
+     <div>
+      <p>
+       ♟
+       <span>
+        Patients Today
+        <strong>
+         2.84 Lakh
+        </strong>
+        <small>
+         ↑ 18.7% from yesterday
+        </small>
+       </span>
+      </p>
+      <p>
+       ▥
+       <span>
+        Avg. Occupancy
+        <strong>
+         72%
+        </strong>
+        <small>
+         ↑ 4.6% from yesterday
+        </small>
+       </span>
+      </p>
+     </div>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

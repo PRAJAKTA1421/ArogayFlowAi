@@ -1,0 +1,92 @@
+<aside class="sidebar">
+ <a class="brand" href="/">
+  <span class="brand-mark">
+   +
+  </span>
+  <span>
+   ArogyaFlow
+   <b>
+    AI
+   </b>
+   <small>
+    Smart Health. Stronger Tomorrow.
+   </small>
+  </span>
+ </a>
+ <nav>
+  <a class="{% if request.endpoint == 'dashboard' %}selected{% endif %}" href="/dashboard">
+   ⌂
+   <span>
+    Dashboard
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'phc_network' %}selected{% endif %}" href="/phc-network">
+   ⚯
+   <span>
+    PHC Network
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'medicine_inventory' %}selected{% endif %}" href="/medicine-inventory">
+   ⚭
+   <span>
+    Medicine Inventory
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'beds_overview' %}selected{% endif %}" href="/beds-overview">
+   ▦
+   <span>
+    Beds Overview
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'medical_staff' %}selected{% endif %}" href="/medical-staff">
+   ♙
+   <span>
+    Medical Staff
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'ai_predictions' %}selected{% endif %}" href="/ai-predictions">
+   ✧
+   <span>
+    AI Predictions
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'resource_transfer' %}selected{% endif %}" href="/resource-transfer">
+   ⇄
+   <span>
+    Resource Transfer
+   </span>
+  </a>
+  <a href="#">
+   □
+   <span>
+    My PHC
+   </span>
+  </a>
+  <a class="{% if request.endpoint == 'settings' %}selected{% endif %}" href="/settings">
+   ⚙
+   <span>
+    Settings
+   </span>
+  </a>
+ </nav>
+ <div class="health-score">
+  <small>
+   AI Health Resilience Score
+  </small>
+  <div class="score">
+   82
+   <em>
+    /100
+   </em>
+  </div>
+  <strong>
+   Good
+  </strong>
+  <p>
+   Network Health Status
+  </p>
+ </div>
+ <a class="logout" href="/">
+  ➔ Logout
+ </a>
+</aside>

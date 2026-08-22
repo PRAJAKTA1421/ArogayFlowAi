@@ -1,0 +1,500 @@
+{% extends 'base.html' %}{% block title %}Dashboard | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash">
+ <aside class="sidebar">
+  <a class="brand" href="/">
+   <span class="brand-mark">
+    +
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+    <small>
+     Smart Health. Stronger Tomorrow.
+    </small>
+   </span>
+  </a>
+  <nav>
+   <a class="selected" href="#">
+    ⌂
+    <span>
+     Dashboard
+    </span>
+   </a>
+   <a href="#">
+    ⚯
+    <span>
+     PHC Network
+    </span>
+   </a>
+   <a href="#">
+    ⚭
+    <span>
+     Medicine Inventory
+    </span>
+   </a>
+   <a href="#">
+    ▦
+    <span>
+     Beds Overview
+    </span>
+   </a>
+   <a href="#">
+    ♙
+    <span>
+     Medical Staff
+    </span>
+   </a>
+   <a href="#">
+    ✧
+    <span>
+     AI Predictions
+    </span>
+   </a>
+   <a href="#">
+    ⇄
+    <span>
+     Resource Transfer
+    </span>
+   </a>
+   <a href="#">
+    ♪
+    <span>
+     Alerts &amp; Notifications
+    </span>
+    <b>
+     12
+    </b>
+   </a>
+   <a href="#">
+    ▣
+    <span>
+     Reports &amp; Analytics
+    </span>
+   </a>
+   <a href="#">
+    □
+    <span>
+     My PHC
+    </span>
+   </a>
+   <a href="#">
+    ⚙
+    <span>
+     Settings
+    </span>
+   </a>
+  </nav>
+  <div class="health-score">
+   <small>
+    AI Health Resilience Score
+   </small>
+   <div class="score">
+    82
+    <em>
+     /100
+    </em>
+   </div>
+   <strong>
+    Good
+   </strong>
+   <p>
+    Network Health Status
+   </p>
+  </div>
+  <a class="logout" href="/">
+   ➔ Logout
+  </a>
+ </aside>
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     National PHC Command Center
+    </h1>
+    <p>
+     All India PHC Network Overview
+    </p>
+   </div>
+   <button class="location">
+    ◉ All India　⌄
+   </button>
+   <span class="updated">
+    Last Updated: 16 May 2025, 10:30 AM
+    <b>
+     ● Live
+    </b>
+   </span>
+   <span class="bell">
+    ♪
+    <i>
+     12
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body">
+   <div class="kpis">
+    <article class="kpi blue">
+     <span>
+      Total PHCs
+     </span>
+     <strong>
+      2,845
+     </strong>
+     <small>
+      Across India
+     </small>
+     <i>
+      ▥
+     </i>
+     <em>
+      ↗ 18 from last month
+     </em>
+    </article>
+    <article class="kpi green">
+     <span>
+      Available Beds
+     </span>
+     <strong>
+      18,426
+     </strong>
+     <small>
+      72% Occupancy
+     </small>
+     <i>
+      ▣
+     </i>
+     <em>
+      ↗ 6% from yesterday
+     </em>
+    </article>
+    <article class="kpi purple">
+     <span>
+      Patients Today
+     </span>
+     <strong>
+      2.84 Lakh
+     </strong>
+     <small>
+      Across Monitored PHCs
+     </small>
+     <i>
+      ♟
+     </i>
+     <em>
+      ↗ 24% from yesterday
+     </em>
+    </article>
+    <article class="kpi orange">
+     <span>
+      Medicine Availability
+     </span>
+     <strong>
+      91.6%
+     </strong>
+     <small>
+      Network Availability
+     </small>
+     <i>
+      ●
+     </i>
+     <em>
+      ↗ 3.4% from yesterday
+     </em>
+    </article>
+    <article class="kpi teal">
+     <span>
+      Staff On Duty
+     </span>
+     <strong>
+      24,350
+     </strong>
+     <small>
+      80% Availability
+     </small>
+     <i>
+      ●
+     </i>
+     <em>
+      ↗ 5.2% from yesterday
+     </em>
+    </article>
+   </div>
+   <div class="dash-grid">
+    <article class="panel live-map">
+     <h3>
+      Live PHC Network - India
+      <small>
+       ● All Predictions
+      </small>
+     </h3>
+     <img alt="India PHC map" src="{{ url_for('static', filename='images/india-network.svg') }}"/>
+     <div class="legend">
+      <p>
+       <b>
+       </b>
+       Normal
+      </p>
+      <p>
+       <b>
+       </b>
+       At Risk
+      </p>
+      <p>
+       <b>
+       </b>
+       Critical
+      </p>
+     </div>
+     <div class="map-tip">
+      <strong>
+       Maharashtra
+      </strong>
+      <small>
+       342 PHCs
+      </small>
+      <em>
+       82 Critical
+      </em>
+      <em>
+       118 At Risk
+      </em>
+      <small>
+       142 Normal
+      </small>
+     </div>
+    </article>
+    <article class="panel chart">
+     <h3>
+      AI Demand Forecast
+      <small>
+       (Next 7 Days)
+      </small>
+     </h3>
+     <div class="chart-lines">
+      <span class="actual">
+      </span>
+      <span class="forecast">
+      </span>
+     </div>
+     <div class="chart-labels">
+      10 May　 11 May　 12 May　 13 May　 14 May　 15 May　 16 May
+     </div>
+     <p>
+      <b>
+      </b>
+      Actual Usage
+      <i>
+      </i>
+      AI Predicted Demand
+     </p>
+    </article>
+    <article class="panel insights">
+     <h3>
+      AI Insights
+     </h3>
+     <div class="danger">
+      ⚠
+      <span>
+       <b>
+        High Medicine Demand
+       </b>
+       <small>
+        Maharashtra, Karnataka may face high medicine demand over next 7 days.
+       </small>
+      </span>
+      ›
+     </div>
+     <div class="warning">
+      ▲
+      <span>
+       <b>
+        Bed Occupancy Alert
+       </b>
+       <small>
+        5 states are expected to have more than 90% bed occupancy in next 3 days.
+       </small>
+      </span>
+      ›
+     </div>
+     <div class="notice">
+      ✦
+      <span>
+       <b>
+        Staff Shortage Predicted
+       </b>
+       <small>
+        Staff shortage predicted in 12 districts due to high patient load.
+       </small>
+      </span>
+      ›
+     </div>
+    </article>
+    <article class="panel table">
+     <h3>
+      Critical PHCs
+      <small>
+       (High Risk)
+      </small>
+      <a>
+       View All
+      </a>
+     </h3>
+     <table>
+      <tr>
+       <th>
+        PHC Name
+       </th>
+       <th>
+        State
+       </th>
+       <th>
+        Risk Score
+       </th>
+       <th>
+        Issue
+       </th>
+       <th>
+        AI Action
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Palghar PHC
+       </td>
+       <td>
+        Maharashtra
+       </td>
+       <td>
+        <b>
+         91%
+        </b>
+       </td>
+       <td>
+        Medicine Shortage
+       </td>
+       <td>
+        Transfer Recommended
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Mysore PHC
+       </td>
+       <td>
+        Karnataka
+       </td>
+       <td>
+        <b>
+         88%
+        </b>
+       </td>
+       <td>
+        Staff Shortage
+       </td>
+       <td>
+        Redistribute Staff
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Nashik PHC
+       </td>
+       <td>
+        Maharashtra
+       </td>
+       <td>
+        <b>
+         68%
+        </b>
+       </td>
+       <td>
+        High Bed Occupancy
+       </td>
+       <td>
+        Monitor
+       </td>
+      </tr>
+     </table>
+    </article>
+    <article class="panel transfers">
+     <h3>
+      AI Resource Transfer Recommendations
+     </h3>
+     <div>
+      <b>
+       From
+       <br/>
+       <strong>
+        Vasai PHC
+       </strong>
+      </b>
+      →
+      <b>
+       To
+       <br/>
+       <strong>
+        Palghar PHC
+       </strong>
+      </b>
+      <button>
+       Approve Transfer
+      </button>
+     </div>
+     <div>
+      <b>
+       From
+       <br/>
+       <strong>
+        Nashik PHC
+       </strong>
+      </b>
+      →
+      <b>
+       To
+       <br/>
+       <strong>
+        Aurangabad PHC
+       </strong>
+      </b>
+      <button>
+       Approve Transfer
+      </button>
+     </div>
+    </article>
+    <article class="panel alerts">
+     <h3>
+      Recent Alerts
+     </h3>
+     <p>
+      ⚠ Paracetamol shortage predicted
+     </p>
+     <p>
+      ▲ Bed occupancy &gt; 90%
+     </p>
+     <p>
+      ! High patient footfall
+     </p>
+     <p>
+      ● Staff unavailable tomorrow
+     </p>
+     <a>
+      See All Alerts →
+     </a>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

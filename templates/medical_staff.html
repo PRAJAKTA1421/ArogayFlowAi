@@ -1,0 +1,353 @@
+{% extends 'base.html' %}{% block title %}Medical Staff | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash report-page">
+ {% include '_dashboard_sidebar.html' %}
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     Medical Staff
+    </h1>
+    <p>
+     Track and manage medical staff across all PHCs
+    </p>
+   </div>
+   <button class="location">
+    All India　⌄
+   </button>
+   <span class="updated">
+    16 May 2025
+   </span>
+   <span class="bell">
+    ♧
+    <i>
+     4
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body">
+   <div class="metric-cards">
+    <article>
+     <small>
+      Total Staff
+     </small>
+     <strong>
+      24,350
+     </strong>
+     <em>
+      Across India
+     </em>
+    </article>
+    <article>
+     <small>
+      Doctors
+     </small>
+     <strong>
+      8,250
+     </strong>
+     <em>
+      33.9%
+     </em>
+    </article>
+    <article>
+     <small>
+      Nurses
+     </small>
+     <strong>
+      10,540
+     </strong>
+     <em>
+      43.3%
+     </em>
+    </article>
+    <article>
+     <small>
+      Paramedics
+     </small>
+     <strong>
+      4,120
+     </strong>
+     <em>
+      16.9%
+     </em>
+    </article>
+   </div>
+   <div class="operations-grid">
+    <article class="panel india-staff-map">
+     <h3>
+      Staff Distribution by State
+     </h3>
+    </article>
+    <article class="panel staff-table">
+     <h3>
+      Staff Overview by State
+      <a class="view-link" href="#">
+       View All States
+      </a>
+     </h3>
+     <table>
+      <tr>
+       <th>
+        State
+       </th>
+       <th>
+        Total Staff
+       </th>
+       <th>
+        Doctors
+       </th>
+       <th>
+        Nurses
+       </th>
+       <th>
+        Paramedics
+       </th>
+       <th>
+        Action
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Uttar Pradesh
+       </td>
+       <td>
+        3,125
+       </td>
+       <td>
+        1,050
+       </td>
+       <td>
+        1,350
+       </td>
+       <td>
+        210
+       </td>
+       <td>
+        <a class="view-link">
+         View
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Maharashtra
+       </td>
+       <td>
+        2,640
+       </td>
+       <td>
+        890
+       </td>
+       <td>
+        1,200
+       </td>
+       <td>
+        180
+       </td>
+       <td>
+        <a class="view-link">
+         View
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Karnataka
+       </td>
+       <td>
+        2,210
+       </td>
+       <td>
+        740
+       </td>
+       <td>
+        930
+       </td>
+       <td>
+        140
+       </td>
+       <td>
+        <a class="view-link">
+         View
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Tamil Nadu
+       </td>
+       <td>
+        1,980
+       </td>
+       <td>
+        670
+       </td>
+       <td>
+        860
+       </td>
+       <td>
+        120
+       </td>
+       <td>
+        <a class="view-link">
+         View
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Rajasthan
+       </td>
+       <td>
+        1,750
+       </td>
+       <td>
+        600
+       </td>
+       <td>
+        770
+       </td>
+       <td>
+        100
+       </td>
+       <td>
+        <a class="view-link">
+         View
+        </a>
+       </td>
+      </tr>
+     </table>
+    </article>
+    <article class="panel availability">
+     <div>
+      <h3>
+       Staff Availability Status
+      </h3>
+      <div class="availability-ring">
+      </div>
+     </div>
+     <div class="availability-list">
+      <p>
+       <i>
+       </i>
+       Available  22,950 (90%)
+      </p>
+      <p>
+       <i>
+       </i>
+       On Leave  1,020 (4%)
+      </p>
+      <p>
+       <i>
+       </i>
+       Unavailable  380 (6%)
+      </p>
+     </div>
+    </article>
+    <article class="panel staff-table">
+     <h3>
+      Staff Shortage Alert
+     </h3>
+     <table>
+      <tr>
+       <th>
+        State / UT
+       </th>
+       <th>
+        Staff
+       </th>
+       <th>
+        Required
+       </th>
+       <th>
+        Available
+       </th>
+       <th>
+        Gap
+       </th>
+       <th>
+        Action
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Bihar
+       </td>
+       <td>
+        Doctors
+       </td>
+       <td>
+        560
+       </td>
+       <td>
+        320
+       </td>
+       <td style="color:#ef4350">
+        240
+       </td>
+       <td>
+        <a class="view-link">
+         Redistribute
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Jharkhand
+       </td>
+       <td>
+        Nurses
+       </td>
+       <td>
+        420
+       </td>
+       <td>
+        210
+       </td>
+       <td style="color:#ef4350">
+        210
+       </td>
+       <td>
+        <a class="view-link">
+         Redistribute
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Odisha
+       </td>
+       <td>
+        Paramedics
+       </td>
+       <td>
+        310
+       </td>
+       <td>
+        160
+       </td>
+       <td style="color:#ef4350">
+        150
+       </td>
+       <td>
+        <a class="view-link">
+         Redistribute
+        </a>
+       </td>
+      </tr>
+     </table>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

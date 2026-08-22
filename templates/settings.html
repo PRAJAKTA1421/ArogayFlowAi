@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block title %}Settings | ArogyaFlow AI{% endblock %}
+{% block content %}
+<main class="dash settings-page">
+ {% include '_dashboard_sidebar.html' %}
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     Settings
+    </h1>
+    <p>
+     Manage your account, preferences and system settings
+    </p>
+   </div>
+   <button class="location">
+    All India　⌄
+   </button>
+   <span class="updated">
+    16 May 2025
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="settings-body">
+   <nav class="settings-tabs">
+    <a class="active" href="#profile">
+     Profile
+    </a>
+    <a href="#preferences">
+     Preferences
+    </a>
+    <a href="#users">
+     Users &amp; Roles
+    </a>
+    <a href="#data">
+     Data Settings
+    </a>
+    <a href="#security">
+     Security
+    </a>
+   </nav>
+   <div class="settings-grid">
+    <section class="settings-card" id="profile">
+     <h2>
+      Profile Information
+     </h2>
+     <div class="profile-form">
+      <div class="settings-avatar">
+       ●
+       <small>
+        ▣
+       </small>
+      </div>
+      <div class="settings-fields">
+       <label>
+        Full Name
+        <input value="PHC Manager"/>
+       </label>
+       <label>
+        Email Address
+        <input value="phc.manager@healthgrid.ai"/>
+       </label>
+       <label>
+        Phone Number
+        <input value="+91 98765 43210"/>
+       </label>
+       <label>
+        Designation
+        <input value="PHC Manager"/>
+       </label>
+       <label>
+        State
+        <select>
+         <option>
+          Maharashtra
+         </option>
+        </select>
+       </label>
+      </div>
+     </div>
+     <button class="change-password">
+      Change Password
+      <span>
+       Update your account password
+      </span>
+      <b>
+       ›
+      </b>
+     </button>
+    </section>
+    <section class="settings-card" id="preferences">
+     <h2>
+      Preferences
+     </h2>
+     <div class="preference-fields">
+      <label>
+       Language
+       <select>
+        <option>
+         English
+        </option>
+       </select>
+      </label>
+      <label>
+       Time Zone
+       <select>
+        <option>
+         (GMT+05:30) India Standard Time
+        </option>
+       </select>
+      </label>
+      <label>
+       Date Format
+       <select>
+        <option>
+         DD MMM YYYY
+        </option>
+       </select>
+      </label>
+      <label>
+       Number Format
+       <select>
+        <option>
+         1,23,456.78
+        </option>
+       </select>
+      </label>
+      <div class="theme-choice">
+       <span>
+        Theme
+       </span>
+       <div>
+        <button class="chosen">
+         ☼
+         <small>
+          Light
+         </small>
+        </button>
+        <button>
+         ◐
+         <small>
+          Dark
+         </small>
+        </button>
+       </div>
+      </div>
+      <label>
+       Dashboard Default View
+       <select>
+        <option>
+         National Overview
+        </option>
+       </select>
+      </label>
+     </div>
+     <button class="save-preferences" type="button">
+      Save Preferences
+     </button>
+    </section>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

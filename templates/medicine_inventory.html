@@ -1,0 +1,319 @@
+{% extends 'base.html' %}{% block title %}Medicine Inventory | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash report-page">
+ <aside class="sidebar">
+  <a class="brand" href="/">
+   <span class="brand-mark">
+    +
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+    <small>
+     Smart Health. Stronger Tomorrow.
+    </small>
+   </span>
+  </a>
+  <nav>
+   <a href="/dashboard">
+    ⌂
+    <span>
+     Dashboard
+    </span>
+   </a>
+   <a href="/phc-network">
+    ⚯
+    <span>
+     PHC Network
+    </span>
+   </a>
+   <a class="selected" href="/medicine-inventory">
+    ⚭
+    <span>
+     Medicine Inventory
+    </span>
+   </a>
+   <a href="/beds-overview">
+    ▦
+    <span>
+     Beds Overview
+    </span>
+   </a>
+   <a href="#">
+    ♙
+    <span>
+     Medical Staff
+    </span>
+   </a>
+   <a href="#">
+    ✧
+    <span>
+     AI Predictions
+    </span>
+   </a>
+   <a href="#">
+    ⇄
+    <span>
+     Resource Transfer
+    </span>
+   </a>
+   <a href="#">
+    ♪
+    <span>
+     Alerts &amp; Notifications
+    </span>
+    <b>
+     12
+    </b>
+   </a>
+  </nav>
+ </aside>
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     Medicine Inventory
+    </h1>
+    <p>
+     Track medicine availability across all PHCs
+    </p>
+   </div>
+   <button class="location">
+    All India　⌄
+   </button>
+   <span class="updated">
+    16 May 2025
+   </span>
+   <span class="bell">
+    ♧
+    <i>
+     4
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body">
+   <div class="report-kpis">
+    <article>
+     <small>
+      Total Medicines Tracked
+     </small>
+     <strong>
+      1,256
+     </strong>
+    </article>
+    <article class="good">
+     <small>
+      Sufficient Stock
+     </small>
+     <strong>
+      946
+      <em>
+       (75.4%)
+      </em>
+     </strong>
+    </article>
+    <article class="warn">
+     <small>
+      Low Stock
+     </small>
+     <strong>
+      286
+      <em>
+       (22.8%)
+      </em>
+     </strong>
+    </article>
+    <article class="bad">
+     <small>
+      Out of Stock
+     </small>
+     <strong>
+      124
+      <em>
+       (9.8%)
+      </em>
+     </strong>
+    </article>
+   </div>
+   <div class="report-grid inventory-grid">
+    <article class="panel donut-panel">
+     <h3>
+      Medicine Availability Overview
+     </h3>
+     <div class="donut">
+      <strong>
+       91.6%
+       <small>
+        Overall Availability
+       </small>
+      </strong>
+     </div>
+     <div class="donut-legend">
+      <p>
+       <i>
+       </i>
+       Sufficient (974)
+      </p>
+      <p>
+       <i>
+       </i>
+       Low Stock (228)
+      </p>
+      <p>
+       <i>
+       </i>
+       Out of Stock (124)
+      </p>
+     </div>
+    </article>
+    <article class="panel stock-table">
+     <h3>
+      Top 5 Medicines - Low Stock / Out of Stock
+     </h3>
+     <table>
+      <tr>
+       <th>
+        Medicine Name
+       </th>
+       <th>
+        Low Stock PHCs
+       </th>
+       <th>
+        Out of Stock PHCs
+       </th>
+       <th>
+        Status
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Paracetamol
+       </td>
+       <td>
+        132
+       </td>
+       <td>
+        20
+       </td>
+       <td>
+        <b>
+         Critical
+        </b>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Amoxicillin
+       </td>
+       <td>
+        98
+       </td>
+       <td>
+        16
+       </td>
+       <td>
+        <b>
+         High
+        </b>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        ORS
+       </td>
+       <td>
+        85
+       </td>
+       <td>
+        12
+       </td>
+       <td>
+        <b>
+         Low
+        </b>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Azithromycin
+       </td>
+       <td>
+        64
+       </td>
+       <td>
+        9
+       </td>
+       <td>
+        <b>
+         Low
+        </b>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Metformin
+       </td>
+       <td>
+        60
+       </td>
+       <td>
+        8
+       </td>
+       <td>
+        <b>
+         Low
+        </b>
+       </td>
+      </tr>
+     </table>
+    </article>
+    <article class="panel bar-panel">
+     <h3>
+      Medicine Stock by State (Availability %)
+     </h3>
+     <div class="bars">
+      <b style="height:68%">
+       Maharashtra
+      </b>
+      <b style="height:87%">
+       Karnataka
+      </b>
+      <b style="height:92%">
+       Tamil Nadu
+      </b>
+      <b style="height:84%">
+       Uttar Pradesh
+      </b>
+      <b style="height:81%">
+       Rajasthan
+      </b>
+      <b style="height:90%">
+       Gujarat
+      </b>
+      <b style="height:88%">
+       West Bengal
+      </b>
+      <b style="height:83%">
+       Madhya Pradesh
+      </b>
+     </div>
+     <a>
+      View Detailed Medicine Report →
+     </a>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

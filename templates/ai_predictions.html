@@ -1,0 +1,283 @@
+{% extends 'base.html' %}{% block title %}AI Predictions | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash report-page">
+ {% include '_dashboard_sidebar.html' %}
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     AI Predictions
+    </h1>
+    <p>
+     AI-powered insights for demand and resource planning
+    </p>
+   </div>
+   <button class="location">
+    All India　⌄
+   </button>
+   <span class="updated">
+    16 May 2025
+   </span>
+   <span class="bell">
+    ♧
+    <i>
+     4
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body">
+   <div class="metric-cards">
+    <article>
+     <small>
+      Medicine Demand ↑
+     </small>
+     <strong>
+      24%
+     </strong>
+     <em>
+      Next 7 Days
+     </em>
+    </article>
+    <article>
+     <small>
+      Bed Demand ↑
+     </small>
+     <strong>
+      18%
+     </strong>
+     <em>
+      Next 7 Days
+     </em>
+    </article>
+    <article>
+     <small>
+      Patient Footfall ↑
+     </small>
+     <strong>
+      31%
+     </strong>
+     <em>
+      Next 7 Days
+     </em>
+    </article>
+    <article>
+     <small style="color:#f04950">
+      ⚠ High Risk PHCs ↑
+     </small>
+     <strong>
+      313
+     </strong>
+     <em>
+      Across India
+     </em>
+    </article>
+   </div>
+   <div class="operations-grid">
+    <article class="panel">
+     <h3>
+      Demand Prediction
+      <small>
+       (Next 7 Days)
+      </small>
+     </h3>
+     <div class="forecast-chart">
+     </div>
+     <p style="font-size:8px;text-align:center;color:#52708f">
+      ● Actual Demand
+      <span style="color:#21b970">
+       ● Predicted Demand
+      </span>
+     </p>
+    </article>
+    <article class="panel staff-table">
+     <h3>
+      Top Predicted Shortages
+     </h3>
+     <table>
+      <tr>
+       <th>
+        Item
+       </th>
+       <th>
+        PHCs Affected
+       </th>
+       <th>
+        Shortage In
+       </th>
+       <th>
+        Risk Level
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Paracetamol
+       </td>
+       <td>
+        342
+       </td>
+       <td>
+        2 Days
+       </td>
+       <td>
+        <span class="status warn">
+         High
+        </span>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Amoxicillin
+       </td>
+       <td>
+        318
+       </td>
+       <td>
+        3 Days
+       </td>
+       <td>
+        <span class="status warn">
+         High
+        </span>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        ORS
+       </td>
+       <td>
+        176
+       </td>
+       <td>
+        4 Days
+       </td>
+       <td>
+        <span class="status warn">
+         Medium
+        </span>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        IV Fluids
+       </td>
+       <td>
+        152
+       </td>
+       <td>
+        4 Days
+       </td>
+       <td>
+        <span class="status warn">
+         Medium
+        </span>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Azithromycin
+       </td>
+       <td>
+        121
+       </td>
+       <td>
+        6 Days
+       </td>
+       <td>
+        <span class="status good">
+         Low
+        </span>
+       </td>
+      </tr>
+     </table>
+    </article>
+    <article class="panel risk-bars">
+     <h3>
+      High Risk States
+      <small>
+       (Next 7 Days)
+      </small>
+     </h3>
+     <p>
+      Maharashtra
+      <i style="width:91%">
+      </i>
+      <b>
+       91%
+      </b>
+     </p>
+     <p>
+      Karnataka
+      <i style="width:87%">
+      </i>
+      <b>
+       87%
+      </b>
+     </p>
+     <p>
+      Uttar Pradesh
+      <i style="width:76%">
+      </i>
+      <b>
+       76%
+      </b>
+     </p>
+     <p>
+      Bihar
+      <i style="width:63%">
+      </i>
+      <b>
+       63%
+      </b>
+     </p>
+     <p>
+      Rajasthan
+      <i style="width:42%">
+      </i>
+      <b>
+       42%
+      </b>
+     </p>
+    </article>
+    <article class="panel insight-list">
+     <h3>
+      AI Insights
+     </h3>
+     <p>
+      <b>
+       ◉ Medicine demand
+      </b>
+      for Paracetamol is expected to increase by 24% in Maharashtra.
+     </p>
+     <p>
+      <b>
+       ◉ Bed occupancy
+      </b>
+      likely to cross 90% in 45 districts.
+     </p>
+     <p>
+      <b>
+       ◉ Staff shortage
+      </b>
+      predicted in 12 districts due to high patient footfall.
+     </p>
+     <p>
+      <b>
+       ◉ Recommend
+      </b>
+      proactive resource transfer for high-risk PHCs.
+     </p>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

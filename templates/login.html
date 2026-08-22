@@ -1,0 +1,104 @@
+{% extends 'base.html' %}{% block title %}Login | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="auth-page">
+ <section class="auth-visual login-visual">
+  <a class="brand light" href="/">
+   <span class="brand-mark">
+    ✚
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+   </span>
+  </a>
+  <div class="network">
+   <span>
+    ⌂
+   </span>
+   <span>
+    💊
+   </span>
+   <span class="center">
+    AI
+   </span>
+   <span>
+    ▣
+   </span>
+   <span>
+    ♧
+   </span>
+  </div>
+  <div class="visual-copy">
+   <h2>
+    Smarter Decisions.
+    <br/>
+    Healthier Communities.
+   </h2>
+   <p>
+    Welcome back! Login to continue managing your PHC resources.
+   </p>
+  </div>
+ </section>
+ <section class="auth-form-wrap">
+  <form class="auth-form" method="post">
+   <a class="brand mobile-brand" href="/">
+    <span class="brand-mark">
+     ✚
+    </span>
+    <span>
+     ArogyaFlow
+     <b>
+      AI
+     </b>
+    </span>
+   </a>
+   <h1>
+    Welcome Back 👋
+   </h1>
+   <p>
+    Login to your PHC manager account
+   </p>
+   {% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}
+   <div class="flash {{category}}">
+    {{message}}
+   </div>
+   {% endfor %}{% endwith %}
+   <label>
+    PHC ID / Email
+    <input name="email" placeholder="Enter your email" required="" type="email"/>
+   </label>
+   <label>
+    Password
+    <div class="password">
+     <input name="password" placeholder="Enter password" required="" type="password"/>
+     <span>
+      ◉
+     </span>
+    </div>
+   </label>
+   <div class="form-row">
+    <label class="check">
+     <input type="checkbox"/>
+     Remember me
+    </label>
+    <a href="#">
+     Forgot Password?
+    </a>
+   </div>
+   <button class="btn btn-primary submit">
+    Login
+    <span>
+     →
+    </span>
+   </button>
+   <p class="form-foot">
+    New to ArogyaFlow AI?
+    <a href="{{ url_for('register') }}">
+     Create an account
+    </a>
+   </p>
+  </form>
+ </section>
+</main>
+{% endblock %}

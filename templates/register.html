@@ -1,0 +1,134 @@
+{% extends 'base.html' %}{% block title %}Register | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="auth-page register-page">
+ <section class="join-panel">
+  <a class="brand" href="/">
+   <span class="brand-mark">
+    ✚
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+   </span>
+  </a>
+  <div>
+   <span class="eyebrow">
+    GET STARTED TODAY
+   </span>
+   <h1>
+    Join the
+    <br/>
+    ArogyaFlow AI
+    <br/>
+    Network
+   </h1>
+   <p>
+    Register your PHC and be part of India's smart healthcare revolution.
+   </p>
+   <div class="hospital">
+    ✚
+    <small>
+     PRIMARY HEALTH CENTRE
+    </small>
+   </div>
+  </div>
+ </section>
+ <section class="auth-form-wrap">
+  <form class="auth-form register-form" method="post">
+   <a class="brand mobile-brand" href="/">
+    <span class="brand-mark">
+     ✚
+    </span>
+    <span>
+     ArogyaFlow
+     <b>
+      AI
+     </b>
+    </span>
+   </a>
+   <h1>
+    Create Account
+   </h1>
+   <p>
+    Connect your PHC to get started
+   </p>
+   {% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}
+   <div class="flash {{category}}">
+    {{message}}
+   </div>
+   {% endfor %}{% endwith %}
+   <label>
+    Manager Name
+    <input name="name" placeholder="Full name" required=""/>
+   </label>
+   <label>
+    Official Email
+    <input name="email" placeholder="name@phc.gov.in" required="" type="email"/>
+   </label>
+   <label>
+    PHC Name
+    <input name="phc" placeholder="Primary Health Centre name" required=""/>
+   </label>
+   <div class="two-inputs">
+    <label>
+     State
+     <select name="state" required="">
+      <option value="">
+       Select state
+      </option>
+      <option>
+       Maharashtra
+      </option>
+      <option>
+       Gujarat
+      </option>
+      <option>
+       Karnataka
+      </option>
+     </select>
+    </label>
+    <label>
+     District
+     <input name="district" placeholder="District" required=""/>
+    </label>
+   </div>
+   <label>
+    PHC ID
+    <input name="id" placeholder="PHC identification number" required=""/>
+   </label>
+   <label>
+    Password
+    <input name="password" placeholder="Create password" required="" type="password"/>
+   </label>
+   <label>
+    Confirm Password
+    <input name="confirm" placeholder="Confirm password" required="" type="password"/>
+   </label>
+   <label class="check terms">
+    <input required="" type="checkbox"/>
+    I agree to the
+    <a href="#">
+     Terms &amp; Conditions
+    </a>
+    and
+    <a href="#">
+     Privacy Policy
+    </a>
+   </label>
+   <button class="btn btn-primary submit">
+    Register PHC
+    <span>
+     →
+    </span>
+   </button>
+   <p class="form-foot">
+    Already have an account?
+    <a href="{{ url_for('login') }}">
+     Login
+    </a>
+   </p>
+  </form>
+ </section>
+</main>
+{% endblock %}

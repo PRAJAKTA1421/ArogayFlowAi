@@ -1,0 +1,299 @@
+{% extends 'base.html' %}{% block title %}Resource Transfer | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash report-page">
+ {% include '_dashboard_sidebar.html' %}
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     Resource Transfer
+    </h1>
+    <p>
+     Manage and monitor resource transfers across PHCs
+    </p>
+   </div>
+   <button class="location">
+    All India　⌄
+   </button>
+   <span class="updated">
+    16 May 2025
+   </span>
+   <span class="bell">
+    ♧
+    <i>
+     4
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body">
+   <div class="transfer-summary">
+    <article>
+     <small>
+      Transfers Today
+     </small>
+     <strong>
+      28
+     </strong>
+    </article>
+    <article>
+     <small>
+      In Transit
+     </small>
+     <strong style="color:#1eb86e">
+      15
+     </strong>
+    </article>
+    <article>
+     <small>
+      Completed
+     </small>
+     <strong style="color:#1eb86e">
+      198
+     </strong>
+    </article>
+    <article>
+     <small>
+      Pending Approval
+     </small>
+     <strong style="color:#f24c53">
+      7
+     </strong>
+    </article>
+   </div>
+   <div class="operations-grid">
+    <article class="panel transfer-table wide">
+     <h3>
+      AI Recommended Transfers
+     </h3>
+     <table>
+      <tr>
+       <th>
+        From PHC
+       </th>
+       <th>
+        To PHC
+       </th>
+       <th>
+        Resource
+       </th>
+       <th>
+        Quantity
+       </th>
+       <th>
+        Reason
+       </th>
+       <th>
+        Priority
+       </th>
+       <th>
+        Status
+       </th>
+       <th>
+        Action
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Vasai PHC
+       </td>
+       <td>
+        Palghar PHC
+       </td>
+       <td>
+        Paracetamol
+       </td>
+       <td>
+        500 Units
+       </td>
+       <td>
+        High demand prediction
+       </td>
+       <td>
+        <span class="status warn">
+         High
+        </span>
+       </td>
+       <td>
+        <span class="status good">
+         Approved
+        </span>
+       </td>
+       <td>
+        <button class="action-button">
+         Track
+        </button>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Nashik PHC
+       </td>
+       <td>
+        Aurangabad PHC
+       </td>
+       <td>
+        IV Fluids
+       </td>
+       <td>
+        120 Units
+       </td>
+       <td>
+        Critical stock requirement
+       </td>
+       <td>
+        <span class="status warn">
+         High
+        </span>
+       </td>
+       <td>
+        <span class="status good">
+         In Transit
+        </span>
+       </td>
+       <td>
+        <button class="action-button">
+         Track
+        </button>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Pune PHC
+       </td>
+       <td>
+        Satara PHC
+       </td>
+       <td>
+        Nurses
+       </td>
+       <td>
+        4 Staff
+       </td>
+       <td>
+        Staff shortage
+       </td>
+       <td>
+        <span class="status warn">
+         Medium
+        </span>
+       </td>
+       <td>
+        <span class="status good">
+         Approved
+        </span>
+       </td>
+       <td>
+        <button class="action-button">
+         Track
+        </button>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Thane PHC
+       </td>
+       <td>
+        Raigad PHC
+       </td>
+       <td>
+        Doctors
+       </td>
+       <td>
+        2 Staff
+       </td>
+       <td>
+        High patient load
+       </td>
+       <td>
+        <span class="status warn">
+         Medium
+        </span>
+       </td>
+       <td>
+        <span class="status">
+         Pending
+        </span>
+       </td>
+       <td>
+        <button class="action-button">
+         Approve
+        </button>
+       </td>
+      </tr>
+     </table>
+    </article>
+    <article class="panel">
+     <h3>
+      Transfer Summary
+     </h3>
+     <div class="availability">
+      <div class="availability-ring">
+      </div>
+      <div class="availability-list">
+       <p>
+        <i>
+        </i>
+        Medicines  15 transfers
+       </p>
+       <p>
+        <i>
+        </i>
+        Beds  8 transfers
+       </p>
+       <p>
+        <i>
+        </i>
+        Staff  5 transfers
+       </p>
+      </div>
+     </div>
+    </article>
+    <article class="panel insight-list">
+     <h3>
+      Recent Transfers
+     </h3>
+     <p>
+      <b>
+       ✓ Nashik PHC → Sangli PHC
+      </b>
+      <br/>
+      Paracetamol - 500 Units
+      <span style="float:right;color:#18a76a">
+       Completed
+      </span>
+     </p>
+     <p>
+      <b>
+       ◉ Pune PHC → Mumbai PHC
+      </b>
+      <br/>
+      IV Fluids - 100 Units
+      <span style="float:right;color:#2475df">
+       In Transit
+      </span>
+     </p>
+     <p>
+      <b>
+       ◉ Aurangabad PHC → Jalna PHC
+      </b>
+      <br/>
+      Doctors - 2 Staff
+      <span style="float:right;color:#2475df">
+       In Transit
+      </span>
+     </p>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

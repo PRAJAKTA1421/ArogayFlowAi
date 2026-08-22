@@ -1,0 +1,311 @@
+{% extends 'base.html' %}{% block content %}
+<main class="landing">
+ <nav class="nav container">
+  <a class="brand" href="/">
+   <span class="brand-mark">
+    ✚
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+    <small>
+     Smart Health. Stronger Tomorrow.
+    </small>
+   </span>
+  </a>
+  <button aria-label="Open menu" class="menu-toggle">
+   ☰
+  </button>
+  <div class="nav-links">
+   <a class="active" href="#home">
+    Home
+   </a>
+   <a href="#how">
+    How It Works
+   </a>
+   <a href="#features">
+    Features
+   </a>
+   <a href="#about">
+    About Us
+   </a>
+  </div>
+  <div class="nav-actions">
+   <a class="text-login" href="{{ url_for('login') }}">
+    Login
+   </a>
+   <a class="btn btn-primary small" href="{{ url_for('register') }}">
+    Register
+   </a>
+  </div>
+ </nav>
+ <section class="hero container" id="home">
+  <div class="hero-copy">
+   <span class="eyebrow">
+    NATIONAL HEALTH INTELLIGENCE
+   </span>
+   <h1>
+    Smart Health &amp;
+    <br/>
+    Supply Chain
+    <em>
+     Resilience
+    </em>
+   </h1>
+   <p>
+    AI-powered platform to predict shortages, track resources in real-time and enable smart redistribution across Primary Health Centres.
+   </p>
+   <div class="hero-buttons">
+    <a class="btn btn-primary" href="#features">
+     Explore ArogyaFlow
+     <span>
+      →
+     </span>
+    </a>
+    <a class="btn btn-outline" href="#how">
+     How it works
+     <span>
+      ↗
+     </span>
+    </a>
+   </div>
+  </div>
+  <div class="map-stage">
+   <div class="india-map">
+    भारत
+   </div>
+   <div class="route r1">
+   </div>
+   <div class="route r2">
+   </div>
+   <div class="route r3">
+   </div>
+   <span class="pin p1">
+    ●
+   </span>
+   <span class="pin p2">
+    ●
+   </span>
+   <span class="pin p3">
+    ●
+   </span>
+   <span class="pin p4">
+    ●
+   </span>
+   <div class="ai-core">
+    AI
+   </div>
+   <div class="info-card stock">
+    <i>
+     💊
+    </i>
+    <b>
+     Medicine Stock
+    </b>
+    <strong>
+     12.8K
+    </strong>
+    <small>
+     Units Available
+    </small>
+   </div>
+   <div class="info-card beds">
+    <i>
+     ▣
+    </i>
+    <b>
+     Beds Available
+    </b>
+    <strong>
+     1,240
+    </strong>
+    <small>
+     Beds Free
+    </small>
+   </div>
+   <div class="info-card staff">
+    <i>
+     ♧
+    </i>
+    <b>
+     Staff On Duty
+    </b>
+    <strong>
+     8,950
+    </strong>
+    <small>
+     Staff Active
+    </small>
+   </div>
+  </div>
+ </section>
+ <section class="stats container">
+  <div>
+   <i>
+    ♜
+   </i>
+   <strong>
+    2,845+
+   </strong>
+   <span>
+    PHCs Connected
+   </span>
+  </div>
+  <div>
+   <i>
+    ↗
+   </i>
+   <strong>
+    98%
+   </strong>
+   <span>
+    Prediction Accuracy
+   </span>
+  </div>
+  <div>
+   <i>
+    ♧
+   </i>
+   <strong>
+    24/7
+   </strong>
+   <span>
+    AI Monitoring
+   </span>
+  </div>
+  <div>
+   <i>
+    ♙
+   </i>
+   <strong>
+    28+
+   </strong>
+   <span>
+    States Covered
+   </span>
+  </div>
+  <div>
+   <i>
+    ⚠
+   </i>
+   <strong>
+    18
+   </strong>
+   <span>
+    High Risk PHCs
+   </span>
+  </div>
+ </section>
+ <section class="section soft" id="how">
+  <div class="container">
+   <span class="eyebrow">
+    HOW IT WORKS
+   </span>
+   <h2>
+    One connected view of public health
+   </h2>
+   <div class="feature-grid steps">
+    <article>
+     <b>
+      01
+     </b>
+     <h3>
+      Connect
+     </h3>
+     <p>
+      PHCs securely share stock, bed and attendance data in real time.
+     </p>
+    </article>
+    <article>
+     <b>
+      02
+     </b>
+     <h3>
+      Predict
+     </h3>
+     <p>
+      AI identifies demand patterns and warns teams before shortages occur.
+     </p>
+    </article>
+    <article>
+     <b>
+      03
+     </b>
+     <h3>
+      Respond
+     </h3>
+     <p>
+      Make faster decisions and coordinate resource redistribution.
+     </p>
+    </article>
+   </div>
+  </div>
+ </section>
+ <section class="section" id="features">
+  <div class="container">
+   <span class="eyebrow">
+    PLATFORM FEATURES
+   </span>
+   <h2>
+    Built for resilient healthcare networks
+   </h2>
+   <div class="feature-grid">
+    <article>
+     <i>
+      ◉
+     </i>
+     <h3>
+      Live visibility
+     </h3>
+     <p>
+      Track essential medicines, beds and personnel across every connected PHC.
+     </p>
+    </article>
+    <article>
+     <i>
+      ⌁
+     </i>
+     <h3>
+      Early warnings
+     </h3>
+     <p>
+      Actionable alerts help prevent stock-outs before they impact patients.
+     </p>
+    </article>
+    <article>
+     <i>
+      ✦
+     </i>
+     <h3>
+      Smart allocation
+     </h3>
+     <p>
+      Data-led recommendations move resources where communities need them most.
+     </p>
+    </article>
+   </div>
+  </div>
+ </section>
+ <section class="section about" id="about">
+  <div class="container">
+   <div>
+    <span class="eyebrow">
+     ABOUT AROGYAFLOW
+    </span>
+    <h2>
+     Stronger decisions.
+     <br/>
+     Healthier communities.
+    </h2>
+   </div>
+   <p>
+    Created for India's public healthcare system, ArogyaFlow AI turns fragmented operational signals into clear, timely action for every Primary Health Centre.
+   </p>
+  </div>
+ </section>
+</main>
+<script src="{{ url_for('static', filename='js/main.js') }}">
+</script>
+{% endblock %}

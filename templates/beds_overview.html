@@ -1,0 +1,375 @@
+{% extends 'base.html' %}{% block title %}Beds Overview | ArogyaFlow AI{% endblock %}{% block content %}
+<main class="dash report-page">
+ <aside class="sidebar">
+  <a class="brand" href="/">
+   <span class="brand-mark">
+    +
+   </span>
+   <span>
+    ArogyaFlow
+    <b>
+     AI
+    </b>
+    <small>
+     Smart Health. Stronger Tomorrow.
+    </small>
+   </span>
+  </a>
+  <nav>
+   <a href="/dashboard">
+    ⌂
+    <span>
+     Dashboard
+    </span>
+   </a>
+   <a href="/phc-network">
+    ⚯
+    <span>
+     PHC Network
+    </span>
+   </a>
+   <a href="/medicine-inventory">
+    ⚭
+    <span>
+     Medicine Inventory
+    </span>
+   </a>
+   <a class="selected" href="/beds-overview">
+    ▦
+    <span>
+     Beds Overview
+    </span>
+   </a>
+   <a href="#">
+    ♙
+    <span>
+     Medical Staff
+    </span>
+   </a>
+   <a href="#">
+    ✧
+    <span>
+     AI Predictions
+    </span>
+   </a>
+   <a href="#">
+    ⇄
+    <span>
+     Resource Transfer
+    </span>
+   </a>
+   <a href="#">
+    ♪
+    <span>
+     Alerts &amp; Notifications
+    </span>
+    <b>
+     12
+    </b>
+   </a>
+  </nav>
+ </aside>
+ <section class="dash-content">
+  <header class="dash-head">
+   <div>
+    <h1>
+     Beds Overview
+    </h1>
+    <p>
+     Monitor bed availability across all PHCs
+    </p>
+   </div>
+   <button class="location">
+    All India　⌄
+   </button>
+   <span class="updated">
+    16 May 2025
+   </span>
+   <span class="bell">
+    ♧
+    <i>
+     4
+    </i>
+   </span>
+   <div class="profile">
+    ●
+    <span>
+     PHC Manager
+     <small>
+      Admin
+     </small>
+    </span>
+    ⌄
+   </div>
+  </header>
+  <div class="dash-body">
+   <div class="report-kpis beds-kpis">
+    <article>
+     <small>
+      Total Beds
+     </small>
+     <strong>
+      2,850
+     </strong>
+    </article>
+    <article class="good">
+     <small>
+      Available Beds
+     </small>
+     <strong>
+      18,426
+      <em>
+       (29.3%)
+      </em>
+     </strong>
+    </article>
+    <article class="bad">
+     <small>
+      Occupied Beds
+     </small>
+     <strong>
+      44,424
+      <em>
+       (70.7%)
+      </em>
+     </strong>
+    </article>
+    <article class="purple">
+     <small>
+      Avg. Occupancy
+     </small>
+     <strong>
+      72%
+     </strong>
+    </article>
+   </div>
+   <div class="report-grid beds-grid">
+    <article class="panel donut-panel">
+     <h3>
+      Bed Occupancy Overview
+     </h3>
+     <div class="donut occupancy">
+      <strong>
+       72%
+       <small>
+        Average Occupancy
+       </small>
+      </strong>
+     </div>
+     <div class="donut-legend">
+      <p>
+       <i>
+       </i>
+       Occupied (70.7%)
+      </p>
+      <p>
+       <i>
+       </i>
+       Available (29.3%)
+      </p>
+     </div>
+    </article>
+    <article class="panel occupancy-states">
+     <h3>
+      Bed Occupancy by State (%)
+     </h3>
+     <p>
+      Maharashtra
+      <i style="width:92%">
+      </i>
+      <b>
+       92%
+      </b>
+     </p>
+     <p>
+      Tamil Nadu
+      <i style="width:89%">
+      </i>
+      <b>
+       89%
+      </b>
+     </p>
+     <p>
+      Karnataka
+      <i style="width:72%">
+      </i>
+      <b>
+       72%
+      </b>
+     </p>
+     <p>
+      Uttar Pradesh
+      <i style="width:67%">
+      </i>
+      <b>
+       67%
+      </b>
+     </p>
+     <p>
+      Rajasthan
+      <i style="width:65%">
+      </i>
+      <b>
+       65%
+      </b>
+     </p>
+     <p>
+      Gujarat
+      <i style="width:60%">
+      </i>
+      <b>
+       60%
+      </b>
+     </p>
+     <p>
+      West Bengal
+      <i style="width:48%">
+      </i>
+      <b>
+       48%
+      </b>
+     </p>
+    </article>
+    <article class="panel compact-table">
+     <h3>
+      High Occupancy PHCs (&gt; 90%)
+     </h3>
+     <table>
+      <tr>
+       <th>
+        PHC Name
+       </th>
+       <th>
+        State
+       </th>
+       <th>
+        Occupancy
+       </th>
+       <th>
+        Available Beds
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Pune PHC
+       </td>
+       <td>
+        Maharashtra
+       </td>
+       <td>
+        <b>
+         96%
+        </b>
+       </td>
+       <td>
+        2 / 50
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Nagpur PHC
+       </td>
+       <td>
+        Maharashtra
+       </td>
+       <td>
+        <b>
+         94%
+        </b>
+       </td>
+       <td>
+        3 / 60
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Mysore PHC
+       </td>
+       <td>
+        Karnataka
+       </td>
+       <td>
+        <b>
+         92%
+        </b>
+       </td>
+       <td>
+        4 / 50
+       </td>
+      </tr>
+     </table>
+    </article>
+    <article class="panel compact-table">
+     <h3>
+      Low Occupancy PHCs (&lt; 30%)
+     </h3>
+     <table>
+      <tr>
+       <th>
+        PHC Name
+       </th>
+       <th>
+        State
+       </th>
+       <th>
+        Occupancy
+       </th>
+       <th>
+        Available Beds
+       </th>
+      </tr>
+      <tr>
+       <td>
+        Latur PHC
+       </td>
+       <td>
+        Maharashtra
+       </td>
+       <td>
+        <b class="low">
+         18%
+        </b>
+       </td>
+       <td>
+        41 / 50
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Kanpur PHC
+       </td>
+       <td>
+        Uttar Pradesh
+       </td>
+       <td>
+        <b class="low">
+         20%
+        </b>
+       </td>
+       <td>
+        40 / 50
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Ajmer PHC
+       </td>
+       <td>
+        Rajasthan
+       </td>
+       <td>
+        <b class="low">
+         22%
+        </b>
+       </td>
+       <td>
+        39 / 50
+       </td>
+      </tr>
+     </table>
+    </article>
+   </div>
+  </div>
+ </section>
+</main>
+{% endblock %}

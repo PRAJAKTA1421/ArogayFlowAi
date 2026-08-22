@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   {% block title %}ArogyaFlow AI{% endblock %}
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
+ </head>
+ <body data-current-manager="{{ current_manager }}" data-current-phc="{{ current_phc }}">
+  {% block content %}{% endblock %}
+  <script src="{{ url_for('static', filename='js/main.js') }}">
+  </script>
+ </body>
+</html>
