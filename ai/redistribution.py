@@ -322,35 +322,43 @@ def find_source_phcs(
             destination_shortage
         )
 
-        # ----------------------------------------------------
-        # Improved AI scoring
-        # ----------------------------------------------------
+        # --------------------------------------------------------
+        # AI SCORING
+        # --------------------------------------------------------
 
-        # Normalize surplus so extremely large inventories
-        # don't dominate the decision.
+        # Normalize surplus relative to the destination shortage.
+        # A source with enough surplus to cover the shortage
+        # receives the maximum surplus score.
 
         surplus_score = min(
-           surplus / max(destination_shortage, 1),
-           1.0
+            surplus / max(destination_shortage, 1),
+            1.0
         )
 
-        # Distance score:
-        # nearby PHCs receive higher scores.
+        # Distance score.
+        # Closer PHCs receive significantly higher scores.
+        # 30 km is used as the practical distance scale.
+        # This makes local transfers strongly preferable
+        # to distant transfers.
 
         distance_score = 1 / (
-            1 + distance / 50
+            1 + distance / 30
         )
 
-        # Combined score
-
-        # Distance is intentionally weighted more heavily
-        # because healthcare redistribution should prefer
-        # practical/local transfers.
+        # --------------------------------------------------------
+        # Combined AI score
+        # --------------------------------------------------------
+        #
+        # Distance = 75%
+        # Surplus  = 25%
+        #
+        # Healthcare redistribution should prioritize
+        # geographically practical transfers.
 
         score = (
-            (distance_score * 0.60)
+            (distance_score * 0.75)
             +
-            (surplus_score * 0.40)
+            (surplus_score * 0.25)
         ) * 100
 
         recommendations.append({
