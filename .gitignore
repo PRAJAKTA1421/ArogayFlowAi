@@ -6,3 +6,12 @@ venv/
 node_modules/
 firebase-service-account.json
 test_firebase.py
+
+# Trained ML model binaries
+ai/models/*.joblib
+
+# Trained ML model binaries
+ai/models/*.joblib
+
+# Generated temporal datasets
+data_pipeline/temporal/*.csv

@@ -1,0 +1,19 @@
+[
+    "Demand",
+    "Lag_1_Demand",
+    "Lag_7_Demand",
+    "Rolling_7_Demand",
+    "Demand_Change",
+    "Patient_Footfall",
+    "Opening_Stock",
+    "Days_of_Stock",
+    "Seasonal_Factor",
+    "Demand_vs_Rolling",
+    "Demand_Change_Ratio",
+    "Demand_per_Patient",
+    "Stock_to_Demand_Ratio",
+    "Demand_Acceleration",
+    "Demand_Acceleration_7",
+    "Footfall_Demand_Ratio",
+    "Stock_Pressure"
+]

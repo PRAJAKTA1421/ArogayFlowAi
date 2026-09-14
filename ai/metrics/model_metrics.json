@@ -1,0 +1,55 @@
+{
+    "demand_forecasting": {
+        "model": "RandomForestRegressor",
+        "n_estimators": 300,
+        "max_depth": 12,
+        "mae": 1.8187548372908715,
+        "rmse": 3.2383450576947967,
+        "r2": 0.8981818543491942,
+        "train_rows": 548000,
+        "test_rows": 140000
+    },
+    "stockout_prediction": {
+        "model": "RandomForestClassifier",
+        "n_estimators": 300,
+        "max_depth": 12,
+        "class_weight": "balanced",
+        "precision": 0.8155565905915231,
+        "recall": 0.553763440860215,
+        "f1": 0.6596345827839518,
+        "roc_auc": 0.955597973028472,
+        "pr_auc": 0.646250998560931,
+        "confusion_matrix": [
+            [
+                136442,
+                396
+            ],
+            [
+                1411,
+                1751
+            ]
+        ],
+        "train_rows": 552000,
+        "test_rows": 140000
+    },
+    "anomaly_detection": {
+        "model": "IsolationForest",
+        "n_estimators": 300,
+        "contamination": 0.009963768115942028,
+        "precision": 0.038781163434903045,
+        "recall": 0.039886039886039885,
+        "f1": 0.03932584269662921,
+        "confusion_matrix": [
+            [
+                137208,
+                1388
+            ],
+            [
+                1348,
+                56
+            ]
+        ],
+        "train_rows": 552000,
+        "test_rows": 140000
+    }
+}
