@@ -14,9 +14,11 @@ sys.path.append(
     )
 )
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from firebase_config import db
+
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 from ai.forecasting import forecast_demand
 
@@ -28,34 +30,42 @@ from ai.model_service import predict_stockout
 # ============================================================
 
 MEDICINE_INFO = {
+
     "Paracetamol": {
         "medicine_id": "MED-001",
         "category": "Analgesic/Antipyretic"
     },
+
     "Amoxicillin": {
         "medicine_id": "MED-002",
         "category": "Antibiotic"
     },
+
     "ORS Sachet": {
         "medicine_id": "MED-003",
         "category": "Rehydration"
     },
+
     "Metformin": {
         "medicine_id": "MED-004",
         "category": "Antidiabetic"
     },
+
     "Amlodipine": {
         "medicine_id": "MED-005",
         "category": "Antihypertensive"
     },
+
     "Cetirizine": {
         "medicine_id": "MED-006",
         "category": "Antihistamine"
     },
+
     "Iron Folic Acid Tablet": {
         "medicine_id": "MED-007",
         "category": "Supplement"
     },
+
     "Omeprazole": {
         "medicine_id": "MED-008",
         "category": "Gastrointestinal"
@@ -140,14 +150,18 @@ def get_recent_demand_history(
     query = (
         db.collection("demand_history")
         .where(
-            "phc_id",
-            "==",
-            phc_id
+            filter=FieldFilter(
+                "phc_id",
+                "==",
+                phc_id
+            )
         )
         .where(
-            "medicine_name",
-            "==",
-            medicine_name
+            filter=FieldFilter(
+                "medicine_name",
+                "==",
+                medicine_name
+            )
         )
         .order_by(
             "date",
@@ -763,7 +777,7 @@ def calculate_stockout(
 
 
 # ============================================================
-# DETERMINE FINAL RISK
+# DETERMINE FINAL RISK + REPLENISHMENT
 # ============================================================
 
 def determine_risk(
@@ -774,9 +788,16 @@ def determine_risk(
 ):
     """
     Combine:
+
     1. ML stockout probability
     2. Forecast-based stock depletion
     3. Minimum stock threshold
+
+    Returns:
+
+    - risk
+    - replenishment_required
+    - replenishment_priority
     """
 
     ml_probability = safe_float(
@@ -786,87 +807,163 @@ def determine_risk(
         )
     )
 
-    # --------------------------------------------------------
+    current_stock = safe_float(
+        current_stock
+    )
+
+    minimum_stock = safe_float(
+        minimum_stock
+    )
+
+    will_stockout = bool(
+        stockout_result.get(
+            "will_stockout",
+            False
+        )
+    )
+
+    days = stockout_result.get(
+        "days_until_stockout"
+    )
+
+    # ========================================================
     # CRITICAL
-    # --------------------------------------------------------
+    # ========================================================
 
     if current_stock <= 0:
 
-        return "CRITICAL"
+        risk = "CRITICAL"
 
-    if ml_probability >= 0.80:
+    elif ml_probability >= 0.80:
 
-        return "CRITICAL"
+        risk = "CRITICAL"
 
-    if stockout_result[
-        "will_stockout"
-    ]:
+    elif (
+        will_stockout
+        and days is not None
+        and days <= 2
+    ):
 
-        days = stockout_result[
-            "days_until_stockout"
-        ]
+        risk = "CRITICAL"
 
-        if days <= 2:
-
-            return "CRITICAL"
-
-    # --------------------------------------------------------
+    # ========================================================
     # HIGH
-    # --------------------------------------------------------
+    # ========================================================
 
-    if ml_probability >= 0.60:
+    elif ml_probability >= 0.60:
 
-        return "HIGH"
+        risk = "HIGH"
 
-    if stockout_result[
-        "will_stockout"
-    ]:
+    elif (
+        will_stockout
+        and days is not None
+        and days <= 4
+    ):
 
-        days = stockout_result[
-            "days_until_stockout"
-        ]
+        risk = "HIGH"
 
-        if days <= 4:
+    elif (
+        minimum_stock > 0
+        and current_stock <= minimum_stock
+        and ml_probability >= 0.30
+    ):
 
-            return "HIGH"
+        risk = "HIGH"
 
-    # --------------------------------------------------------
-    # Minimum stock
-    # --------------------------------------------------------
+    # ========================================================
+    # MEDIUM
+    # ========================================================
+
+    elif ml_probability >= 0.30:
+
+        risk = "MEDIUM"
+
+    elif (
+        will_stockout
+        and days is not None
+        and days <= 7
+    ):
+
+        risk = "MEDIUM"
+
+    # ========================================================
+    # LOW
+    # ========================================================
+
+    else:
+
+        risk = "LOW"
+
+    # ========================================================
+    # REPLENISHMENT DECISION
+    # ========================================================
+
+
+    forecast_remaining_stock = safe_float(
+        stockout_result.get(
+            "remaining_stock",
+            current_stock
+        )
+    )
 
     if minimum_stock > 0:
 
-        if current_stock <= minimum_stock:
+        # Replenishment is required if either:
+        # 1. Current stock is already below minimum
+        # 2. Forecasted remaining stock falls below minimum
 
-            if ml_probability >= 0.30:
+        replenishment_required = (
+            current_stock <= minimum_stock
+            or forecast_remaining_stock <= minimum_stock
+        )
 
-                return "HIGH"
+    else:
 
-    # --------------------------------------------------------
-    # MEDIUM
-    # --------------------------------------------------------
+        replenishment_required = (
+            will_stockout
+        )
 
-    if ml_probability >= 0.30:
+    # ========================================================
+    # REPLENISHMENT PRIORITY
+    # ========================================================
 
-        return "MEDIUM"
+    if current_stock <= 0:
 
-    if stockout_result[
-        "will_stockout"
-    ]:
+        replenishment_priority = "URGENT"
 
-        days = stockout_result[
-            "days_until_stockout"
-        ]
+    elif will_stockout:
 
-        if days <= 7:
+        replenishment_priority = "URGENT"
 
-            return "MEDIUM"
+    elif (
+        replenishment_required
+        and risk in (
+            "HIGH",
+            "CRITICAL"
+        )
+    ):
 
-    # --------------------------------------------------------
-    # LOW
-    # --------------------------------------------------------
+        replenishment_priority = "HIGH"
 
-    return "LOW"
+    elif replenishment_required:
+
+        replenishment_priority = "MEDIUM"
+
+    else:
+
+        replenishment_priority = "NONE"
+
+    return {
+
+        "risk":
+            risk,
+
+        "replenishment_required":
+            replenishment_required,
+
+        "replenishment_priority":
+            replenishment_priority
+    }
 
 
 # ============================================================
@@ -974,12 +1071,14 @@ def analyze_stockout(
     # 8. Determine final risk
     # --------------------------------------------------------
 
-    risk = determine_risk(
+    risk_result = determine_risk(
         stockout_result,
         ml_result,
         current_stock,
         minimum_stock
     )
+
+    risk = risk_result["risk"]
 
     # --------------------------------------------------------
     # 9. Create final result
@@ -1013,6 +1112,16 @@ def analyze_stockout(
 
         "risk":
             risk,
+
+        "replenishment_required":
+            risk_result[
+                "replenishment_required"
+            ],
+
+        "replenishment_priority":
+            risk_result[
+                "replenishment_priority"
+            ],
 
         "analyzed_at":
             datetime.utcnow()
@@ -1171,6 +1280,29 @@ if __name__ == "__main__":
         print(
             f"   {result['risk']}"
         )
+
+        # ----------------------------------------------------
+        # REPLENISHMENT
+        # ----------------------------------------------------
+
+        print(
+            "\n📦 REPLENISHMENT:"
+        )
+
+        if result[
+            "replenishment_required"
+        ]:
+
+            print(
+                f"   ⚠️ REQUIRED "
+                f"({result['replenishment_priority']})"
+            )
+
+        else:
+
+            print(
+                "   ✅ Not required"
+            )
 
         print(
             "\n🔥 Analysis saved to Firestore."
