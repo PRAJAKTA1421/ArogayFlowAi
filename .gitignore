@@ -6,6 +6,7 @@ venv/
 node_modules/
 firebase-service-account.json
 test_firebase.py
+check_shortages.py
 
 # Trained ML model binaries
 ai/models/*.joblib
@@ -15,3 +16,5 @@ ai/models/*.joblib
 
 # Generated temporal datasets
 data_pipeline/temporal/*.csv
+medicine_shortages_report.csv
+ai/test_anomaly_cases.py

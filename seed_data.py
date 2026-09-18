@@ -1,3 +1,20 @@
+"""
+ArogyaFlow AI - Firebase-friendly demo data seeder
+
+Seeds only a small operational dataset into Firestore:
+- 50 Maharashtra PHCs
+- 8 medicines per PHC
+- 14 days of demand history
+- 5 demo alerts
+
+Large ML/training datasets remain local under data_pipeline/temporal/.
+
+IMPORTANT:
+The demand, inventory, outbreak, anomaly, and supply-disruption values created
+by this script are synthetic demonstration data, NOT real PHC consumption data.
+"""
+
+import math
 import random
 from datetime import datetime, timedelta
 
@@ -9,333 +26,394 @@ from firebase_config import db
 # ============================================================
 
 NUM_PHCS = 50
+
+# Only 14 days are stored in Firestore.
+# This is enough for the current feature-building logic.
 HISTORY_DAYS = 30
 
+RANDOM_SEED = 42
+
 
 # ============================================================
-# SAMPLE DATA
+# MEDICINES
 # ============================================================
-
-PHC_NAMES = [
-    "Palghar PHC",
-    "Vasai PHC",
-    "Virar PHC",
-    "Boisar PHC",
-    "Dahanu PHC",
-    "Nalasopara PHC",
-    "Thane Rural PHC",
-    "Bhiwandi PHC",
-    "Shahapur PHC",
-    "Murbad PHC",
-    "Nashik Rural PHC",
-    "Sinnar PHC",
-    "Igatpuri PHC",
-    "Dindori PHC",
-    "Yeola PHC",
-    "Pune Rural PHC",
-    "Baramati PHC",
-    "Shirur PHC",
-    "Junnar PHC",
-    "Khed PHC",
-    "Satara PHC",
-    "Karad PHC",
-    "Wai PHC",
-    "Phaltan PHC",
-    "Kolhapur Rural PHC",
-    "Ichalkaranji PHC",
-    "Sangli Rural PHC",
-    "Miraj PHC",
-    "Solapur Rural PHC",
-    "Barshi PHC",
-    "Ahmednagar PHC",
-    "Kopargaon PHC",
-    "Jalgaon Rural PHC",
-    "Bhusawal PHC",
-    "Dhule PHC",
-    "Nandurbar PHC",
-    "Aurangabad Rural PHC",
-    "Paithan PHC",
-    "Beed Rural PHC",
-    "Latur Rural PHC",
-    "Osmanabad PHC",
-    "Nanded Rural PHC",
-    "Parbhani PHC",
-    "Akola Rural PHC",
-    "Amravati Rural PHC",
-    "Nagpur Rural PHC",
-    "Wardha PHC",
-    "Bhandara PHC",
-    "Gondia PHC",
-    "Chandrapur PHC",
-]
-
-# ============================================================
-# REAL MAHARASHTRA LOCATION COORDINATES
-# ============================================================
-
-PHC_COORDINATES = {
-
-    "Palghar PHC": (19.697107, 72.763725),
-    "Vasai PHC": (19.342820, 72.805440),
-    "Virar PHC": (19.455900, 72.811400),
-    "Boisar PHC": (19.803000, 72.755000),
-    "Dahanu PHC": (19.990000, 72.740000),
-    "Nalasopara PHC": (19.415000, 72.805000),
-
-    "Thane Rural PHC": (19.218300, 72.978100),
-    "Bhiwandi PHC": (19.281300, 73.048300),
-    "Shahapur PHC": (19.452600, 73.325700),
-    "Murbad PHC": (19.254600, 73.390700),
-
-    "Nashik Rural PHC": (19.997500, 73.789800),
-    "Sinnar PHC": (19.845100, 73.998700),
-    "Igatpuri PHC": (19.695900, 73.562100),
-    "Dindori PHC": (20.200000, 73.833300),
-    "Yeola PHC": (20.042700, 74.489300),
-
-    "Pune Rural PHC": (18.520400, 73.856700),
-    "Baramati PHC": (18.151700, 74.577700),
-    "Shirur PHC": (18.827600, 74.375800),
-    "Junnar PHC": (19.207700, 73.875200),
-    "Khed PHC": (18.440900, 73.860300),
-
-    "Satara PHC": (17.680500, 74.018300),
-    "Karad PHC": (17.289600, 74.181100),
-    "Wai PHC": (17.952700, 73.890700),
-    "Phaltan PHC": (17.991100, 74.431800),
-
-    "Kolhapur Rural PHC": (16.705000, 74.243300),
-    "Ichalkaranji PHC": (16.691200, 74.460500),
-    "Sangli Rural PHC": (16.852400, 74.581500),
-    "Miraj PHC": (16.827800, 74.644200),
-
-    "Solapur Rural PHC": (17.659900, 75.906400),
-    "Barshi PHC": (18.234500, 75.692800),
-
-    "Ahmednagar PHC": (19.094800, 74.748000),
-    "Kopargaon PHC": (19.882600, 74.476300),
-
-    "Jalgaon Rural PHC": (21.007700, 75.562600),
-    "Bhusawal PHC": (21.045500, 75.780400),
-    "Dhule PHC": (20.904200, 74.774900),
-    "Nandurbar PHC": (21.366700, 74.233300),
-
-    "Aurangabad Rural PHC": (19.876200, 75.343300),
-    "Paithan PHC": (19.477700, 75.381100),
-    "Beed Rural PHC": (18.989100, 75.760100),
-
-    "Latur Rural PHC": (18.408800, 76.560400),
-    "Osmanabad PHC": (18.186000, 76.041900),
-    "Nanded Rural PHC": (19.138300, 77.321000),
-    "Parbhani PHC": (19.260800, 76.776700),
-
-    "Akola Rural PHC": (20.700200, 77.008200),
-    "Amravati Rural PHC": (20.937400, 77.779600),
-    "Nagpur Rural PHC": (21.145800, 79.088200),
-    "Wardha PHC": (20.745300, 78.602200),
-    "Bhandara PHC": (21.170000, 79.650000),
-    "Gondia PHC": (21.462400, 80.220900),
-    "Chandrapur PHC": (19.961500, 79.296100),
-}
 
 MEDICINES = [
     {
+        "id": "MED-001",
         "name": "Paracetamol",
+        "category": "Analgesic/Antipyretic",
         "unit": "tablets",
-        "base_demand": 120,
+        "base_demand": 35,
+        "minimum_stock": 360,
+        "maximum_stock": 1500,
     },
     {
+        "id": "MED-002",
         "name": "Amoxicillin",
-        "unit": "tablets",
-        "base_demand": 90,
-    },
-    {
-        "name": "Azithromycin",
-        "unit": "tablets",
-        "base_demand": 70,
-    },
-    {
-        "name": "ORS",
-        "unit": "packets",
-        "base_demand": 100,
-    },
-    {
-        "name": "Ibuprofen",
-        "unit": "tablets",
-        "base_demand": 80,
-    },
-    {
-        "name": "Metformin",
-        "unit": "tablets",
-        "base_demand": 60,
-    },
-    {
-        "name": "Cetirizine",
-        "unit": "tablets",
-        "base_demand": 75,
-    },
-    {
-        "name": "Ciprofloxacin",
-        "unit": "tablets",
-        "base_demand": 55,
-    },
-    {
-        "name": "Omeprazole",
+        "category": "Antibiotic",
         "unit": "capsules",
-        "base_demand": 85,
+        "base_demand": 18,
+        "minimum_stock": 180,
+        "maximum_stock": 900,
     },
     {
-        "name": "Doxycycline",
+        "id": "MED-003",
+        "name": "ORS Sachet",
+        "category": "Rehydration",
+        "unit": "sachets",
+        "base_demand": 22,
+        "minimum_stock": 220,
+        "maximum_stock": 1050,
+    },
+    {
+        "id": "MED-004",
+        "name": "Metformin",
+        "category": "Antidiabetic",
         "unit": "tablets",
-        "base_demand": 50,
+        "base_demand": 14,
+        "minimum_stock": 210,
+        "maximum_stock": 900,
+    },
+    {
+        "id": "MED-005",
+        "name": "Amlodipine",
+        "category": "Antihypertensive",
+        "unit": "tablets",
+        "base_demand": 12,
+        "minimum_stock": 180,
+        "maximum_stock": 750,
+    },
+    {
+        "id": "MED-006",
+        "name": "Cetirizine",
+        "category": "Antihistamine",
+        "unit": "tablets",
+        "base_demand": 16,
+        "minimum_stock": 112,
+        "maximum_stock": 700,
+    },
+    {
+        "id": "MED-007",
+        "name": "Iron Folic Acid Tablet",
+        "category": "Nutritional Supplement",
+        "unit": "tablets",
+        "base_demand": 20,
+        "minimum_stock": 300,
+        "maximum_stock": 900,
+    },
+    {
+        "id": "MED-008",
+        "name": "Omeprazole",
+        "category": "Gastrointestinal",
+        "unit": "capsules",
+        "base_demand": 10,
+        "minimum_stock": 100,
+        "maximum_stock": 600,
     },
 ]
 
 
-def generate_phc_data(index, name):
-    """
-    Generate one PHC using real geographic
-    coordinates for the named Maharashtra location.
-    """
+# ============================================================
+# 50 DEMO PHCs
+# ============================================================
 
-    if name not in PHC_COORDINATES:
-        raise ValueError(
-            f"No coordinates found for {name}"
+PHCS = [
+    ("Palghar", 19.697107, 72.763725),
+    ("Vasai", 19.3919, 72.8397),
+    ("Virar", 19.4559, 72.8111),
+    ("Boisar", 19.8030, 72.7550),
+    ("Dahanu", 19.9900, 72.7430),
+    ("Nalasopara", 19.4150, 72.8050),
+    ("Thane Rural", 19.2183, 72.9781),
+    ("Bhiwandi", 19.2813, 73.0483),
+    ("Shahapur", 19.4526, 73.3257),
+    ("Murbad", 19.2550, 73.3900),
+    ("Nashik Rural", 20.0059, 73.7897),
+    ("Sinnar", 19.8451, 73.9986),
+    ("Igatpuri", 19.6950, 73.5620),
+    ("Dindori", 20.2020, 73.8320),
+    ("Yeola", 20.0420, 74.4890),
+    ("Pune Rural", 18.5204, 73.8567),
+    ("Baramati", 18.1517, 74.5777),
+    ("Shirur", 18.8270, 74.3740),
+    ("Junnar", 19.2080, 73.8750),
+    ("Khed", 18.8400, 73.8800),
+    ("Satara", 17.6805, 74.0183),
+    ("Karad", 17.2890, 74.1810),
+    ("Wai", 17.9530, 73.8900),
+    ("Phaltan", 17.9910, 74.4320),
+    ("Kolhapur Rural", 16.7050, 74.2430),
+    ("Ichalkaranji", 16.6910, 74.4600),
+    ("Sangli Rural", 16.8524, 74.5815),
+    ("Miraj", 16.8270, 74.6420),
+    ("Solapur Rural", 17.6599, 75.9064),
+    ("Barshi", 18.2345, 75.6928),
+    ("Ahmednagar", 19.0952, 74.7496),
+    ("Kopargaon", 19.8820, 74.4760),
+    ("Jalgaon Rural", 21.0077, 75.5626),
+    ("Bhusawal", 21.0450, 75.8010),
+    ("Dhule", 20.9042, 74.7749),
+    ("Nandurbar", 21.3650, 74.2400),
+    ("Aurangabad Rural", 19.8762, 75.3433),
+    ("Paithan", 19.4760, 75.3860),
+    ("Beed Rural", 18.9891, 75.7600),
+    ("Latur Rural", 18.4088, 76.5604),
+    ("Osmanabad", 18.1860, 76.0419),
+    ("Nanded Rural", 19.1383, 77.3210),
+    ("Parbhani", 19.2600, 76.7700),
+    ("Akola Rural", 20.7000, 77.0100),
+    ("Amravati Rural", 20.9320, 77.7520),
+    ("Nagpur Rural", 21.1458, 79.0882),
+    ("Wardha", 20.7453, 78.6022),
+    ("Bhandara", 21.1700, 79.6500),
+    ("Gondia", 21.4624, 80.2209),
+    ("Chandrapur", 19.9615, 79.2961),
+]
+
+
+# ============================================================
+# ID HELPERS
+# ============================================================
+
+def medicine_document_id(phc_id, medicine_name):
+    safe_name = (
+        medicine_name.lower()
+        .replace(" ", "_")
+        .replace("-", "_")
+    )
+
+    return f"{phc_id}_{safe_name}"
+
+
+def demand_document_id(phc_id, medicine_name, date_value):
+    safe_name = (
+        medicine_name.lower()
+        .replace(" ", "_")
+        .replace("-", "_")
+    )
+
+    return (
+        f"{phc_id}_{safe_name}_"
+        f"{date_value.strftime('%Y%m%d')}"
+    )
+
+
+# ============================================================
+# FEATURE HELPERS
+# ============================================================
+
+def seasonal_factor(day_of_year):
+    return (
+        1.0
+        + 0.12
+        * math.sin(
+            2.0 * math.pi * day_of_year / 365.0
         )
-
-    latitude, longitude = PHC_COORDINATES[name]
-
-    total_beds = random.randint(20, 120)
-    occupied_beds = random.randint(
-        int(total_beds * 0.35),
-        int(total_beds * 0.92)
     )
 
-    total_staff = random.randint(12, 40)
-    present_staff = random.randint(
-        max(5, int(total_staff * 0.65)),
-        total_staff
-    )
 
-    patients_today = random.randint(80, 450)
-
-    return {
-        "name": name,
-        "district": name.replace(" PHC", ""),
-        "state": "Maharashtra",
-        "country": "India",
-
-        "latitude": latitude,
-        "longitude": longitude,
-
-        "total_beds": total_beds,
-        "occupied_beds": occupied_beds,
-        "available_beds": total_beds - occupied_beds,
-
-        "total_staff": total_staff,
-        "present_staff": present_staff,
-
-        "patients_today": patients_today,
-
-        "status": (
-            "critical"
-            if occupied_beds / total_beds > 0.85
-            else "warning"
-            if occupied_beds / total_beds > 0.70
-            else "normal"
-        ),
-
-        "created_at": datetime.utcnow(),
-        "updated_at": datetime.utcnow(),
+def weekday_factor(day_of_week):
+    factors = {
+        0: 1.05,  # Monday
+        1: 1.08,
+        2: 1.00,
+        3: 1.04,
+        4: 1.10,
+        5: 0.92,
+        6: 0.78,  # Sunday
     }
 
+    return factors.get(day_of_week, 1.0)
 
-def generate_medicine_data(phc_id, medicine):
-    """
-    Generate current medicine inventory.
-    """
 
-    base = medicine["base_demand"]
-
-    current_stock = random.randint(
-        base * 2,
-        base * 12
+def population_factor(index):
+    return round(
+        0.80 + ((index * 17) % 51) / 100.0,
+        3,
     )
 
-    minimum_stock = base * 3
+
+def capacity_factor(index):
+    return round(
+        0.80 + ((index * 13) % 41) / 100.0,
+        3,
+    )
+
+
+def urban_rural(index):
+    urban_indices = {
+        1, 2, 5, 7, 15,
+        27, 28, 30, 34,
+        36, 45,
+    }
+
+    if index in urban_indices:
+        return "Urban"
+
+    return "Rural"
+
+
+def outbreak_flag(phc_index, date_value):
+    if phc_index % 10 != 0:
+        return 0
+
+    start_date = datetime(
+        2026,
+        8,
+        1,
+    ).date() + timedelta(days=5)
+
+    end_date = start_date + timedelta(days=8)
+
+    return int(
+        start_date <= date_value <= end_date
+    )
+
+
+# ============================================================
+# DEMAND GENERATION
+# ============================================================
+
+def generate_demand(
+    medicine,
+    phc_index,
+    date_value,
+    rng,
+):
+    demand = (
+        medicine["base_demand"]
+        * population_factor(phc_index)
+        * capacity_factor(phc_index)
+        * weekday_factor(
+            date_value.weekday()
+        )
+        * seasonal_factor(
+            date_value.timetuple().tm_yday
+        )
+        * rng.uniform(
+            0.88,
+            1.12,
+        )
+    )
+
+    outbreak = outbreak_flag(
+        phc_index,
+        date_value,
+    )
+
+    # Outbreak effect on common acute medicines.
+    if (
+        outbreak
+        and medicine["id"]
+        in {
+            "MED-001",
+            "MED-002",
+            "MED-003",
+            "MED-006",
+        }
+    ):
+        demand *= 1.75
+
+    return (
+        max(
+            1,
+            int(round(demand)),
+        ),
+        outbreak,
+    )
+
+
+def patient_footfall(
+    demand,
+    phc_index,
+    rng,
+):
+    footfall = (
+        demand
+        * rng.uniform(
+            2.8,
+            4.4,
+        )
+        * population_factor(phc_index)
+    )
+
+    return max(
+        demand,
+        int(round(footfall)),
+    )
+
+
+# ============================================================
+# INVENTORY GENERATION
+# ============================================================
+
+def generate_inventory(
+    phc_id,
+    medicine,
+    phc_index,
+    rng,
+):
+    minimum = medicine["minimum_stock"]
+    base = medicine["base_demand"]
+
+    # Every 10th PHC gets tighter inventory so that
+    # the redistribution demo has meaningful cases.
+    if phc_index % 10 == 0:
+        current_stock = int(
+            minimum
+            * rng.uniform(
+                0.85,
+                1.45,
+            )
+        )
+    else:
+        current_stock = int(
+            base
+            * rng.uniform(
+                18,
+                35,
+            )
+        )
+
+    if current_stock <= minimum:
+        status = "low"
+    elif current_stock <= minimum * 1.5:
+        status = "medium"
+    else:
+        status = "healthy"
+
+    daily_demand = max(
+        1,
+        round(
+            base
+            * population_factor(phc_index)
+            * 0.95,
+            2,
+        ),
+    )
 
     return {
         "phc_id": phc_id,
+        "medicine_id": medicine["id"],
         "medicine_name": medicine["name"],
+        "category": medicine["category"],
         "unit": medicine["unit"],
-
-        "current_stock": current_stock,
-        "minimum_stock": minimum_stock,
-
-        "daily_demand": base,
-
-        "status": (
-            "critical"
-            if current_stock < minimum_stock * 0.5
-            else "low"
-            if current_stock < minimum_stock
-            else "healthy"
+        "current_stock": float(
+            current_stock
         ),
-
+        "daily_demand": float(
+            daily_demand
+        ),
+        "minimum_stock": float(
+            minimum
+        ),
+        "maximum_stock": float(
+            medicine["maximum_stock"]
+        ),
+        "status": status,
         "updated_at": datetime.utcnow(),
     }
-
-
-def generate_demand(
-    phc_index,
-    medicine,
-    day_index
-):
-    """
-    Generate realistic historical demand.
-
-    Demand changes based on:
-
-    - base medicine demand
-    - weekly pattern
-    - seasonal/random variation
-    - occasional demand spikes
-    """
-
-    base = medicine["base_demand"]
-
-    date = datetime.utcnow() - timedelta(days=day_index)
-
-    # Weekly variation
-    weekday_factor = {
-        0: 1.05,
-        1: 1.00,
-        2: 1.08,
-        3: 0.95,
-        4: 1.12,
-        5: 1.18,
-        6: 0.82,
-    }
-
-    factor = weekday_factor[date.weekday()]
-
-    # Random variation
-    noise = random.uniform(0.85, 1.15)
-
-    # Simulated outbreak at some PHCs
-    outbreak_factor = 1.0
-
-    if phc_index % 10 == 0 and day_index < 10:
-        outbreak_factor = random.uniform(1.4, 1.9)
-
-    demand = (
-        base
-        * factor
-        * noise
-        * outbreak_factor
-    )
-
-    return max(1, int(demand))
 
 
 # ============================================================
@@ -343,26 +421,60 @@ def generate_demand(
 # ============================================================
 
 def seed_phcs():
-
-    print("\n🏥 Creating PHCs...")
+    print(
+        "\n🏥 Creating 50 Maharashtra demo PHCs..."
+    )
 
     phc_ids = []
 
-    for index, name in enumerate(PHC_NAMES):
+    for index, (
+        name,
+        latitude,
+        longitude,
+    ) in enumerate(
+        PHCS,
+        start=1,
+    ):
+        phc_id = f"PHC{index:03d}"
 
-        phc_id = f"PHC{index + 1:03d}"
-
-        data = generate_phc_data(
-            index,
-            name
+        phc_ids.append(
+            phc_id
         )
 
-        db.collection("phcs").document(phc_id).set(data)
+        data = {
+            "phc_id": phc_id,
+            "name": f"{name} PHC",
+            "state": "Maharashtra",
+            "district": (
+                name
+                .replace(
+                    " Rural",
+                    "",
+                )
+            ),
+            "phc_type": "PHC",
+            "urban_rural": urban_rural(
+                index
+            ),
+            "latitude": latitude,
+            "longitude": longitude,
+            "population_factor": population_factor(
+                index
+            ),
+            "capacity_factor": capacity_factor(
+                index
+            ),
+            "created_at": datetime.utcnow(),
+        }
 
-        phc_ids.append(phc_id)
+        db.collection(
+            "phcs"
+        ).document(
+            phc_id
+        ).set(data)
 
         print(
-            f"  ✓ {phc_id} - {name}"
+            f"  ✓ {phc_id} - {name} PHC"
         )
 
     return phc_ids
@@ -372,29 +484,39 @@ def seed_phcs():
 # SEED MEDICINES
 # ============================================================
 
-def seed_medicines(phc_ids):
-
-    print("\n💊 Creating medicine inventory...")
+def seed_medicines(
+    phc_ids,
+    rng,
+):
+    print(
+        "\n💊 Creating medicine inventory..."
+    )
 
     count = 0
 
-    for phc_id in phc_ids:
-
+    for phc_index, phc_id in enumerate(
+        phc_ids,
+        start=1,
+    ):
         for medicine in MEDICINES:
 
-            medicine_id = (
-                f"{phc_id}_"
-                f"{medicine['name'].lower().replace(' ', '_')}"
-            )
-
-            data = generate_medicine_data(
+            document_id = medicine_document_id(
                 phc_id,
-                medicine
+                medicine["name"],
             )
 
-            db.collection("medicines") \
-                .document(medicine_id) \
-                .set(data)
+            data = generate_inventory(
+                phc_id,
+                medicine,
+                phc_index,
+                rng,
+            )
+
+            db.collection(
+                "medicines"
+            ).document(
+                document_id
+            ).set(data)
 
             count += 1
 
@@ -404,70 +526,141 @@ def seed_medicines(phc_ids):
 
 
 # ============================================================
-# SEED DEMAND HISTORY
+# SEED SMALL DEMAND HISTORY
 # ============================================================
 
-def seed_demand_history(phc_ids):
-
+def seed_demand_history(
+    phc_ids,
+    rng,
+):
     print(
-        "\n📊 Creating historical demand data..."
+        f"\n📊 Creating SMALL AI-compatible "
+        f"demand history ({HISTORY_DAYS} days)..."
+    )
+
+    # Fixed date window so repeated runs produce
+    # the same document IDs.
+    end_date = datetime(
+        2026,
+        8,
+        23,
+    ).date()
+
+    start_date = (
+        end_date
+        - timedelta(
+            days=HISTORY_DAYS - 1
+        )
     )
 
     count = 0
 
-    for phc_index, phc_id in enumerate(phc_ids):
+    for phc_index, phc_id in enumerate(
+        phc_ids,
+        start=1,
+    ):
 
         for medicine in MEDICINES:
 
-            for day_index in range(HISTORY_DAYS):
+            for offset in range(
+                HISTORY_DAYS
+            ):
 
-                demand = generate_demand(
-                    phc_index,
-                    medicine,
-                    day_index
+                date_value = (
+                    start_date
+                    + timedelta(
+                        days=offset
+                    )
                 )
 
-                date = (
-                    datetime.utcnow()
-                    - timedelta(days=day_index)
+                demand, outbreak = (
+                    generate_demand(
+                        medicine,
+                        phc_index,
+                        date_value,
+                        rng,
+                    )
                 )
 
-                record_id = (
-                    f"{phc_id}_"
-                    f"{medicine['name']}_"
-                    f"{date.strftime('%Y%m%d')}"
+                anomaly = int(
+                    phc_index % 17 == 0
+                    and offset == 10
+                    and medicine["id"]
+                    in {
+                        "MED-001",
+                        "MED-003",
+                    }
+                )
+
+                if anomaly:
+                    demand = int(
+                        round(
+                            demand * 2.2
+                        )
+                    )
+
+                supply_disruption = int(
+                    phc_index % 13 == 0
+                    and offset in {
+                        4,
+                        11,
+                    }
                 )
 
                 data = {
                     "phc_id": phc_id,
-
-                    "medicine_name":
-                        medicine["name"],
-
-                    "date": date.strftime(
-                        "%Y-%m-%d"
+                    "medicine_name": medicine["name"],
+                    "medicine_id": medicine["id"],
+                    "category": medicine["category"],
+                    "date": datetime.combine(
+                        date_value,
+                        datetime.min.time(),
                     ),
-
-                    "demand": demand,
-
-                    "patient_footfall":
-                        int(demand * random.uniform(
-                            2.0,
-                            4.0
-                        )),
-
-                    "created_at":
-                        datetime.utcnow(),
+                    "demand": float(
+                        demand
+                    ),
+                    "patient_footfall": float(
+                        patient_footfall(
+                            demand,
+                            phc_index,
+                            rng,
+                        )
+                    ),
+                    "outbreak_flag": outbreak,
+                    "supply_disruption_flag": (
+                        supply_disruption
+                    ),
+                    "seasonal_factor": float(
+                        seasonal_factor(
+                            date_value.timetuple().tm_yday
+                        )
+                    ),
+                    "anomaly_flag": anomaly,
+                    "created_at": datetime.utcnow(),
                 }
+
+                record_id = demand_document_id(
+                    phc_id,
+                    medicine["name"],
+                    date_value,
+                )
 
                 db.collection(
                     "demand_history"
-                ).document(record_id).set(data)
+                ).document(
+                    record_id
+                ).set(data)
 
                 count += 1
 
     print(
-        f"  ✓ Created {count} demand records"
+        f"  ✓ Created {count} demand-history records"
+    )
+
+    print(
+        f"    = {NUM_PHCS} PHCs × "
+        f"{len(MEDICINES)} medicines × "
+        f"{HISTORY_DAYS} days"
     )
 
 
@@ -475,45 +668,78 @@ def seed_demand_history(phc_ids):
 # SEED ALERTS
 # ============================================================
 
-def seed_alerts(phc_ids):
+def seed_alerts():
+    print(
+        "\n🚨 Creating demo alerts..."
+    )
 
-    print("\n🚨 Creating sample alerts...")
+    alerts = [
+        (
+            "ALERT001",
+            "PHC001",
+            "Paracetamol",
+            "STOCKOUT_RISK",
+            "HIGH",
+            "Paracetamol stock is approaching the minimum threshold.",
+        ),
+        (
+            "ALERT002",
+            "PHC011",
+            "Amoxicillin",
+            "DEMAND_SPIKE",
+            "MEDIUM",
+            "Unusual demand increase detected for Amoxicillin.",
+        ),
+        (
+            "ALERT003",
+            "PHC021",
+            "ORS Sachet",
+            "REDISTRIBUTION",
+            "MEDIUM",
+            "Redistribution from a nearby PHC may reduce shortage risk.",
+        ),
+        (
+            "ALERT004",
+            "PHC031",
+            "Metformin",
+            "ANOMALY",
+            "MEDIUM",
+            "Unusual medicine behavior detected.",
+        ),
+        (
+            "ALERT005",
+            "PHC041",
+            "Amlodipine",
+            "LOW_STOCK",
+            "HIGH",
+            "Current Amlodipine inventory is below the preferred buffer.",
+        ),
+    ]
 
-    alerts = []
+    for (
+        alert_id,
+        phc_id,
+        medicine,
+        alert_type,
+        severity,
+        message,
+    ) in alerts:
 
-    for phc_id in phc_ids[:10]:
-
-        alert = {
-            "phc_id": phc_id,
-
-            "type": "medicine",
-
-            "medicine_name":
-                random.choice(MEDICINES)["name"],
-
-            "severity":
-                random.choice([
-                    "high",
-                    "medium",
-                    "critical"
-                ]),
-
-            "message":
-                "Potential medicine stock-out predicted.",
-
-            "status": "active",
-
-            "created_at":
-                datetime.utcnow(),
-        }
-
-        alerts.append(alert)
-
-    for index, alert in enumerate(alerts):
-
-        db.collection("alerts") \
-            .document(f"ALERT{index + 1:03d}") \
-            .set(alert)
+        db.collection(
+            "alerts"
+        ).document(
+            alert_id
+        ).set(
+            {
+                "alert_id": alert_id,
+                "phc_id": phc_id,
+                "medicine_name": medicine,
+                "type": alert_type,
+                "severity": severity,
+                "message": message,
+                "created_at": datetime.utcnow(),
+            }
+        )
 
     print(
         f"  ✓ Created {len(alerts)} alerts"
@@ -525,51 +751,102 @@ def seed_alerts(phc_ids):
 # ============================================================
 
 def main():
-
     print(
-        "\n"
-        "============================================\n"
-        "       AROGYAFLOW AI DATA SEEDER\n"
-        "============================================\n"
+        "\n============================================"
+    )
+    print(
+        "       AROGYAFLOW AI DATA SEEDER"
+    )
+    print(
+        "============================================"
     )
 
     print(
-        "🔥 Connected to Firebase Firestore"
+        "\n🔥 Connected to Firebase Firestore"
     )
 
-    # PHCs
+    print(
+        "\nℹ️ Firebase-friendly mode:"
+    )
+
+    print(
+        f"   {NUM_PHCS} PHCs"
+    )
+
+    print(
+        f"   {len(MEDICINES)} medicines"
+    )
+
+    print(
+        f"   {HISTORY_DAYS} days of demand history"
+    )
+
+    print(
+        "\n⚠️ Demand history is SYNTHETIC demo data."
+    )
+
+    print(
+        "   Large ML/training datasets stay local."
+    )
+
+    rng = random.Random(
+        RANDOM_SEED
+    )
+
     phc_ids = seed_phcs()
 
-    # Medicines
-    seed_medicines(phc_ids)
+    seed_medicines(
+        phc_ids,
+        rng,
+    )
 
-    # Demand history
-    seed_demand_history(phc_ids)
+    seed_demand_history(
+        phc_ids,
+        rng,
+    )
 
-    # Alerts
-    seed_alerts(phc_ids)
+    seed_alerts()
 
     print(
-        "\n"
-        "============================================\n"
-        "       ✅ DATA SEEDING COMPLETE\n"
-        "============================================\n"
+        "\n============================================"
     )
 
     print(
-        f"\n🏥 PHCs: {len(phc_ids)}"
+        "             SEEDING COMPLETE"
     )
 
     print(
-        f"💊 Medicines per PHC: {len(MEDICINES)}"
+        "============================================"
     )
 
     print(
-        f"📅 Historical days: {HISTORY_DAYS}"
+        "\n📦 Firestore demo data:"
     )
 
     print(
-        "\n🔥 ArogyaFlow Firestore is ready!\n"
+        f"   PHCs:              {NUM_PHCS}"
+    )
+
+    print(
+        f"   Medicines:         "
+        f"{NUM_PHCS * len(MEDICINES)}"
+    )
+
+    print(
+        f"   Demand history:    "
+        f"{NUM_PHCS * len(MEDICINES) * HISTORY_DAYS}"
+    )
+
+    print(
+        "   Alerts:             5"
+    )
+
+    print(
+        "\n🧠 ML training datasets remain local."
+    )
+
+    print(
+        "🚀 You can now run: python app.py"
     )
 
 

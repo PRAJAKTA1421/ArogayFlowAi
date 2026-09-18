@@ -1,283 +1,1688 @@
-{% extends 'base.html' %}{% block title %}AI Predictions | ArogyaFlow AI{% endblock %}{% block content %}
+{% extends 'base.html' %}
+
+{% block title %}AI Predictions | ArogyaFlow AI{% endblock %}
+
+{% block content %}
+
 <main class="dash report-page">
- {% include '_dashboard_sidebar.html' %}
- <section class="dash-content">
-  <header class="dash-head">
-   <div>
-    <h1>
-     AI Predictions
-    </h1>
-    <p>
-     AI-powered insights for demand and resource planning
-    </p>
-   </div>
-   <button class="location">
-    All India　⌄
-   </button>
-   <span class="updated">
-    16 May 2025
-   </span>
-   <span class="bell">
-    ♧
-    <i>
-     4
-    </i>
-   </span>
-   <div class="profile">
-    ●
-    <span>
-     PHC Manager
-     <small>
-      Admin
-     </small>
-    </span>
-    ⌄
-   </div>
-  </header>
-  <div class="dash-body">
-   <div class="metric-cards">
-    <article>
-     <small>
-      Medicine Demand ↑
-     </small>
-     <strong>
-      24%
-     </strong>
-     <em>
-      Next 7 Days
-     </em>
-    </article>
-    <article>
-     <small>
-      Bed Demand ↑
-     </small>
-     <strong>
-      18%
-     </strong>
-     <em>
-      Next 7 Days
-     </em>
-    </article>
-    <article>
-     <small>
-      Patient Footfall ↑
-     </small>
-     <strong>
-      31%
-     </strong>
-     <em>
-      Next 7 Days
-     </em>
-    </article>
-    <article>
-     <small style="color:#f04950">
-      ⚠ High Risk PHCs ↑
-     </small>
-     <strong>
-      313
-     </strong>
-     <em>
-      Across India
-     </em>
-    </article>
-   </div>
-   <div class="operations-grid">
-    <article class="panel">
-     <h3>
-      Demand Prediction
-      <small>
-       (Next 7 Days)
-      </small>
-     </h3>
-     <div class="forecast-chart">
-     </div>
-     <p style="font-size:8px;text-align:center;color:#52708f">
-      ● Actual Demand
-      <span style="color:#21b970">
-       ● Predicted Demand
-      </span>
-     </p>
-    </article>
-    <article class="panel staff-table">
-     <h3>
-      Top Predicted Shortages
-     </h3>
-     <table>
-      <tr>
-       <th>
-        Item
-       </th>
-       <th>
-        PHCs Affected
-       </th>
-       <th>
-        Shortage In
-       </th>
-       <th>
-        Risk Level
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Paracetamol
-       </td>
-       <td>
-        342
-       </td>
-       <td>
-        2 Days
-       </td>
-       <td>
-        <span class="status warn">
-         High
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Amoxicillin
-       </td>
-       <td>
-        318
-       </td>
-       <td>
-        3 Days
-       </td>
-       <td>
-        <span class="status warn">
-         High
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        ORS
-       </td>
-       <td>
-        176
-       </td>
-       <td>
-        4 Days
-       </td>
-       <td>
-        <span class="status warn">
-         Medium
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        IV Fluids
-       </td>
-       <td>
-        152
-       </td>
-       <td>
-        4 Days
-       </td>
-       <td>
-        <span class="status warn">
-         Medium
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Azithromycin
-       </td>
-       <td>
-        121
-       </td>
-       <td>
-        6 Days
-       </td>
-       <td>
-        <span class="status good">
-         Low
-        </span>
-       </td>
-      </tr>
-     </table>
-    </article>
-    <article class="panel risk-bars">
-     <h3>
-      High Risk States
-      <small>
-       (Next 7 Days)
-      </small>
-     </h3>
-     <p>
-      Maharashtra
-      <i style="width:91%">
-      </i>
-      <b>
-       91%
-      </b>
-     </p>
-     <p>
-      Karnataka
-      <i style="width:87%">
-      </i>
-      <b>
-       87%
-      </b>
-     </p>
-     <p>
-      Uttar Pradesh
-      <i style="width:76%">
-      </i>
-      <b>
-       76%
-      </b>
-     </p>
-     <p>
-      Bihar
-      <i style="width:63%">
-      </i>
-      <b>
-       63%
-      </b>
-     </p>
-     <p>
-      Rajasthan
-      <i style="width:42%">
-      </i>
-      <b>
-       42%
-      </b>
-     </p>
-    </article>
-    <article class="panel insight-list">
-     <h3>
-      AI Insights
-     </h3>
-     <p>
-      <b>
-       ◉ Medicine demand
-      </b>
-      for Paracetamol is expected to increase by 24% in Maharashtra.
-     </p>
-     <p>
-      <b>
-       ◉ Bed occupancy
-      </b>
-      likely to cross 90% in 45 districts.
-     </p>
-     <p>
-      <b>
-       ◉ Staff shortage
-      </b>
-      predicted in 12 districts due to high patient footfall.
-     </p>
-     <p>
-      <b>
-       ◉ Recommend
-      </b>
-      proactive resource transfer for high-risk PHCs.
-     </p>
-    </article>
-   </div>
-  </div>
- </section>
+
+    {% include '_dashboard_sidebar.html' %}
+
+    <section class="dash-content">
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="dash-head">
+
+            <div>
+                <h1>
+                    AI Predictions
+                </h1>
+
+                <p>
+                    AI-powered insights for demand and resource planning
+                </p>
+            </div>
+
+            <button class="location">
+                All India　⌄
+            </button>
+
+            <span class="updated">
+                16 May 2025
+            </span>
+
+            <span class="bell">
+                ♧
+                <i>4</i>
+            </span>
+
+            <div class="profile">
+                ●
+
+                <span>
+                    PHC Manager
+
+                    <small>
+                        Admin
+                    </small>
+                </span>
+
+                ⌄
+            </div>
+
+        </header>
+
+
+        <div class="dash-body">
+
+
+            <!-- =================================================
+                 EXISTING SUMMARY METRICS
+                 ================================================= -->
+
+            <div class="metric-cards">
+
+                <article>
+
+                    <small>
+                        Medicine Demand ↑
+                    </small>
+
+                    <strong>
+                        24%
+                    </strong>
+
+                    <em>
+                        Next 7 Days
+                    </em>
+
+                </article>
+
+
+                <article>
+
+                    <small>
+                        Bed Demand ↑
+                    </small>
+
+                    <strong>
+                        18%
+                    </strong>
+
+                    <em>
+                        Next 7 Days
+                    </em>
+
+                </article>
+
+
+                <article>
+
+                    <small>
+                        Patient Footfall ↑
+                    </small>
+
+                    <strong>
+                        31%
+                    </strong>
+
+                    <em>
+                        Next 7 Days
+                    </em>
+
+                </article>
+
+
+                <article>
+
+                    <small style="color:#f04950">
+                        ⚠ High Risk PHCs ↑
+                    </small>
+
+                    <strong>
+                        313
+                    </strong>
+
+                    <em>
+                        Across India
+                    </em>
+
+                </article>
+
+            </div>
+
+
+            <!-- =================================================
+                 NEW: LIVE AI ANALYSIS
+                 ================================================= -->
+
+            <div class="panel ai-control-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            🤖 Live AI Healthcare Analysis
+                        </h2>
+
+                        <p>
+                            Run the complete AI pipeline for a PHC and medicine
+                        </p>
+
+                    </div>
+
+
+                    <div class="ai-status">
+
+                        <span class="status-dot"></span>
+
+                        AI Services Online
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-controls">
+
+
+                    <!-- PHC -->
+
+                    <div class="form-group">
+
+                        <label for="phcId">
+                            PHC ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="phcId"
+                            value="PHC001"
+                            placeholder="Example: PHC001"
+                        >
+
+                    </div>
+
+
+                    <!-- Medicine -->
+
+                    <div class="form-group">
+
+                        <label for="medicineSelect">
+                            Medicine
+                        </label>
+
+                        <select id="medicineSelect">
+
+                            <option value="Paracetamol">
+                                Paracetamol
+                            </option>
+
+                            <option value="Amoxicillin">
+                                Amoxicillin
+                            </option>
+
+                            <option value="ORS Sachet">
+                                ORS Sachet
+                            </option>
+
+                            <option value="Metformin">
+                                Metformin
+                            </option>
+
+                            <option value="Amlodipine">
+                                Amlodipine
+                            </option>
+
+                            <option value="Cetirizine">
+                                Cetirizine
+                            </option>
+
+                            <option value="Iron Folic Acid Tablet">
+                                Iron Folic Acid Tablet
+                            </option>
+
+                            <option value="Omeprazole">
+                                Omeprazole
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Button -->
+
+                    <button
+                        id="runAnalysisBtn"
+                        class="primary-button"
+                        onclick="runAIAnalysis()"
+                    >
+                        🤖 Run AI Analysis
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="analysisMessage"
+                    class="analysis-message"
+                ></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOADING
+                 ================================================= -->
+
+            <div
+                id="loadingSection"
+                class="panel loading-panel"
+                style="display:none;"
+            >
+
+                <div class="loading-spinner"></div>
+
+                <h3>
+                    AI is analyzing healthcare data...
+                </h3>
+
+                <p>
+                    Running demand forecasting, stockout prediction,
+                    anomaly detection and redistribution optimization.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 NEW: LIVE AI RESULTS
+                 ================================================= -->
+
+            <div
+                id="resultsSection"
+                style="display:none;"
+            >
+
+
+                <!-- LIVE METRICS -->
+
+                <div class="metric-cards ai-metric-cards">
+
+
+                    <article>
+
+                        <div class="metric-icon">
+                            📈
+                        </div>
+
+                        <div>
+
+                            <small>
+                                7-Day Predicted Demand
+                            </small>
+
+                            <strong id="forecastDemand">
+                                --
+                            </strong>
+
+                            <em>
+                                units
+                            </em>
+
+                        </div>
+
+                    </article>
+
+
+                    <article>
+
+                        <div class="metric-icon">
+                            🚨
+                        </div>
+
+                        <div>
+
+                            <small>
+                                Stockout Probability
+                            </small>
+
+                            <strong id="stockoutProbability">
+                                --
+                            </strong>
+
+                            <em>
+                                7-day prediction
+                            </em>
+
+                        </div>
+
+                    </article>
+
+
+                    <article>
+
+                        <div class="metric-icon">
+                            📦
+                        </div>
+
+                        <div>
+
+                            <small>
+                                Current Stock
+                            </small>
+
+                            <strong id="currentStock">
+                                --
+                            </strong>
+
+                            <em>
+                                units
+                            </em>
+
+                        </div>
+
+                    </article>
+
+
+                    <article>
+
+                        <div class="metric-icon">
+                            🔎
+                        </div>
+
+                        <div>
+
+                            <small>
+                                AI Anomaly Status
+                            </small>
+
+                            <strong id="anomalyStatus">
+                                --
+                            </strong>
+
+                            <em>
+                                behavior analysis
+                            </em>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- =================================================
+                     STOCK RISK + ANOMALY
+                     ================================================= -->
+
+                <div class="operations-grid">
+
+
+                    <!-- STOCK RISK -->
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <h3>
+                                    Stock Risk Analysis
+                                </h3>
+
+                                <p>
+                                    AI prediction based on current inventory
+                                    and forecasted demand
+                                </p>
+
+                            </div>
+
+                            <span
+                                id="riskBadge"
+                                class="status"
+                            >
+                                --
+                            </span>
+
+                        </div>
+
+
+                        <div class="risk-details">
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Current Stock
+                                </span>
+
+                                <strong id="riskCurrentStock">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Minimum Stock
+                                </span>
+
+                                <strong id="minimumStock">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    7-Day Predicted Demand
+                                </span>
+
+                                <strong id="riskDemand">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Forecast Remaining Stock
+                                </span>
+
+                                <strong id="remainingStock">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Replenishment
+                                </span>
+
+                                <strong id="replenishmentStatus">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Priority
+                                </span>
+
+                                <strong id="replenishmentPriority">
+                                    --
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- ANOMALY -->
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <h3>
+                                    Anomaly Detection
+                                </h3>
+
+                                <p>
+                                    Isolation Forest behavioral analysis
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="anomaly-box"
+                            id="anomalyBox"
+                        >
+
+                            <div class="anomaly-icon">
+                                🔎
+                            </div>
+
+                            <div>
+
+                                <h3 id="anomalyTitle">
+                                    --
+                                </h3>
+
+                                <p id="anomalyDescription">
+                                    --
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="risk-details">
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Current Demand
+                                </span>
+
+                                <strong id="anomalyDemand">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    7-Day Average Demand
+                                </span>
+
+                                <strong id="rollingDemand">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Demand Change
+                                </span>
+
+                                <strong id="demandChange">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Days of Stock
+                                </span>
+
+                                <strong id="daysOfStock">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="risk-detail-row">
+
+                                <span>
+                                    Isolation Score
+                                </span>
+
+                                <strong id="isolationScore">
+                                    --
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- =================================================
+                     REDISTRIBUTION
+                     ================================================= -->
+
+                <article class="panel redistribution-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h3>
+                                🤖 AI Resource Redistribution
+                            </h3>
+
+                            <p>
+                                Distance + Safe Surplus Weighted Optimization
+                            </p>
+
+                        </div>
+
+                        <span
+                            id="redistributionAction"
+                            class="status"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="redistribution-summary">
+
+
+                        <div>
+
+                            <span>
+                                Safety-Stock Shortage
+                            </span>
+
+                            <strong id="shortage">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total Transfer
+                            </span>
+
+                            <strong id="totalTransfer">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Remaining Shortage
+                            </span>
+
+                            <strong id="remainingShortage">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="transferPlanContainer">
+
+                        <div class="empty-transfer">
+
+                            No redistribution recommendation available.
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 EXISTING DEMAND PREDICTION + SHORTAGES
+                 ================================================= -->
+
+            <div class="operations-grid">
+
+
+                <!-- DEMAND CHART -->
+
+                <article class="panel">
+
+                    <h3>
+
+                        Demand Prediction
+
+                        <small>
+                            (Next 7 Days)
+                        </small>
+
+                    </h3>
+
+                    <div class="forecast-chart">
+
+                    </div>
+
+                    <p
+                        style="
+                        font-size:8px;
+                        text-align:center;
+                        color:#52708f
+                        "
+                    >
+
+                        ● Actual Demand
+
+                        <span style="color:#21b970">
+                            ● Predicted Demand
+                        </span>
+
+                    </p>
+
+                </article>
+
+
+                <!-- SHORTAGES -->
+
+                <article class="panel staff-table">
+
+                    <h3>
+                        Top Predicted Shortages
+                    </h3>
+
+                    <table>
+
+                        <tr>
+
+                            <th>
+                                Item
+                            </th>
+
+                            <th>
+                                PHCs Affected
+                            </th>
+
+                            <th>
+                                Shortage In
+                            </th>
+
+                            <th>
+                                Risk Level
+                            </th>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Paracetamol
+                            </td>
+
+                            <td>
+                                342
+                            </td>
+
+                            <td>
+                                2 Days
+                            </td>
+
+                            <td>
+
+                                <span class="status warn">
+                                    High
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Amoxicillin
+                            </td>
+
+                            <td>
+                                318
+                            </td>
+
+                            <td>
+                                3 Days
+                            </td>
+
+                            <td>
+
+                                <span class="status warn">
+                                    High
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                ORS
+                            </td>
+
+                            <td>
+                                176
+                            </td>
+
+                            <td>
+                                4 Days
+                            </td>
+
+                            <td>
+
+                                <span class="status warn">
+                                    Medium
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                IV Fluids
+                            </td>
+
+                            <td>
+                                152
+                            </td>
+
+                            <td>
+                                4 Days
+                            </td>
+
+                            <td>
+
+                                <span class="status warn">
+                                    Medium
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Azithromycin
+                            </td>
+
+                            <td>
+                                121
+                            </td>
+
+                            <td>
+                                6 Days
+                            </td>
+
+                            <td>
+
+                                <span class="status good">
+                                    Low
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </article>
+
+
+                <!-- HIGH RISK STATES -->
+
+                <article class="panel risk-bars">
+
+                    <h3>
+
+                        High Risk States
+
+                        <small>
+                            (Next 7 Days)
+                        </small>
+
+                    </h3>
+
+
+                    <p>
+
+                        Maharashtra
+
+                        <i style="width:91%"></i>
+
+                        <b>
+                            91%
+                        </b>
+
+                    </p>
+
+
+                    <p>
+
+                        Karnataka
+
+                        <i style="width:87%"></i>
+
+                        <b>
+                            87%
+                        </b>
+
+                    </p>
+
+
+                    <p>
+
+                        Uttar Pradesh
+
+                        <i style="width:76%"></i>
+
+                        <b>
+                            76%
+                        </b>
+
+                    </p>
+
+
+                    <p>
+
+                        Bihar
+
+                        <i style="width:63%"></i>
+
+                        <b>
+                            63%
+                        </b>
+
+                    </p>
+
+
+                    <p>
+
+                        Rajasthan
+
+                        <i style="width:42%"></i>
+
+                        <b>
+                            42%
+                        </b>
+
+                    </p>
+
+                </article>
+
+
+                <!-- AI INSIGHTS -->
+
+                <article class="panel insight-list">
+
+                    <h3>
+                        AI Insights
+                    </h3>
+
+
+                    <p>
+
+                        <b>
+                            ◉ Medicine demand
+                        </b>
+
+                        for Paracetamol is expected to increase
+                        by 24% in Maharashtra.
+
+                    </p>
+
+
+                    <p>
+
+                        <b>
+                            ◉ Bed occupancy
+                        </b>
+
+                        likely to cross 90% in 45 districts.
+
+                    </p>
+
+
+                    <p>
+
+                        <b>
+                            ◉ Staff shortage
+                        </b>
+
+                        predicted in 12 districts due to high patient
+                        footfall.
+
+                    </p>
+
+
+                    <p>
+
+                        <b>
+                            ◉ Recommend
+                        </b>
+
+                        proactive resource transfer for high-risk PHCs.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
 </main>
+
+
+<!-- =========================================================
+     AI JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+async function runAIAnalysis() {
+
+    const phcId =
+        document.getElementById("phcId").value.trim();
+
+    const medicine =
+        document.getElementById("medicineSelect").value;
+
+    const button =
+        document.getElementById("runAnalysisBtn");
+
+    const loading =
+        document.getElementById("loadingSection");
+
+    const results =
+        document.getElementById("resultsSection");
+
+    const message =
+        document.getElementById("analysisMessage");
+
+
+    if (!phcId) {
+
+        message.innerHTML =
+            "⚠️ Please enter a PHC ID.";
+
+        message.className =
+            "analysis-message error";
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.innerHTML =
+        "⏳ Analyzing...";
+
+
+    loading.style.display =
+        "block";
+
+    results.style.display =
+        "none";
+
+    message.innerHTML =
+        "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/ai/analyze",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        phc_id: phcId,
+                        medicine: medicine
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.error ||
+                "AI analysis failed."
+            );
+
+        }
+
+
+        updateAIResults(data);
+
+
+        loading.style.display =
+            "none";
+
+        results.style.display =
+            "block";
+
+
+        message.innerHTML =
+            "✅ AI analysis completed successfully.";
+
+        message.className =
+            "analysis-message success";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        loading.style.display =
+            "none";
+
+
+        message.innerHTML =
+            "❌ " + error.message;
+
+        message.className =
+            "analysis-message error";
+
+    }
+
+
+    button.disabled = false;
+
+    button.innerHTML =
+        "🤖 Run AI Analysis";
+
+}
+
+
+
+function updateAIResults(data) {
+
+    const forecast =
+        data.forecast || {};
+
+    const stockout =
+        data.stockout || {};
+
+    const anomaly =
+        data.anomaly || {};
+
+    const redistribution =
+        data.redistribution || {};
+
+
+    /* ==============================================
+       FORECAST
+       ============================================== */
+
+    const totalDemand =
+        Number(
+            forecast.total_7_day_demand || 0
+        );
+
+
+    document.getElementById(
+        "forecastDemand"
+    ).textContent =
+        totalDemand.toFixed(2);
+
+
+    /* ==============================================
+       STOCKOUT
+       ============================================== */
+
+    const probability =
+        Number(
+            stockout.probability_percent || 0
+        );
+
+
+    document.getElementById(
+        "stockoutProbability"
+    ).textContent =
+        probability.toFixed(2) + "%";
+
+
+    const currentStock =
+        Number(
+            stockout.current_stock || 0
+        );
+
+
+    document.getElementById(
+        "currentStock"
+    ).textContent =
+        currentStock.toFixed(0);
+
+
+    document.getElementById(
+        "riskCurrentStock"
+    ).textContent =
+        currentStock.toFixed(2);
+
+
+    const minimumStock =
+        Number(
+            stockout.minimum_stock || 0
+        );
+
+
+    document.getElementById(
+        "minimumStock"
+    ).textContent =
+        minimumStock.toFixed(2);
+
+
+    document.getElementById(
+        "riskDemand"
+    ).textContent =
+        totalDemand.toFixed(2);
+
+
+    const remainingStock =
+        Number(
+            stockout.remaining_stock ?? 0
+        );
+
+
+    document.getElementById(
+        "remainingStock"
+    ).textContent =
+        remainingStock.toFixed(2);
+
+
+    /* ==============================================
+       RISK
+       ============================================== */
+
+    const risk =
+        stockout.risk || "UNKNOWN";
+
+
+    const riskBadge =
+        document.getElementById(
+            "riskBadge"
+        );
+
+
+    riskBadge.textContent =
+        risk;
+
+
+    riskBadge.className =
+        "status " +
+        risk.toLowerCase();
+
+
+    /* ==============================================
+       REPLENISHMENT
+       ============================================== */
+
+    const replenishmentRequired =
+        Boolean(
+            stockout.replenishment_required
+        );
+
+
+    document.getElementById(
+        "replenishmentStatus"
+    ).textContent =
+        replenishmentRequired
+            ? "REQUIRED"
+            : "NOT REQUIRED";
+
+
+    document.getElementById(
+        "replenishmentPriority"
+    ).textContent =
+        stockout.replenishment_priority ||
+        "—";
+
+
+    /* ==============================================
+       ANOMALY
+       ============================================== */
+
+    const isAnomaly =
+        Boolean(
+            anomaly.is_anomaly
+        );
+
+
+    document.getElementById(
+        "anomalyStatus"
+    ).textContent =
+        isAnomaly
+            ? "ANOMALY"
+            : "NORMAL";
+
+
+    document.getElementById(
+        "anomalyTitle"
+    ).textContent =
+        isAnomaly
+            ? "Unusual medicine behavior detected"
+            : "Normal medicine behavior";
+
+
+    document.getElementById(
+        "anomalyDescription"
+    ).textContent =
+        isAnomaly
+            ? "The Isolation Forest model detected an unusual demand or inventory pattern."
+            : "No unusual medicine behavior was detected by the anomaly model.";
+
+
+    document.getElementById(
+        "anomalyDemand"
+    ).textContent =
+        Number(
+            anomaly.current_demand || 0
+        ).toFixed(2);
+
+
+    document.getElementById(
+        "rollingDemand"
+    ).textContent =
+        Number(
+            anomaly.rolling_7_demand || 0
+        ).toFixed(2);
+
+
+    const demandChange =
+        Number(
+            anomaly.demand_change || 0
+        );
+
+
+    document.getElementById(
+        "demandChange"
+    ).textContent =
+        (demandChange >= 0 ? "+" : "") +
+        demandChange.toFixed(2);
+
+
+    document.getElementById(
+        "daysOfStock"
+    ).textContent =
+        Number(
+            anomaly.days_of_stock || 0
+        ).toFixed(2);
+
+
+    document.getElementById(
+        "isolationScore"
+    ).textContent =
+        Number(
+            anomaly.isolation_score || 0
+        ).toFixed(6);
+
+
+    /* ==============================================
+       REDISTRIBUTION
+       ============================================== */
+
+    const shortage =
+        Number(
+            redistribution.shortage || 0
+        );
+
+
+    const totalTransfer =
+        Number(
+            redistribution.total_transfer || 0
+        );
+
+
+    const remainingShortage =
+        Number(
+            redistribution.remaining_shortage || 0
+        );
+
+
+    document.getElementById(
+        "shortage"
+    ).textContent =
+        shortage.toFixed(2) +
+        " units";
+
+
+    document.getElementById(
+        "totalTransfer"
+    ).textContent =
+        totalTransfer.toFixed(2) +
+        " units";
+
+
+    document.getElementById(
+        "remainingShortage"
+    ).textContent =
+        remainingShortage.toFixed(2) +
+        " units";
+
+
+    document.getElementById(
+        "redistributionAction"
+    ).textContent =
+        redistribution.action ||
+        "NO ACTION";
+
+
+    renderTransferPlan(
+        redistribution.transfer_plan || []
+    );
+
+}
+
+
+
+function renderTransferPlan(plan) {
+
+    const container =
+        document.getElementById(
+            "transferPlanContainer"
+        );
+
+
+    if (!plan || plan.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-transfer">
+
+                <strong>
+                    No redistribution available.
+                </strong>
+
+                <p>
+                    No suitable source PHC with safe surplus
+                    was found for this shortage.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        plan.map(
+            (transfer, index) => `
+
+                <div class="transfer-card">
+
+                    <div class="transfer-number">
+                        ${index + 1}
+                    </div>
+
+
+                    <div>
+
+                        <div class="transfer-route">
+
+                            <div class="transfer-location">
+
+                                🏥
+
+                                <strong>
+                                    ${escapeHtml(
+                                        transfer.source_name ||
+                                        transfer.source_phc ||
+                                        "Source PHC"
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="transfer-arrow">
+                                →
+                            </div>
+
+
+                            <div class="transfer-location">
+
+                                🏥
+
+                                <strong>
+                                    ${escapeHtml(
+                                        transfer.destination_name ||
+                                        transfer.destination_phc ||
+                                        "Destination PHC"
+                                    )}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="transfer-details">
+
+                            <div>
+
+                                <span>
+                                    Quantity
+                                </span>
+
+                                <strong>
+                                    ${Number(
+                                        transfer.recommended_quantity ?? 0
+                                    ).toFixed(2)}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Distance
+                                </span>
+
+                                <strong>
+                                    ${Number(
+                                        transfer.distance_km ?? 0
+                                    ).toFixed(2)}
+                                    km
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Optimization Score
+                                </span>
+
+                                <strong>
+                                    ${Number(
+                                        transfer.optimization_score ?? 0
+                                    ).toFixed(2)}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Safe Surplus
+                                </span>
+
+                                <strong>
+                                    ${Number(
+                                        transfer.source_safe_surplus ?? 0
+                                    ).toFixed(2)}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+</script>
+
 {% endblock %}
