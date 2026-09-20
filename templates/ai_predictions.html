@@ -30,8 +30,8 @@
                 All India　⌄
             </button>
 
-            <span class="updated">
-                16 May 2025
+            <span class="updated" id="pageUpdated">
+                --
             </span>
 
             <span class="bell">
@@ -60,78 +60,16 @@
 
 
             <!-- =================================================
-                 EXISTING SUMMARY METRICS
+                 LIVE PAGE INTRO
                  ================================================= -->
 
-            <div class="metric-cards">
-
-                <article>
-
-                    <small>
-                        Medicine Demand ↑
-                    </small>
-
-                    <strong>
-                        24%
-                    </strong>
-
-                    <em>
-                        Next 7 Days
-                    </em>
-
-                </article>
-
-
-                <article>
-
-                    <small>
-                        Bed Demand ↑
-                    </small>
-
-                    <strong>
-                        18%
-                    </strong>
-
-                    <em>
-                        Next 7 Days
-                    </em>
-
-                </article>
-
-
-                <article>
-
-                    <small>
-                        Patient Footfall ↑
-                    </small>
-
-                    <strong>
-                        31%
-                    </strong>
-
-                    <em>
-                        Next 7 Days
-                    </em>
-
-                </article>
-
-
-                <article>
-
-                    <small style="color:#f04950">
-                        ⚠ High Risk PHCs ↑
-                    </small>
-
-                    <strong>
-                        313
-                    </strong>
-
-                    <em>
-                        Across India
-                    </em>
-
-                </article>
-
+            <div class="ai-live-intro">
+                <div class="ai-live-intro-icon">🤖</div>
+                <div>
+                    <strong>Live AI Decision Support</strong>
+                    <p>All metrics below are populated from the selected PHC, Firestore data and the trained AI models.</p>
+                </div>
+                <span class="live-pill"><span></span> Live pipeline</span>
             </div>
 
 
@@ -514,6 +452,27 @@
 
                         </div>
 
+                        <div class="stock-visuals">
+                            <div class="stock-bar-block">
+                                <div class="visual-label-row">
+                                    <span>Inventory position</span>
+                                    <strong id="stockPositionText">--</strong>
+                                </div>
+                                <div class="stock-bar-track">
+                                    <span id="minimumStockMarker" class="stock-min-marker" style="left:0%"></span>
+                                    <div id="stockLevelBar" class="stock-level-bar" style="width:0%"></div>
+                                </div>
+                                <div class="stock-bar-labels"><span>0</span><span id="stockScaleLabel">--</span></div>
+                            </div>
+                            <div class="probability-block">
+                                <div class="visual-label-row">
+                                    <span>7-day stockout probability</span>
+                                    <strong id="probabilityText">--</strong>
+                                </div>
+                                <div class="probability-track"><div id="probabilityBar" class="probability-bar" style="width:0%"></div></div>
+                            </div>
+                        </div>
+
                     </article>
 
 
@@ -561,6 +520,15 @@
 
                         </div>
 
+
+                        <div class="anomaly-score-panel">
+                            <div class="anomaly-score-head">
+                                <span>Isolation Forest score</span>
+                                <strong id="isolationScoreValue">--</strong>
+                            </div>
+                            <div class="anomaly-score-track"><div id="anomalyScoreBar" class="anomaly-score-bar" style="width:0%"></div></div>
+                            <div class="anomaly-score-scale"><span>More unusual</span><span>More typical</span></div>
+                        </div>
 
                         <div class="risk-details">
 
@@ -709,14 +677,16 @@
                     </div>
 
 
+                    <div id="redistributionExplanation" class="redistribution-explanation">
+                        Run AI Analysis to calculate source PHCs and transfer quantities.
+                    </div>
+
                     <div id="transferPlanContainer">
-
                         <div class="empty-transfer">
-
-                            No redistribution recommendation available.
-
+                            <div class="empty-transfer-icon">🔄</div>
+                            <strong>No redistribution recommendation yet</strong>
+                            <p>Run the AI analysis to calculate shortage, safe surplus and optimized transfer routes.</p>
                         </div>
-
                     </div>
 
                 </article>
@@ -726,348 +696,60 @@
 
 
             <!-- =================================================
-                 EXISTING DEMAND PREDICTION + SHORTAGES
+                 LIVE FORECAST + AI INTERPRETATION
                  ================================================= -->
 
-            <div class="operations-grid">
-
-
-                <!-- DEMAND CHART -->
+            <div class="operations-grid live-ai-lower-grid">
 
                 <article class="panel">
-
-                    <h3>
-
-                        Demand Prediction
-
-                        <small>
-                            (Next 7 Days)
-                        </small>
-
-                    </h3>
-
-                    <div class="forecast-chart">
-
+                    <div class="panel-header live-section-header">
+                        <div>
+                            <h3>Demand Prediction <small>(Next 7 Days)</small></h3>
+                            <p>Random Forest forecast generated for the selected PHC and medicine</p>
+                        </div>
+                        <span class="model-chip">RF Regressor</span>
                     </div>
 
-                    <p
-                        style="
-                        font-size:8px;
-                        text-align:center;
-                        color:#52708f
-                        "
-                    >
-
-                        ● Actual Demand
-
-                        <span style="color:#21b970">
-                            ● Predicted Demand
-                        </span>
-
-                    </p>
-
+                    <div class="forecast-chart" id="forecastChart" aria-label="7-day demand forecast chart">
+                        <div class="forecast-chart-empty">Run AI Analysis to load the 7-day forecast.</div>
+                    </div>
                 </article>
 
-
-                <!-- SHORTAGES -->
-
-                <article class="panel staff-table">
-
-                    <h3>
-                        Top Predicted Shortages
-                    </h3>
-
-                    <table>
-
-                        <tr>
-
-                            <th>
-                                Item
-                            </th>
-
-                            <th>
-                                PHCs Affected
-                            </th>
-
-                            <th>
-                                Shortage In
-                            </th>
-
-                            <th>
-                                Risk Level
-                            </th>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Paracetamol
-                            </td>
-
-                            <td>
-                                342
-                            </td>
-
-                            <td>
-                                2 Days
-                            </td>
-
-                            <td>
-
-                                <span class="status warn">
-                                    High
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Amoxicillin
-                            </td>
-
-                            <td>
-                                318
-                            </td>
-
-                            <td>
-                                3 Days
-                            </td>
-
-                            <td>
-
-                                <span class="status warn">
-                                    High
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                ORS
-                            </td>
-
-                            <td>
-                                176
-                            </td>
-
-                            <td>
-                                4 Days
-                            </td>
-
-                            <td>
-
-                                <span class="status warn">
-                                    Medium
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                IV Fluids
-                            </td>
-
-                            <td>
-                                152
-                            </td>
-
-                            <td>
-                                4 Days
-                            </td>
-
-                            <td>
-
-                                <span class="status warn">
-                                    Medium
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Azithromycin
-                            </td>
-
-                            <td>
-                                121
-                            </td>
-
-                            <td>
-                                6 Days
-                            </td>
-
-                            <td>
-
-                                <span class="status good">
-                                    Low
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    </table>
-
-                </article>
-
-
-                <!-- HIGH RISK STATES -->
-
-                <article class="panel risk-bars">
-
-                    <h3>
-
-                        High Risk States
-
-                        <small>
-                            (Next 7 Days)
-                        </small>
-
-                    </h3>
-
-
-                    <p>
-
-                        Maharashtra
-
-                        <i style="width:91%"></i>
-
-                        <b>
-                            91%
-                        </b>
-
-                    </p>
-
-
-                    <p>
-
-                        Karnataka
-
-                        <i style="width:87%"></i>
-
-                        <b>
-                            87%
-                        </b>
-
-                    </p>
-
-
-                    <p>
-
-                        Uttar Pradesh
-
-                        <i style="width:76%"></i>
-
-                        <b>
-                            76%
-                        </b>
-
-                    </p>
-
-
-                    <p>
-
-                        Bihar
-
-                        <i style="width:63%"></i>
-
-                        <b>
-                            63%
-                        </b>
-
-                    </p>
-
-
-                    <p>
-
-                        Rajasthan
-
-                        <i style="width:42%"></i>
-
-                        <b>
-                            42%
-                        </b>
-
-                    </p>
-
-                </article>
-
-
-                <!-- AI INSIGHTS -->
-
-                <article class="panel insight-list">
-
-                    <h3>
-                        AI Insights
-                    </h3>
-
-
-                    <p>
-
-                        <b>
-                            ◉ Medicine demand
-                        </b>
-
-                        for Paracetamol is expected to increase
-                        by 24% in Maharashtra.
-
-                    </p>
-
-
-                    <p>
-
-                        <b>
-                            ◉ Bed occupancy
-                        </b>
-
-                        likely to cross 90% in 45 districts.
-
-                    </p>
-
-
-                    <p>
-
-                        <b>
-                            ◉ Staff shortage
-                        </b>
-
-                        predicted in 12 districts due to high patient
-                        footfall.
-
-                    </p>
-
-
-                    <p>
-
-                        <b>
-                            ◉ Recommend
-                        </b>
-
-                        proactive resource transfer for high-risk PHCs.
-
-                    </p>
-
+                <article class="panel ai-interpretation-panel">
+                    <div class="panel-header live-section-header">
+                        <div>
+                            <h3>AI Interpretation</h3>
+                            <p>Actionable summary generated from the live model outputs</p>
+                        </div>
+                        <span class="model-chip">Decision Engine</span>
+                    </div>
+
+                    <div id="aiInsightList" class="ai-insight-list">
+                        <div class="ai-insight-empty">
+                            <div>🧠</div>
+                            <strong>Awaiting AI analysis</strong>
+                            <p>Run the analysis above to generate a live interpretation of demand, stock risk, anomalies and redistribution.</p>
+                        </div>
+                    </div>
+
+                    <div class="ai-model-trace">
+                        <span>Pipeline</span>
+                        <div>
+                            <b>RF Demand</b><i>→</i><b>RF Stockout</b><i>→</i><b>Isolation Forest</b><i>→</i><b>Optimizer</b>
+                        </div>
+                    </div>
                 </article>
 
             </div>
+
+            <article class="panel ai-data-note">
+                <div>
+                    <strong>Model-driven view</strong>
+                    <p>The values shown here are generated from the current analysis response. Synthetic training data is used where granular historical PHC consumption data is unavailable; it should not be interpreted as real-world clinical validation.</p>
+                </div>
+                <span>AI-assisted · Human approval required</span>
+            </article>
+
 
 
         </div>
@@ -1212,444 +894,316 @@ async function runAIAnalysis() {
 
 
 
-function updateAIResults(data) {
 
-    const forecast =
-        data.forecast || {};
-
-    const stockout =
-        data.stockout || {};
-
-    const anomaly =
-        data.anomaly || {};
-
-    const redistribution =
-        data.redistribution || {};
-
-
-    /* ==============================================
-       FORECAST
-       ============================================== */
-
-    const totalDemand =
-        Number(
-            forecast.total_7_day_demand || 0
-        );
-
-
-    document.getElementById(
-        "forecastDemand"
-    ).textContent =
-        totalDemand.toFixed(2);
-
-
-    /* ==============================================
-       STOCKOUT
-       ============================================== */
-
-    const probability =
-        Number(
-            stockout.probability_percent || 0
-        );
-
-
-    document.getElementById(
-        "stockoutProbability"
-    ).textContent =
-        probability.toFixed(2) + "%";
-
-
-    const currentStock =
-        Number(
-            stockout.current_stock || 0
-        );
-
-
-    document.getElementById(
-        "currentStock"
-    ).textContent =
-        currentStock.toFixed(0);
-
-
-    document.getElementById(
-        "riskCurrentStock"
-    ).textContent =
-        currentStock.toFixed(2);
-
-
-    const minimumStock =
-        Number(
-            stockout.minimum_stock || 0
-        );
-
-
-    document.getElementById(
-        "minimumStock"
-    ).textContent =
-        minimumStock.toFixed(2);
-
-
-    document.getElementById(
-        "riskDemand"
-    ).textContent =
-        totalDemand.toFixed(2);
-
-
-    const remainingStock =
-        Number(
-            stockout.remaining_stock ?? 0
-        );
-
-
-    document.getElementById(
-        "remainingStock"
-    ).textContent =
-        remainingStock.toFixed(2);
-
-
-    /* ==============================================
-       RISK
-       ============================================== */
-
-    const risk =
-        stockout.risk || "UNKNOWN";
-
-
-    const riskBadge =
-        document.getElementById(
-            "riskBadge"
-        );
-
-
-    riskBadge.textContent =
-        risk;
-
-
-    riskBadge.className =
-        "status " +
-        risk.toLowerCase();
-
-
-    /* ==============================================
-       REPLENISHMENT
-       ============================================== */
-
-    const replenishmentRequired =
-        Boolean(
-            stockout.replenishment_required
-        );
-
-
-    document.getElementById(
-        "replenishmentStatus"
-    ).textContent =
-        replenishmentRequired
-            ? "REQUIRED"
-            : "NOT REQUIRED";
-
-
-    document.getElementById(
-        "replenishmentPriority"
-    ).textContent =
-        stockout.replenishment_priority ||
-        "—";
-
-
-    /* ==============================================
-       ANOMALY
-       ============================================== */
-
-    const isAnomaly =
-        Boolean(
-            anomaly.is_anomaly
-        );
-
-
-    document.getElementById(
-        "anomalyStatus"
-    ).textContent =
-        isAnomaly
-            ? "ANOMALY"
-            : "NORMAL";
-
-
-    document.getElementById(
-        "anomalyTitle"
-    ).textContent =
-        isAnomaly
-            ? "Unusual medicine behavior detected"
-            : "Normal medicine behavior";
-
-
-    document.getElementById(
-        "anomalyDescription"
-    ).textContent =
-        isAnomaly
-            ? "The Isolation Forest model detected an unusual demand or inventory pattern."
-            : "No unusual medicine behavior was detected by the anomaly model.";
-
-
-    document.getElementById(
-        "anomalyDemand"
-    ).textContent =
-        Number(
-            anomaly.current_demand || 0
-        ).toFixed(2);
-
-
-    document.getElementById(
-        "rollingDemand"
-    ).textContent =
-        Number(
-            anomaly.rolling_7_demand || 0
-        ).toFixed(2);
-
-
-    const demandChange =
-        Number(
-            anomaly.demand_change || 0
-        );
-
-
-    document.getElementById(
-        "demandChange"
-    ).textContent =
-        (demandChange >= 0 ? "+" : "") +
-        demandChange.toFixed(2);
-
-
-    document.getElementById(
-        "daysOfStock"
-    ).textContent =
-        Number(
-            anomaly.days_of_stock || 0
-        ).toFixed(2);
-
-
-    document.getElementById(
-        "isolationScore"
-    ).textContent =
-        Number(
-            anomaly.isolation_score || 0
-        ).toFixed(6);
-
-
-    /* ==============================================
-       REDISTRIBUTION
-       ============================================== */
-
-    const shortage =
-        Number(
-            redistribution.shortage || 0
-        );
-
-
-    const totalTransfer =
-        Number(
-            redistribution.total_transfer || 0
-        );
-
-
-    const remainingShortage =
-        Number(
-            redistribution.remaining_shortage || 0
-        );
-
-
-    document.getElementById(
-        "shortage"
-    ).textContent =
-        shortage.toFixed(2) +
-        " units";
-
-
-    document.getElementById(
-        "totalTransfer"
-    ).textContent =
-        totalTransfer.toFixed(2) +
-        " units";
-
-
-    document.getElementById(
-        "remainingShortage"
-    ).textContent =
-        remainingShortage.toFixed(2) +
-        " units";
-
-
-    document.getElementById(
-        "redistributionAction"
-    ).textContent =
-        redistribution.action ||
-        "NO ACTION";
-
-
-    renderTransferPlan(
-        redistribution.transfer_plan || []
-    );
-
-}
-
-
-
-function renderTransferPlan(plan) {
+function renderForecastChart(predictions) {
 
     const container =
-        document.getElementById(
-            "transferPlanContainer"
-        );
+        document.getElementById("forecastChart");
 
+    if (!container) return;
 
-    if (!plan || plan.length === 0) {
+    const points = Array.isArray(predictions)
+        ? predictions
+            .map((item) => ({
+                date: item.date || item.forecast_date || item.prediction_date || "",
+                value: Number(item.predicted_demand ?? item.demand ?? 0)
+            }))
+            .filter((item) => Number.isFinite(item.value))
+        : [];
 
+    if (!points.length) {
         container.innerHTML = `
-
-            <div class="empty-transfer">
-
-                <strong>
-                    No redistribution available.
-                </strong>
-
-                <p>
-                    No suitable source PHC with safe surplus
-                    was found for this shortage.
-                </p>
-
+            <div class="forecast-chart-empty">
+                No forecast data returned by the AI model.
             </div>
-
         `;
-
         return;
-
     }
 
+    const width = 900;
+    const height = 270;
+    const pad = { top: 24, right: 24, bottom: 54, left: 54 };
+    const plotWidth = width - pad.left - pad.right;
+    const plotHeight = height - pad.top - pad.bottom;
+    const maxValue = Math.max(...points.map((p) => p.value), 1);
+    const yMax = Math.ceil(maxValue * 1.15 || 1);
 
-    container.innerHTML =
-        plan.map(
-            (transfer, index) => `
+    const x = (i) =>
+        pad.left + (points.length === 1 ? plotWidth / 2 : (i / (points.length - 1)) * plotWidth);
 
-                <div class="transfer-card">
+    const y = (value) =>
+        pad.top + plotHeight - (value / yMax) * plotHeight;
 
-                    <div class="transfer-number">
-                        ${index + 1}
-                    </div>
+    const linePoints = points
+        .map((point, i) => `${x(i).toFixed(1)},${y(point.value).toFixed(1)}`)
+        .join(" ");
 
+    const areaPoints = [
+        `${x(0).toFixed(1)},${(pad.top + plotHeight).toFixed(1)}`,
+        ...points.map((point, i) => `${x(i).toFixed(1)},${y(point.value).toFixed(1)}`),
+        `${x(points.length - 1).toFixed(1)},${(pad.top + plotHeight).toFixed(1)}`
+    ].join(" ");
 
-                    <div>
+    const gridCount = 4;
+    const grid = Array.from({ length: gridCount + 1 }, (_, i) => {
+        const value = yMax - (yMax / gridCount) * i;
+        const yy = y(value);
+        return `
+            <line x1="${pad.left}" y1="${yy}" x2="${width - pad.right}" y2="${yy}" class="forecast-grid-line" />
+            <text x="${pad.left - 10}" y="${yy + 4}" text-anchor="end" class="forecast-axis-label">${Math.round(value)}</text>
+        `;
+    }).join("");
 
-                        <div class="transfer-route">
+    const xLabels = points.map((point, i) => {
+        const date = new Date(point.date);
+        const label = Number.isNaN(date.getTime())
+            ? String(point.date).slice(0, 10)
+            : date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+        return `<text x="${x(i)}" y="${height - 20}" text-anchor="middle" class="forecast-axis-label">${escapeHtml(label)}</text>`;
+    }).join("");
 
-                            <div class="transfer-location">
+    const dots = points.map((point, i) => `
+        <g class="forecast-point" tabindex="0">
+            <circle cx="${x(i)}" cy="${y(point.value)}" r="5"></circle>
+            <circle cx="${x(i)}" cy="${y(point.value)}" r="13" class="forecast-hit-area"></circle>
+            <title>${escapeHtml(String(point.date))}: ${point.value.toFixed(2)} units</title>
+        </g>
+    `).join("");
 
-                                🏥
+    container.innerHTML = `
+        <div class="forecast-chart-header">
+            <span>Predicted demand (units)</span>
+            <strong>${points.length}-day RF forecast</strong>
+        </div>
+        <div class="forecast-svg-wrap">
+            <svg class="forecast-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Predicted demand for the next ${points.length} days">
+                <defs>
+                    <linearGradient id="forecastAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-opacity="0.22"></stop>
+                        <stop offset="100%" stop-opacity="0.02"></stop>
+                    </linearGradient>
+                </defs>
+                ${grid}
+                <polygon points="${areaPoints}" class="forecast-area"></polygon>
+                <polyline points="${linePoints}" class="forecast-line" fill="none"></polyline>
+                ${dots}
+                ${xLabels}
+            </svg>
+            <div class="forecast-tooltip" id="forecastTooltip" role="status"></div>
+        </div>
+    `;
 
-                                <strong>
-                                    ${escapeHtml(
-                                        transfer.source_name ||
-                                        transfer.source_phc ||
-                                        "Source PHC"
-                                    )}
-                                </strong>
+    const tooltip = document.getElementById("forecastTooltip");
+    const svg = container.querySelector(".forecast-svg");
 
-                            </div>
+    const showTooltip = (event, index) => {
+        const point = points[index];
+        if (!point || !tooltip || !svg) return;
 
+        const rect = svg.getBoundingClientRect();
+        const svgX = x(index) / width * rect.width;
+        const svgY = y(point.value) / height * rect.height;
 
-                            <div class="transfer-arrow">
-                                →
-                            </div>
+        tooltip.innerHTML = `
+            <strong>${escapeHtml(formatForecastDate(point.date))}</strong>
+            <span>${point.value.toFixed(2)} units</span>
+        `;
+        tooltip.style.left = `${Math.min(Math.max(svgX, 70), rect.width - 70)}px`;
+        tooltip.style.top = `${Math.max(svgY - 8, 8)}px`;
+        tooltip.classList.add("visible");
+    };
 
+    const hideTooltip = () => {
+        if (tooltip) tooltip.classList.remove("visible");
+    };
 
-                            <div class="transfer-location">
-
-                                🏥
-
-                                <strong>
-                                    ${escapeHtml(
-                                        transfer.destination_name ||
-                                        transfer.destination_phc ||
-                                        "Destination PHC"
-                                    )}
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="transfer-details">
-
-                            <div>
-
-                                <span>
-                                    Quantity
-                                </span>
-
-                                <strong>
-                                    ${Number(
-                                        transfer.recommended_quantity ?? 0
-                                    ).toFixed(2)}
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <span>
-                                    Distance
-                                </span>
-
-                                <strong>
-                                    ${Number(
-                                        transfer.distance_km ?? 0
-                                    ).toFixed(2)}
-                                    km
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <span>
-                                    Optimization Score
-                                </span>
-
-                                <strong>
-                                    ${Number(
-                                        transfer.optimization_score ?? 0
-                                    ).toFixed(2)}
-                                </strong>
-
-                            </div>
-
-
-                            <div>
-
-                                <span>
-                                    Safe Surplus
-                                </span>
-
-                                <strong>
-                                    ${Number(
-                                        transfer.source_safe_surplus ?? 0
-                                    ).toFixed(2)}
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            `
-        )
-        .join("");
-
+    container.querySelectorAll(".forecast-point").forEach((pointEl, index) => {
+        pointEl.addEventListener("mouseenter", (event) => showTooltip(event, index));
+        pointEl.addEventListener("mouseleave", hideTooltip);
+        pointEl.addEventListener("focus", (event) => showTooltip(event, index));
+        pointEl.addEventListener("blur", hideTooltip);
+    });
 }
 
+
+function formatForecastDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleDateString(undefined, {
+        weekday: "short",
+        month: "short",
+        day: "numeric"
+    });
+}
+
+
+function updateAIResults(data) {
+    const forecast = data.forecast || {};
+    const stockout = data.stockout || {};
+    const anomaly = data.anomaly || {};
+    const redistribution = data.redistribution || {};
+
+    const totalDemand = Number(forecast.total_7_day_demand || 0);
+    document.getElementById("forecastDemand").textContent = totalDemand.toFixed(2);
+    renderForecastChart(forecast.predictions || []);
+
+    const probability = Number(stockout.probability_percent || 0);
+    const currentStock = Number(stockout.current_stock || 0);
+    const minimumStock = Number(stockout.minimum_stock || 0);
+    const remainingStock = Number(stockout.remaining_stock ?? 0);
+
+    document.getElementById("stockoutProbability").textContent = probability.toFixed(2) + "%";
+    document.getElementById("currentStock").textContent = currentStock.toFixed(0);
+    document.getElementById("riskCurrentStock").textContent = currentStock.toFixed(2);
+    document.getElementById("minimumStock").textContent = minimumStock.toFixed(2);
+    document.getElementById("riskDemand").textContent = totalDemand.toFixed(2);
+    document.getElementById("remainingStock").textContent = remainingStock.toFixed(2);
+
+    const risk = String(stockout.risk || "UNKNOWN").toUpperCase();
+    const riskBadge = document.getElementById("riskBadge");
+    riskBadge.textContent = risk;
+    riskBadge.className = "status " + risk.toLowerCase();
+
+    const replenishmentRequired = Boolean(stockout.replenishment_required);
+    document.getElementById("replenishmentStatus").textContent = replenishmentRequired ? "REQUIRED" : "NOT REQUIRED";
+    document.getElementById("replenishmentPriority").textContent = stockout.replenishment_priority || "—";
+
+    const probabilityBar = document.getElementById("probabilityBar");
+    const probabilityText = document.getElementById("probabilityText");
+    if (probabilityBar) {
+        probabilityBar.style.width = Math.max(0, Math.min(probability, 100)) + "%";
+        probabilityBar.className = "probability-bar " + risk.toLowerCase();
+    }
+    if (probabilityText) probabilityText.textContent = probability.toFixed(2) + "%";
+
+    const stockScale = Math.max(currentStock, minimumStock, totalDemand, 1);
+    const stockWidth = Math.max(0, Math.min((Math.max(currentStock, 0) / stockScale) * 100, 100));
+    const minMarker = Math.max(0, Math.min((Math.max(minimumStock, 0) / stockScale) * 100, 100));
+    const stockLevelBar = document.getElementById("stockLevelBar");
+    const minimumStockMarker = document.getElementById("minimumStockMarker");
+    if (stockLevelBar) { stockLevelBar.style.width = stockWidth + "%"; stockLevelBar.className = "stock-level-bar " + risk.toLowerCase(); }
+    if (minimumStockMarker) minimumStockMarker.style.left = minMarker + "%";
+    const stockPositionText = document.getElementById("stockPositionText");
+    const stockScaleLabel = document.getElementById("stockScaleLabel");
+    if (stockPositionText) stockPositionText.textContent = `${currentStock.toFixed(0)} current · ${minimumStock.toFixed(0)} minimum`;
+    if (stockScaleLabel) stockScaleLabel.textContent = `${stockScale.toFixed(0)} units`;
+
+    const isAnomaly = Boolean(anomaly.is_anomaly);
+    const isolationScore = Number(anomaly.isolation_score || 0);
+    document.getElementById("anomalyStatus").textContent = isAnomaly ? "ANOMALY" : "NORMAL";
+    document.getElementById("anomalyStatus").className = "status " + (isAnomaly ? "critical" : "low");
+    document.getElementById("anomalyTitle").textContent = isAnomaly ? "Unusual medicine behavior detected" : "Normal medicine behavior";
+    document.getElementById("anomalyDescription").textContent = isAnomaly ? "Isolation Forest flagged this medicine as an unusual demand or inventory pattern." : "Isolation Forest found the current medicine behavior consistent with the learned patterns.";
+    const anomalyBox = document.getElementById("anomalyBox");
+    if (anomalyBox) anomalyBox.className = "anomaly-box " + (isAnomaly ? "is-anomaly" : "is-normal");
+    document.getElementById("anomalyDemand").textContent = Number(anomaly.current_demand || 0).toFixed(2);
+    document.getElementById("rollingDemand").textContent = Number(anomaly.rolling_7_demand || 0).toFixed(2);
+    const demandChange = Number(anomaly.demand_change || 0);
+    const demandChangeEl = document.getElementById("demandChange");
+    demandChangeEl.textContent = (demandChange >= 0 ? "+" : "") + demandChange.toFixed(2);
+    demandChangeEl.className = demandChange > 0 ? "value-up" : demandChange < 0 ? "value-down" : "";
+    document.getElementById("daysOfStock").textContent = Number(anomaly.days_of_stock || 0).toFixed(2);
+    document.getElementById("isolationScore").textContent = isolationScore.toFixed(6);
+    const scoreValue = document.getElementById("isolationScoreValue");
+    if (scoreValue) scoreValue.textContent = isolationScore.toFixed(6);
+    const scoreBar = document.getElementById("anomalyScoreBar");
+    const scoreVisual = Math.max(4, Math.min(96, 50 + isolationScore * 180));
+    if (scoreBar) { scoreBar.style.width = scoreVisual + "%"; scoreBar.className = "anomaly-score-bar " + (isAnomaly ? "anomaly" : "normal"); }
+
+    const shortage = Number(redistribution.shortage || 0);
+    const totalTransfer = Number(redistribution.total_transfer || 0);
+    const remainingShortage = Number(redistribution.remaining_shortage || 0);
+    document.getElementById("shortage").textContent = shortage.toFixed(2) + " units";
+    document.getElementById("totalTransfer").textContent = totalTransfer.toFixed(2) + " units";
+    document.getElementById("remainingShortage").textContent = remainingShortage.toFixed(2) + " units";
+
+    const action = String(redistribution.action || "NO_ACTION_REQUIRED").toUpperCase();
+    const actionEl = document.getElementById("redistributionAction");
+    actionEl.textContent = formatActionLabel(action);
+    actionEl.className = "status " + redistributionStatusClass(action);
+    const explanation = document.getElementById("redistributionExplanation");
+    if (explanation) {
+        if (action === "REDISTRIBUTION_RECOMMENDED") explanation.textContent = "The optimizer found source PHCs with safe surplus and ranked transfer routes using distance and surplus.";
+        else if (action === "PARTIAL_REDISTRIBUTION") explanation.textContent = "A transfer is available, but the identified safe surplus does not fully cover the destination shortage.";
+        else if (action === "NO_SOURCE_AVAILABLE") explanation.textContent = "A shortage exists, but no source PHC with sufficient safe surplus was identified.";
+        else explanation.textContent = "Current forecasted inventory does not require an AI redistribution transfer.";
+    }
+    renderTransferPlan(redistribution.transfer_plan || []);
+    renderAIInsights({ forecast, stockout, anomaly, redistribution });
+    const pageUpdated = document.getElementById("pageUpdated");
+    if (pageUpdated) {
+        pageUpdated.textContent = new Date().toLocaleDateString(undefined, {
+            day: "numeric", month: "short", year: "numeric"
+        });
+    }
+}
+
+function renderAIInsights({ forecast, stockout, anomaly, redistribution }) {
+    const container = document.getElementById("aiInsightList");
+    if (!container) return;
+
+    const totalDemand = Number(forecast.total_7_day_demand || 0);
+    const currentStock = Number(stockout.current_stock || 0);
+    const minimumStock = Number(stockout.minimum_stock || 0);
+    const remaining = Number(stockout.remaining_stock ?? 0);
+    const probability = Number(stockout.probability_percent || 0);
+    const risk = String(stockout.risk || "UNKNOWN").toUpperCase();
+    const required = Boolean(stockout.replenishment_required);
+    const priority = String(stockout.replenishment_priority || "NONE").toUpperCase();
+    const isAnomaly = Boolean(anomaly.is_anomaly);
+    const change = Number(anomaly.demand_change || 0);
+    const action = String(redistribution.action || "NO_ACTION_REQUIRED").toUpperCase();
+    const transfer = Number(redistribution.total_transfer || 0);
+    const shortage = Number(redistribution.shortage || 0);
+
+    const demandDirection = change > 0 ? "increasing" : change < 0 ? "decreasing" : "stable";
+    const demandClass = change > 0 ? "warning" : "positive";
+    const stockClass = risk === "CRITICAL" || risk === "HIGH" ? "warning" : risk === "MEDIUM" ? "neutral" : "positive";
+    const actionClass = action === "NO_ACTION_REQUIRED" ? "positive" : action === "NO_SOURCE_AVAILABLE" ? "warning" : "neutral";
+
+    const insights = [
+        { icon: "📈", cls: demandClass, title: "Demand outlook", text: `${totalDemand.toFixed(2)} units are forecast over the next 7 days. Recent demand is ${demandDirection}.` },
+        { icon: "📦", cls: stockClass, title: "Inventory position", text: `${currentStock.toFixed(0)} units are available versus a ${minimumStock.toFixed(0)}-unit minimum. Forecast remaining stock is ${remaining.toFixed(2)} units.` },
+        { icon: "🚨", cls: probability >= 50 ? "warning" : probability >= 20 ? "neutral" : "positive", title: "Stockout signal", text: `${probability.toFixed(2)}% predicted stockout probability with ${risk.toLowerCase()} risk. ${required ? `Replenishment is required (${priority.toLowerCase()} priority).` : "Replenishment is not currently required."}` },
+        { icon: isAnomaly ? "⚠️" : "🔎", cls: isAnomaly ? "warning" : "positive", title: "Behavior analysis", text: isAnomaly ? "Isolation Forest detected an unusual medicine behavior pattern that should be reviewed." : "Isolation Forest found the current medicine behavior consistent with learned patterns." },
+        { icon: "🔄", cls: actionClass, title: "Resource action", text: action === "NO_ACTION_REQUIRED" ? "No redistribution transfer is currently required." : action === "NO_SOURCE_AVAILABLE" ? `A shortage of ${shortage.toFixed(2)} units was identified, but no usable source surplus was found.` : `${transfer.toFixed(2)} units can be transferred through the optimizer's selected source route(s).` }
+    ];
+
+    container.innerHTML = insights.map(item => `
+        <div class="ai-insight-item ${item.cls}">
+            <div class="ai-insight-icon">${item.icon}</div>
+            <div><strong>${item.title}</strong><p>${escapeHtml(item.text)}</p></div>
+        </div>
+    `).join("");
+}
+
+function formatActionLabel(action) {
+    return String(action || "").replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function redistributionStatusClass(action) {
+    if (action === "REDISTRIBUTION_RECOMMENDED") return "low";
+    if (action === "PARTIAL_REDISTRIBUTION") return "medium";
+    if (action === "NO_SOURCE_AVAILABLE") return "critical";
+    return "low";
+}
+
+function renderTransferPlan(plan) {
+    const container = document.getElementById("transferPlanContainer");
+    if (!container) return;
+    if (!plan || plan.length === 0) {
+        container.innerHTML = `<div class="empty-transfer"><div class="empty-transfer-icon">📦</div><strong>No transfer route available</strong><p>The optimizer did not return a source PHC with usable safe surplus for this analysis.</p></div>`;
+        return;
+    }
+    container.innerHTML = plan.map((transfer, index) => {
+        const quantity = Number(transfer.recommended_quantity ?? 0);
+        const distance = Number(transfer.distance_km ?? 0);
+        const score = Number(transfer.optimization_score ?? 0);
+        const safeSurplus = Number(transfer.source_safe_surplus ?? 0);
+        const coverage = safeSurplus > 0 ? Math.min((quantity / safeSurplus) * 100, 100) : 0;
+        return `<div class="transfer-card"><div class="transfer-number">${index + 1}</div><div><div class="transfer-route"><div class="transfer-location source-location"><span class="route-dot"></span><div><small>SOURCE</small><strong>${escapeHtml(transfer.source_name || transfer.source_phc || "Source PHC")}</strong></div></div><div class="transfer-arrow" aria-hidden="true">→</div><div class="transfer-location destination-location"><span class="route-dot destination"></span><div><small>DESTINATION</small><strong>${escapeHtml(transfer.destination_name || transfer.destination_phc || "Destination PHC")}</strong></div></div></div><div class="transfer-details"><div><span>Transfer quantity</span><strong>${quantity.toFixed(2)} units</strong></div><div><span>Distance</span><strong>${distance.toFixed(2)} km</strong></div><div><span>Optimization score</span><strong>${score.toFixed(2)}</strong></div><div><span>Safe surplus</span><strong>${safeSurplus.toFixed(2)} units</strong></div></div><div class="transfer-coverage"><div class="visual-label-row"><span>Safe surplus used</span><strong>${coverage.toFixed(0)}%</strong></div><div class="transfer-coverage-track"><div style="width:${coverage}%"></div></div></div></div></div>`;
+    }).join("");
+}
 
 
 function escapeHtml(value) {

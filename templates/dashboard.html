@@ -1,500 +1,226 @@
-{% extends 'base.html' %}{% block title %}Dashboard | ArogyaFlow AI{% endblock %}{% block content %}
-<main class="dash">
- <aside class="sidebar">
-  <a class="brand" href="/">
-   <span class="brand-mark">
-    +
-   </span>
-   <span>
-    ArogyaFlow
-    <b>
-     AI
-    </b>
-    <small>
-     Smart Health. Stronger Tomorrow.
-    </small>
-   </span>
-  </a>
-  <nav>
-   <a class="selected" href="#">
-    ⌂
-    <span>
-     Dashboard
-    </span>
-   </a>
-   <a href="#">
-    ⚯
-    <span>
-     PHC Network
-    </span>
-   </a>
-   <a href="#">
-    ⚭
-    <span>
-     Medicine Inventory
-    </span>
-   </a>
-   <a href="#">
-    ▦
-    <span>
-     Beds Overview
-    </span>
-   </a>
-   <a href="#">
-    ♙
-    <span>
-     Medical Staff
-    </span>
-   </a>
-   <a href="#">
-    ✧
-    <span>
-     AI Predictions
-    </span>
-   </a>
-   <a href="#">
-    ⇄
-    <span>
-     Resource Transfer
-    </span>
-   </a>
-   <a href="#">
-    ♪
-    <span>
-     Alerts &amp; Notifications
-    </span>
-    <b>
-     12
-    </b>
-   </a>
-   <a href="#">
-    ▣
-    <span>
-     Reports &amp; Analytics
-    </span>
-   </a>
-   <a href="#">
-    □
-    <span>
-     My PHC
-    </span>
-   </a>
-   <a href="#">
-    ⚙
-    <span>
-     Settings
-    </span>
-   </a>
-  </nav>
-  <div class="health-score">
-   <small>
-    AI Health Resilience Score
-   </small>
-   <div class="score">
-    82
-    <em>
-     /100
-    </em>
-   </div>
-   <strong>
-    Good
-   </strong>
-   <p>
-    Network Health Status
-   </p>
-  </div>
-  <a class="logout" href="/">
-   ➔ Logout
-  </a>
- </aside>
- <section class="dash-content">
-  <header class="dash-head">
-   <div>
-    <h1>
-     National PHC Command Center
-    </h1>
-    <p>
-     All India PHC Network Overview
-    </p>
-   </div>
-   <button class="location">
-    ◉ All India　⌄
-   </button>
-   <span class="updated">
-    Last Updated: 16 May 2025, 10:30 AM
-    <b>
-     ● Live
-    </b>
-   </span>
-   <span class="bell">
-    ♪
-    <i>
-     12
-    </i>
-   </span>
-   <div class="profile">
-    ●
-    <span>
-     PHC Manager
-     <small>
-      Admin
-     </small>
-    </span>
-    ⌄
-   </div>
-  </header>
-  <div class="dash-body">
-   <div class="kpis">
-    <article class="kpi blue">
-     <span>
-      Total PHCs
-     </span>
-     <strong>
-      2,845
-     </strong>
-     <small>
-      Across India
-     </small>
-     <i>
-      ▥
-     </i>
-     <em>
-      ↗ 18 from last month
-     </em>
-    </article>
-    <article class="kpi green">
-     <span>
-      Available Beds
-     </span>
-     <strong>
-      18,426
-     </strong>
-     <small>
-      72% Occupancy
-     </small>
-     <i>
-      ▣
-     </i>
-     <em>
-      ↗ 6% from yesterday
-     </em>
-    </article>
-    <article class="kpi purple">
-     <span>
-      Patients Today
-     </span>
-     <strong>
-      2.84 Lakh
-     </strong>
-     <small>
-      Across Monitored PHCs
-     </small>
-     <i>
-      ♟
-     </i>
-     <em>
-      ↗ 24% from yesterday
-     </em>
-    </article>
-    <article class="kpi orange">
-     <span>
-      Medicine Availability
-     </span>
-     <strong>
-      91.6%
-     </strong>
-     <small>
-      Network Availability
-     </small>
-     <i>
-      ●
-     </i>
-     <em>
-      ↗ 3.4% from yesterday
-     </em>
-    </article>
-    <article class="kpi teal">
-     <span>
-      Staff On Duty
-     </span>
-     <strong>
-      24,350
-     </strong>
-     <small>
-      80% Availability
-     </small>
-     <i>
-      ●
-     </i>
-     <em>
-      ↗ 5.2% from yesterday
-     </em>
-    </article>
-   </div>
-   <div class="dash-grid">
-    <article class="panel live-map">
-     <h3>
-      Live PHC Network - India
-      <small>
-       ● All Predictions
-      </small>
-     </h3>
-     <img alt="India PHC map" src="{{ url_for('static', filename='images/india-network.svg') }}"/>
-     <div class="legend">
-      <p>
-       <b>
-       </b>
-       Normal
-      </p>
-      <p>
-       <b>
-       </b>
-       At Risk
-      </p>
-      <p>
-       <b>
-       </b>
-       Critical
-      </p>
-     </div>
-     <div class="map-tip">
-      <strong>
-       Maharashtra
-      </strong>
-      <small>
-       342 PHCs
-      </small>
-      <em>
-       82 Critical
-      </em>
-      <em>
-       118 At Risk
-      </em>
-      <small>
-       142 Normal
-      </small>
-     </div>
-    </article>
-    <article class="panel chart">
-     <h3>
-      AI Demand Forecast
-      <small>
-       (Next 7 Days)
-      </small>
-     </h3>
-     <div class="chart-lines">
-      <span class="actual">
-      </span>
-      <span class="forecast">
-      </span>
-     </div>
-     <div class="chart-labels">
-      10 May　 11 May　 12 May　 13 May　 14 May　 15 May　 16 May
-     </div>
-     <p>
-      <b>
-      </b>
-      Actual Usage
-      <i>
-      </i>
-      AI Predicted Demand
-     </p>
-    </article>
-    <article class="panel insights">
-     <h3>
-      AI Insights
-     </h3>
-     <div class="danger">
-      ⚠
-      <span>
-       <b>
-        High Medicine Demand
-       </b>
-       <small>
-        Maharashtra, Karnataka may face high medicine demand over next 7 days.
-       </small>
-      </span>
-      ›
-     </div>
-     <div class="warning">
-      ▲
-      <span>
-       <b>
-        Bed Occupancy Alert
-       </b>
-       <small>
-        5 states are expected to have more than 90% bed occupancy in next 3 days.
-       </small>
-      </span>
-      ›
-     </div>
-     <div class="notice">
-      ✦
-      <span>
-       <b>
-        Staff Shortage Predicted
-       </b>
-       <small>
-        Staff shortage predicted in 12 districts due to high patient load.
-       </small>
-      </span>
-      ›
-     </div>
-    </article>
-    <article class="panel table">
-     <h3>
-      Critical PHCs
-      <small>
-       (High Risk)
-      </small>
-      <a>
-       View All
-      </a>
-     </h3>
-     <table>
-      <tr>
-       <th>
-        PHC Name
-       </th>
-       <th>
-        State
-       </th>
-       <th>
-        Risk Score
-       </th>
-       <th>
-        Issue
-       </th>
-       <th>
-        AI Action
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Palghar PHC
-       </td>
-       <td>
-        Maharashtra
-       </td>
-       <td>
-        <b>
-         91%
-        </b>
-       </td>
-       <td>
-        Medicine Shortage
-       </td>
-       <td>
-        Transfer Recommended
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Mysore PHC
-       </td>
-       <td>
-        Karnataka
-       </td>
-       <td>
-        <b>
-         88%
-        </b>
-       </td>
-       <td>
-        Staff Shortage
-       </td>
-       <td>
-        Redistribute Staff
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Nashik PHC
-       </td>
-       <td>
-        Maharashtra
-       </td>
-       <td>
-        <b>
-         68%
-        </b>
-       </td>
-       <td>
-        High Bed Occupancy
-       </td>
-       <td>
-        Monitor
-       </td>
-      </tr>
-     </table>
-    </article>
-    <article class="panel transfers">
-     <h3>
-      AI Resource Transfer Recommendations
-     </h3>
-     <div>
-      <b>
-       From
-       <br/>
-       <strong>
-        Vasai PHC
-       </strong>
-      </b>
-      →
-      <b>
-       To
-       <br/>
-       <strong>
-        Palghar PHC
-       </strong>
-      </b>
-      <button>
-       Approve Transfer
-      </button>
-     </div>
-     <div>
-      <b>
-       From
-       <br/>
-       <strong>
-        Nashik PHC
-       </strong>
-      </b>
-      →
-      <b>
-       To
-       <br/>
-       <strong>
-        Aurangabad PHC
-       </strong>
-      </b>
-      <button>
-       Approve Transfer
-      </button>
-     </div>
-    </article>
-    <article class="panel alerts">
-     <h3>
-      Recent Alerts
-     </h3>
-     <p>
-      ⚠ Paracetamol shortage predicted
-     </p>
-     <p>
-      ▲ Bed occupancy &gt; 90%
-     </p>
-     <p>
-      ! High patient footfall
-     </p>
-     <p>
-      ● Staff unavailable tomorrow
-     </p>
-     <a>
-      See All Alerts →
-     </a>
-    </article>
-   </div>
-  </div>
- </section>
+{% extends 'base.html' %}
+{% block title %}Dashboard | ArogyaFlow AI{% endblock %}
+{% block content %}
+<main class="dash dashboard-live">
+  <aside class="sidebar">
+    <a class="brand" href="/">
+      <span class="brand-mark">+</span>
+      <span>ArogyaFlow <b>AI</b><small>Smart Health. Stronger Tomorrow.</small></span>
+    </a>
+    <nav>
+      <a class="selected" href="/dashboard">⌂<span>Dashboard</span></a>
+      <a href="/phc-network">⚯<span>PHC Network</span></a>
+      <a href="/medicine-inventory">⚭<span>Medicine Inventory</span></a>
+      <a href="/beds-overview">▦<span>Beds Overview</span></a>
+      <a href="/medical-staff">♙<span>Medical Staff</span></a>
+      <a href="/ai-predictions">✧<span>AI Predictions</span></a>
+      <a href="/resource-transfer">⇄<span>Resource Transfer</span></a>
+      <a href="#">♪<span>Alerts &amp; Notifications</span><b id="sidebarAlertCount">0</b></a>
+      <a href="#">▣<span>Reports &amp; Analytics</span></a>
+      <a href="#">□<span>My PHC</span></a>
+      <a href="/settings">⚙<span>Settings</span></a>
+    </nav>
+    <div class="health-score live-health-score">
+      <small>AI Health Resilience Score</small>
+      <div class="score"><span id="healthScore">--</span><em>/100</em></div>
+      <strong id="healthScoreLabel">Calculating</strong>
+      <p>Network Health Status</p>
+    </div>
+    <a class="logout" href="/">➔ Logout</a>
+  </aside>
+
+  <section class="dash-content">
+    <header class="dash-head">
+      <div>
+        <h1>National PHC Command Center</h1>
+        <p>Live overview from ArogyaFlow AI healthcare data</p>
+      </div>
+      <button class="location" type="button">◉ All India</button>
+      <span class="updated" id="dashboardUpdated">Loading live data… <b>● Live</b></span>
+      <span class="bell">♪<i id="headerAlertCount">0</i></span>
+      <div class="profile">●<span>{{ current_manager }}<small>Admin</small></span>⌄</div>
+    </header>
+
+    <div class="dash-body">
+      <div class="kpis dashboard-kpis">
+        <article class="kpi blue"><span>Total PHCs</span><strong id="kpiTotalPhcs">--</strong><small>Monitored network</small><i>▥</i><em id="kpiPhcMeta">Live Firestore data</em></article>
+        <article class="kpi green"><span>Available Beds</span><strong id="kpiAvailableBeds">--</strong><small id="kpiOccupancy">--% Occupancy</small><i>▣</i><em id="kpiBedsMeta">Live PHC inventory</em></article>
+        <article class="kpi purple"><span>Patients (Latest)</span><strong id="kpiPatients">--</strong><small>Latest reported PHC footfall</small><i>♟</i><em id="kpiPatientsMeta">Live demand history</em></article>
+        <article class="kpi orange"><span>Medicine Availability</span><strong id="kpiMedicineAvailability">--%</strong><small>Healthy inventory records</small><i>●</i><em id="kpiMedicineMeta">Live medicine inventory</em></article>
+        <article class="kpi teal"><span>Staff On Duty</span><strong id="kpiStaff">--</strong><small id="kpiStaffMeta">--% availability</small><i>●</i><em>Live PHC staffing data</em></article>
+      </div>
+
+      <div class="dash-grid dashboard-live-grid">
+        <article class="panel live-map">
+          <h3>Live PHC Network - India <small>● Live network</small></h3>
+          <div class="dashboard-map-wrap">
+            <img alt="India PHC map" src="{{ url_for('static', filename='images/india-network.svg') }}"/>
+            <div class="dashboard-map-overlay">
+              <strong id="mapPhcCount">-- PHCs</strong>
+              <span id="mapRiskCount">-- at-risk PHCs</span>
+            </div>
+          </div>
+          <div class="legend"><p><b></b> Normal</p><p><b></b> At Risk</p><p><b></b> Critical</p></div>
+          <div class="map-tip live-map-tip"><strong id="mapTopPhc">Live network status</strong><small id="mapTopPhcMeta">Loading…</small><em id="mapTopRisk">--</em></div>
+        </article>
+
+        <article class="panel chart dashboard-demand-panel">
+          <div class="panel-title-row"><h3>Network Demand Trend <small>(Last 7 Days)</small></h3><span class="live-pill">● LIVE</span></div>
+          <div id="networkDemandChart" class="network-demand-chart"><div class="chart-empty">Loading demand history…</div></div>
+          <p class="chart-note"><b></b> Recorded medicine demand across monitored PHCs</p>
+        </article>
+
+        <article class="panel insights dashboard-insights">
+          <div class="panel-title-row"><h3>Live AI / Data Insights</h3><span class="data-badge">LIVE</span></div>
+          <div id="liveInsights"><div class="chart-empty">Loading insights…</div></div>
+        </article>
+
+        <article class="panel table dashboard-critical-table">
+          <div class="panel-title-row"><h3>Priority PHCs <small>(Live inventory risk)</small></h3><a href="/medicine-inventory">View Inventory →</a></div>
+          <div class="table-scroll"><table><thead><tr><th>PHC Name</th><th>State</th><th>Risk</th><th>Issue</th><th>AI Action</th></tr></thead><tbody id="priorityPhcsBody"><tr><td colspan="5" class="table-loading">Loading live PHC risk…</td></tr></tbody></table></div>
+        </article>
+
+        <article class="panel transfers dashboard-transfers">
+          <div class="panel-title-row"><h3>Resource Transfer Signals</h3><a href="/resource-transfer">Open Transfer →</a></div>
+          <div id="transferSignals"><div class="chart-empty">Loading live transfer signals…</div></div>
+        </article>
+
+        <article class="panel alerts dashboard-alerts">
+          <div class="panel-title-row"><h3>Recent Alerts</h3><a href="#">See All →</a></div>
+          <div id="recentAlerts"><div class="chart-empty">Loading alerts…</div></div>
+        </article>
+      </div>
+
+      <div class="dashboard-source-note"><strong>Data source:</strong> Firestore PHC, medicine inventory, staffing, and demand-history records. Dashboard risk summaries are calculated from current inventory and recent demand; transfer signals use lightweight current-stock surplus screening; the full forecast + distance/safe-surplus optimizer runs on the Resource Transfer page.</div>
+    </div>
+  </section>
 </main>
+
+<script>
+(function () {
+  const esc = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  const fmt = (n, d=0) => Number(n || 0).toLocaleString(undefined, {maximumFractionDigits:d, minimumFractionDigits:d});
+  const riskClass = (r) => String(r || 'low').toLowerCase();
+  const riskLabel = (r) => String(r || 'LOW').toUpperCase();
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  const setHTML = (id, value) => { const el = document.getElementById(id); if (el) el.innerHTML = value; };
+
+  function renderDemandChart(points) {
+    const el = document.getElementById('networkDemandChart');
+    if (!el) return;
+    if (!Array.isArray(points) || points.length === 0) {
+      el.innerHTML = '<div class="chart-empty">No recent demand history available.</div>';
+      return;
+    }
+
+    // Use inline SVG styling so the chart does not depend on a particular CSS
+    // version from the shared stylesheet.
+    const w = 760, h = 250, p = {l: 52, r: 18, t: 18, b: 42};
+    const vals = points.map(x => Number(x.demand) || 0);
+    const max = Math.max(...vals, 1);
+    const chartMax = max * 1.12;
+    const x = i => p.l + (i / Math.max(points.length - 1, 1)) * (w - p.l - p.r);
+    const y = v => h - p.b - (v / chartMax) * (h - p.t - p.b);
+    const line = points.map((q, i) => `${x(i)},${y(Number(q.demand) || 0)}`).join(' ');
+    const area = `${x(0)},${h-p.b} ${line} ${x(points.length-1)},${h-p.b}`;
+
+    const grid = [0, .25, .5, .75, 1].map(t => {
+      const yy = h - p.b - t * (h - p.t - p.b);
+      return `<line x1="${p.l}" y1="${yy}" x2="${w-p.r}" y2="${yy}" stroke="#e8eef5" stroke-width="1"/>
+              <text x="${p.l-8}" y="${yy+4}" text-anchor="end" fill="#7b8da5" font-size="10">${fmt(chartMax*t)}</text>`;
+    }).join('');
+
+    const labels = points.map((q, i) =>
+      `<text x="${x(i)}" y="${h-14}" text-anchor="middle" fill="#7b8da5" font-size="10">${esc(q.label)}</text>`
+    ).join('');
+
+    const dots = points.map((q, i) =>
+      `<circle cx="${x(i)}" cy="${y(Number(q.demand)||0)}" r="4.5" fill="#176de8" stroke="#ffffff" stroke-width="2"><title>${esc(q.date)}: ${fmt(q.demand,1)} units</title></circle>`
+    ).join('');
+
+    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" style="display:block;width:100%;height:250px" role="img" aria-label="Seven day network demand trend">
+      <g>${grid}</g>
+      <polygon points="${area}" fill="rgba(23,109,232,.10)"/>
+      <polyline points="${line}" fill="none" stroke="#176de8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      ${dots}
+      <g>${labels}</g>
+    </svg>`;
+  }
+
+  function renderInsights(d) {
+    const el=document.getElementById('liveInsights');
+    if (!el) return;
+    const items=[];
+    if (d.priority_count > 0) items.push(['danger','⚠','Inventory pressure',`${d.priority_count} PHCs currently have medicine records below their minimum-stock threshold.`]);
+    else items.push(['notice','✓','Inventory position','No medicine records are currently below the configured minimum-stock threshold.']);
+    if (d.top_shortage) items.push(['warning','▲','Top shortage signal',`${d.top_shortage.medicine} has the largest calculated shortfall: ${fmt(d.top_shortage.shortage)} units at ${esc(d.top_shortage.phc)}.`]);
+    if (d.top_occupancy) items.push(['notice','▦','Bed occupancy',`${esc(d.top_occupancy.name)} has the highest reported occupancy at ${fmt(d.top_occupancy.occupancy,1)}%.`]);
+    if (d.staff_availability < 80) items.push(['warning','♙','Staff availability',`Reported staff availability is ${fmt(d.staff_availability,1)}% across monitored PHCs.`]);
+    else items.push(['notice','♙','Staff availability',`Reported staff availability is ${fmt(d.staff_availability,1)}% across monitored PHCs.`]);
+    el.innerHTML=items.slice(0,4).map(x=>`<div class="live-insight ${x[0]}"><span class="live-insight-icon">${x[1]}</span><span><b>${x[2]}</b><small>${x[3]}</small></span></div>`).join('');
+  }
+
+  function renderPriority(rows) {
+    const body=document.getElementById('priorityPhcsBody');
+    if (!body) return;
+    if(!rows.length){body.innerHTML='<tr><td colspan="5" class="table-loading">No priority PHCs found.</td></tr>';return;}
+    body.innerHTML=rows.slice(0,6).map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.state)}</td><td><b class="risk-text ${riskClass(r.risk)}">${riskLabel(r.risk)}</b></td><td>${esc(r.issue)}</td><td>${esc(r.action)}</td></tr>`).join('');
+  }
+
+  function renderTransfers(rows) {
+    const el=document.getElementById('transferSignals');
+    if (!el) return;
+    if(!rows.length){el.innerHTML='<div class="empty-transfer dashboard-empty"><strong>No active transfer signals</strong><small>No current inventory shortage requires a transfer signal from the dashboard calculation.</small></div>';return;}
+    el.innerHTML=rows.slice(0,3).map(r=>`<div class="dashboard-transfer-row"><div><small>${esc(r.medicine)}</small><strong>${esc(r.source)} → ${esc(r.destination)}</strong><em>Source safe surplus: ${fmt(r.source_surplus,1)} units</em></div><b>Transfer ${fmt(r.quantity,1)} units</b></div>`).join('');
+  }
+
+  function renderAlerts(rows) {
+    const el=document.getElementById('recentAlerts');
+    if (!el) return;
+    if(!rows.length){el.innerHTML='<div class="chart-empty">No active alerts.</div>';return;}
+    el.innerHTML=rows.slice(0,5).map(a=>`<p class="live-alert ${riskClass(a.severity)}"><span>●</span><span><b>${esc(a.medicine_name || 'Healthcare alert')}</b><small>${esc(a.message || 'Alert')} · ${esc(a.phc_id || '')}</small></span></p>`).join('');
+  }
+
+  async function loadDashboard() {
+    try {
+      const res=await fetch('/api/dashboard/overview',{cache:'no-store'});
+      const data=await res.json();
+      if(!res.ok || !data.success) throw new Error(data.error || 'Dashboard data unavailable.');
+      const k=data.kpis||{};
+      setText('kpiTotalPhcs',fmt(k.total_phcs));
+      setText('kpiAvailableBeds',fmt(k.available_beds));
+      setText('kpiOccupancy',`${fmt(k.bed_occupancy,1)}% Occupancy`);
+      setText('kpiPatients',k.patients_today_display || fmt(k.patients_today));
+      setText('kpiMedicineAvailability',fmt(k.medicine_availability,1)+'%');
+      setText('kpiStaff',fmt(k.staff_on_duty));
+      setText('kpiStaffMeta',fmt(k.staff_availability,1)+'% availability');
+      setText('kpiPhcMeta',`${fmt(k.normal_phcs)} normal · ${fmt(k.at_risk_phcs)} priority`);
+      setText('kpiBedsMeta',`${fmt(k.total_beds)} total beds`);
+      setText('kpiPatientsMeta',k.latest_demand_date ? `Latest records: ${esc(k.latest_demand_date)}` : 'Live demand history');
+      setText('kpiMedicineMeta',`${fmt(k.healthy_medicine_records)} healthy records`);
+      setText('sidebarAlertCount',fmt(k.active_alerts));
+      setText('headerAlertCount',fmt(k.active_alerts));
+      setText('mapPhcCount',`${fmt(k.total_phcs)} PHCs`);
+      setText('mapRiskCount',`${fmt(k.at_risk_phcs)} priority PHCs`);
+      setText('mapTopPhc',k.top_occupancy ? k.top_occupancy.name : 'Live network status');
+      setText('mapTopPhcMeta',k.top_occupancy ? `${fmt(k.top_occupancy.occupancy,1)}% reported bed occupancy` : 'Live Firestore data');
+      setText('mapTopRisk',`${fmt(k.critical_phcs)} critical inventory PHCs`);
+      setText('healthScore',fmt(k.health_score));
+      setText('healthScoreLabel',k.health_score_label || 'Live');
+      setHTML('dashboardUpdated',`Last Updated: ${esc(data.generated_at_display)} <b>● Live</b>`);
+      renderDemandChart(data.demand_trend||[]);
+      renderInsights(data);
+      renderPriority(data.priority_phcs||[]);
+      renderTransfers(data.transfer_signals||[]);
+      renderAlerts(data.alerts||[]);
+    } catch(err) {
+      console.error(err);
+      setHTML('dashboardUpdated','Live data unavailable <b>● Offline</b>');
+      setHTML('liveInsights',`<div class="dashboard-error">⚠ ${esc(err.message)}</div>`);
+    }
+  }
+  loadDashboard();
+  setInterval(loadDashboard, 60000);
+})();
+</script>
 {% endblock %}

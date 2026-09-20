@@ -753,3 +753,962 @@
         flex-direction: column;
     }
 }
+
+/* =========================================================
+   LIVE 7-DAY AI FORECAST CHART
+   ========================================================= */
+
+.forecast-chart {
+    min-height: 270px;
+    height: auto;
+    margin-top: 12px;
+    padding: 14px 14px 8px;
+    background: #fbfdff;
+    border: 1px solid #e5edf6;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.forecast-chart::before,
+.forecast-chart::after {
+    content: none !important;
+}
+
+.forecast-chart-empty {
+    min-height: 225px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: #71839b;
+    font-size: 11px;
+}
+
+.forecast-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 2px 4px 8px;
+    color: #627895;
+    font-size: 10px;
+}
+
+.forecast-chart-header strong {
+    color: #176de8;
+    font-size: 10px;
+}
+
+.forecast-svg-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.forecast-svg {
+    display: block;
+    width: 100%;
+    min-width: 520px;
+    height: 250px;
+}
+
+.forecast-grid-line {
+    stroke: #e8eef5;
+    stroke-width: 1;
+}
+
+.forecast-axis-label {
+    fill: #7b8da5;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.forecast-area {
+    fill: url(#forecastAreaGradient);
+    stroke: none;
+}
+
+.forecast-line {
+    stroke: #176de8;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.forecast-point circle:first-child {
+    fill: #176de8;
+    stroke: #ffffff;
+    stroke-width: 2;
+    transition: r .15s ease;
+}
+
+.forecast-point:hover circle:first-child,
+.forecast-point:focus circle:first-child {
+    r: 7;
+}
+
+.forecast-hit-area {
+    fill: transparent;
+    stroke: none;
+}
+
+.forecast-point {
+    cursor: pointer;
+    outline: none;
+}
+
+.forecast-tooltip {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+    opacity: 0;
+    min-width: 100px;
+    padding: 8px 10px;
+    border: 1px solid #dce7f3;
+    border-radius: 7px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(24, 61, 105, .14);
+    transition: opacity .12s ease;
+    z-index: 3;
+}
+
+.forecast-tooltip.visible {
+    opacity: 1;
+}
+
+.forecast-tooltip strong,
+.forecast-tooltip span {
+    display: block;
+}
+
+.forecast-tooltip strong {
+    color: #1f3555;
+    font-size: 9px;
+    margin-bottom: 3px;
+}
+
+.forecast-tooltip span {
+    color: #176de8;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+    .forecast-chart {
+        padding: 12px 8px 6px;
+    }
+
+    .forecast-chart-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .forecast-svg {
+        min-width: 0;
+        height: 225px;
+    }
+
+    .forecast-axis-label {
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================================
+   C4 - LIVE STOCKOUT, ANOMALY & REDISTRIBUTION UI
+   ========================================================= */
+.stock-visuals{display:grid;gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid #eef2f7}.visual-label-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:7px;font-size:11px;color:#64748b}.visual-label-row strong{color:#1e293b;font-size:11px}.stock-bar-track,.probability-track,.transfer-coverage-track,.anomaly-score-track{height:9px;border-radius:999px;background:#edf2f7;position:relative;overflow:visible}.stock-level-bar{height:100%;border-radius:999px;background:#10b981;transition:width .45s ease}.stock-level-bar.medium{background:#f59e0b}.stock-level-bar.high{background:#f97316}.stock-level-bar.critical{background:#ef4444}.stock-min-marker{position:absolute;top:-4px;width:2px;height:17px;background:#334155;z-index:2;transition:left .45s ease}.stock-min-marker:after{content:'MIN';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:700;color:#64748b}.stock-bar-labels{display:flex;justify-content:space-between;margin-top:6px;color:#94a3b8;font-size:9px}.probability-track{overflow:hidden}.probability-bar{height:100%;border-radius:999px;background:#10b981;transition:width .45s ease}.probability-bar.medium{background:#f59e0b}.probability-bar.high{background:#f97316}.probability-bar.critical{background:#ef4444}.probability-bar.unknown{background:#94a3b8}.anomaly-box.is-anomaly{background:#fff7f7;border-color:#fecaca}.anomaly-box.is-normal{background:#f0fdf4;border-color:#bbf7d0}.anomaly-box.is-anomaly .anomaly-icon{background:#fee2e2}.anomaly-box.is-normal .anomaly-icon{background:#dcfce7}.anomaly-score-panel{margin-top:14px;padding:13px;border:1px solid #e5e7eb;border-radius:10px;background:#fbfdff}.anomaly-score-head,.anomaly-score-scale{display:flex;justify-content:space-between;align-items:center;gap:10px}.anomaly-score-head{font-size:11px;color:#64748b;margin-bottom:9px}.anomaly-score-head strong{color:#1e293b}.anomaly-score-track{overflow:hidden}.anomaly-score-bar{height:100%;border-radius:999px;background:#10b981;transition:width .45s ease}.anomaly-score-bar.anomaly{background:#ef4444}.anomaly-score-scale{margin-top:6px;color:#94a3b8;font-size:8px}.value-up{color:#dc2626!important}.value-down{color:#059669!important}.redistribution-explanation{margin-bottom:14px;padding:11px 13px;border-radius:8px;background:#f8fafc;border:1px solid #e5e7eb;color:#64748b;font-size:11px;line-height:1.5}.empty-transfer-icon{font-size:24px;margin-bottom:7px}.transfer-location{align-items:flex-start}.transfer-location>div{display:flex;flex-direction:column;gap:2px}.transfer-location small{font-size:8px;color:#94a3b8;font-weight:700;letter-spacing:.5px}.route-dot{width:9px;height:9px;margin-top:4px;border-radius:50%;background:#2563eb;box-shadow:0 0 0 4px #dbeafe}.route-dot.destination{background:#10b981;box-shadow:0 0 0 4px #d1fae5}.transfer-coverage{margin-top:12px;padding-top:11px;border-top:1px solid #f1f5f9}.transfer-coverage-track{height:6px;overflow:hidden}.transfer-coverage-track>div{height:100%;border-radius:999px;background:#2563eb;transition:width .45s ease}@media(max-width:700px){.stock-visuals{gap:12px}.anomaly-score-panel{padding:11px}.redistribution-explanation{font-size:10px}}
+
+
+/* =========================================================
+   C5 — LIVE AI PAGE POLISH
+   ========================================================= */
+
+.ai-live-intro {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    border: 1px solid #dce8f5;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f8fbff, #ffffff);
+}
+
+.ai-live-intro-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #edf4ff;
+    font-size: 22px;
+    flex: 0 0 auto;
+}
+
+.ai-live-intro strong {
+    display: block;
+    color: #18365e;
+    font-size: 15px;
+}
+
+.ai-live-intro p {
+    margin: 4px 0 0;
+    color: #6f8097;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.live-pill,
+.model-chip {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.live-pill {
+    color: #087b59;
+    background: #eafaf3;
+}
+
+.live-pill span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #16b879;
+    box-shadow: 0 0 0 4px rgba(22, 184, 121, 0.10);
+}
+
+.model-chip {
+    color: #2868d8;
+    background: #edf4ff;
+}
+
+.live-section-header {
+    align-items: flex-start;
+}
+
+.live-section-header h3 small {
+    font-size: 12px;
+    color: #7b8ba0;
+    font-weight: 600;
+}
+
+.live-section-header p {
+    margin-top: 5px;
+}
+
+.live-ai-lower-grid {
+    align-items: stretch;
+}
+
+.ai-interpretation-panel {
+    min-width: 0;
+}
+
+.ai-insight-list {
+    display: grid;
+    gap: 9px;
+    margin-top: 8px;
+}
+
+.ai-insight-item {
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    padding: 11px 12px;
+    border: 1px solid #e2eaf3;
+    border-left: 3px solid #aab9cb;
+    border-radius: 10px;
+    background: #fbfdff;
+}
+
+.ai-insight-item.positive { border-left-color: #18b77a; }
+.ai-insight-item.neutral { border-left-color: #e8a10b; }
+.ai-insight-item.warning { border-left-color: #e45757; }
+
+.ai-insight-icon {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: #eef4fb;
+    flex: 0 0 auto;
+    font-size: 15px;
+}
+
+.ai-insight-item strong {
+    display: block;
+    color: #203a60;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.ai-insight-item p {
+    margin: 0;
+    color: #6d7e94;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.ai-insight-empty {
+    min-height: 260px;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    text-align: center;
+    padding: 24px;
+    border: 1px dashed #cbd9e8;
+    border-radius: 12px;
+    background: #fbfdff;
+    color: #6f8097;
+}
+
+.ai-insight-empty > div {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.ai-insight-empty strong {
+    color: #274263;
+    font-size: 13px;
+}
+
+.ai-insight-empty p {
+    max-width: 360px;
+    margin: 6px auto 0;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.ai-model-trace {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #e8eef5;
+}
+
+.ai-model-trace > span {
+    display: block;
+    margin-bottom: 7px;
+    color: #8190a3;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.ai-model-trace > div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ai-model-trace b {
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f0f5fb;
+    color: #4b6480;
+    font-size: 9px;
+}
+
+.ai-model-trace i {
+    color: #8ea1b7;
+    font-style: normal;
+    font-size: 11px;
+}
+
+.ai-data-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 18px;
+    padding: 14px 17px;
+    background: #f8fbff;
+}
+
+.ai-data-note strong {
+    color: #294668;
+    font-size: 11px;
+}
+
+.ai-data-note p {
+    margin: 3px 0 0;
+    max-width: 900px;
+    color: #718299;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.ai-data-note > span {
+    flex: 0 0 auto;
+    color: #59708d;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+    .ai-live-intro,
+    .ai-data-note {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .live-pill,
+    .model-chip {
+        margin-left: 0;
+    }
+
+    .ai-insight-empty {
+        min-height: 180px;
+    }
+}
+
+
+/* =========================================================
+   DASHBOARD C6 - LIVE FIRESTORE OVERVIEW
+   ========================================================= */
+.dashboard-live .dash-content{min-width:0}
+.dashboard-live .dashboard-kpis{margin-bottom:18px}
+.dashboard-live .dashboard-kpis .kpi{position:relative;overflow:hidden}
+.dashboard-live .dashboard-kpis .kpi em{font-size:9px;font-style:normal;color:#68809c}
+.dashboard-live-grid{grid-template-columns:1.35fr 1fr 1fr;gap:12px}
+.dashboard-live-grid .panel{min-width:0}
+.dashboard-live-grid .live-map{grid-row:span 2}
+.dashboard-map-wrap{position:relative;min-height:300px;display:flex;align-items:center;justify-content:center;margin:8px 0 4px;border-radius:8px;background:linear-gradient(180deg,#f8fbff,#eef6ff);overflow:hidden}
+.dashboard-map-wrap img{width:100%;max-height:330px;object-fit:contain;opacity:.95}
+.dashboard-map-overlay{position:absolute;left:14px;top:14px;display:flex;flex-direction:column;padding:9px 12px;border:1px solid #dce8f8;border-radius:8px;background:rgba(255,255,255,.94);box-shadow:0 5px 16px rgba(28,72,120,.08)}
+.dashboard-map-overlay strong{font-size:17px;color:#18365f}.dashboard-map-overlay span{margin-top:3px;font-size:9px;color:#6a7f99}
+.live-map-tip{position:relative!important;left:auto!important;bottom:auto!important;margin-top:4px}
+.panel-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.panel-title-row h3{margin:0}.panel-title-row a{font-size:9px;color:#1971ed;font-weight:700;text-decoration:none;white-space:nowrap}
+.live-pill,.data-badge{padding:5px 8px;border-radius:999px;background:#ecfdf5;color:#078354;font-size:8px;font-weight:800;letter-spacing:.4px}
+.dashboard-demand-panel{min-height:300px}.network-demand-chart{height:230px;margin-top:10px;position:relative}.network-demand-chart svg{width:100%;height:100%;display:block}.network-chart-grid line{stroke:#e4edf7;stroke-width:1}.network-chart-grid text,.network-chart-labels text{fill:#70839a;font-size:9px;font-family:inherit}.network-chart-area{fill:rgba(37,99,235,.10)}.network-chart-line{fill:none;stroke:#2563eb;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.network-demand-chart circle{fill:#2563eb;stroke:#fff;stroke-width:2}.chart-note{margin:0;font-size:8px;color:#6c8099;text-align:center}.chart-note b{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2563eb;margin-right:4px}
+.chart-empty,.table-loading{display:grid;place-items:center;height:100%;min-height:90px;color:#71839a;font-size:10px;text-align:center}.dashboard-insights{min-height:300px}.live-insight{display:flex;gap:9px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #edf2f7}.live-insight:last-child{border-bottom:0}.live-insight-icon{width:23px;height:23px;display:grid;place-items:center;border-radius:6px;background:#eef5ff;color:#2563eb;font-size:12px;flex:none}.live-insight.danger .live-insight-icon{background:#fff0f1;color:#e63e4b}.live-insight.warning .live-insight-icon{background:#fff8e8;color:#df9209}.live-insight b,.live-insight small{display:block}.live-insight b{font-size:10px;color:#203a61;margin-bottom:3px}.live-insight small{font-size:9px;line-height:1.45;color:#71839a}
+.dashboard-critical-table{grid-column:span 2}.table-scroll{overflow-x:auto}.dashboard-critical-table table{width:100%;border-collapse:collapse;margin-top:10px;font-size:9px}.dashboard-critical-table th,.dashboard-critical-table td{padding:9px 5px;text-align:left;border-bottom:1px solid #edf2f7;white-space:nowrap}.dashboard-critical-table th{color:#7a8ca3;font-weight:600}.risk-text{padding:4px 7px;border-radius:999px;font-size:8px}.risk-text.critical{background:#fef2f2;color:#dc2626}.risk-text.high{background:#fff7ed;color:#c2410c}.risk-text.medium{background:#fffbeb;color:#b45309}.risk-text.low{background:#ecfdf5;color:#047857}
+.dashboard-transfers,.dashboard-alerts{min-height:220px}.dashboard-transfer-row{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #edf2f7}.dashboard-transfer-row:last-child{border-bottom:0}.transfer-status-dot{width:8px;height:8px;border-radius:50%;background:#2563eb;flex:none}.dashboard-transfer-row div{flex:1;min-width:0}.dashboard-transfer-row small,.dashboard-transfer-row strong{display:block}.dashboard-transfer-row small{font-size:8px;color:#71839a;margin-bottom:3px}.dashboard-transfer-row strong{font-size:9px;color:#1f365b;overflow:hidden;text-overflow:ellipsis}.dashboard-transfer-row>b{font-size:9px;color:#087e52;white-space:nowrap}.dashboard-empty{min-height:130px}
+.live-alert{display:flex;gap:8px;align-items:flex-start;margin:0;padding:10px 0;border-bottom:1px solid #edf2f7}.live-alert:last-child{border-bottom:0}.live-alert>span:first-child{font-size:9px;color:#f2a311;margin-top:2px}.live-alert.critical>span:first-child,.live-alert.high>span:first-child{color:#e43c49}.live-alert b,.live-alert small{display:block}.live-alert b{font-size:9px;color:#203a61}.live-alert small{margin-top:3px;font-size:8px;color:#71839a;line-height:1.35}.dashboard-source-note{margin-top:12px;padding:9px 11px;border:1px solid #e3ecf5;border-radius:7px;background:#f8fbff;color:#6d819a;font-size:8px;line-height:1.5}.dashboard-source-note strong{color:#385674}.dashboard-error{padding:15px;border-radius:7px;background:#fff4f4;color:#c4313e;font-size:10px}
+@media(max-width:1100px){.dashboard-live-grid{grid-template-columns:1fr 1fr}.dashboard-live-grid .live-map{grid-column:1/-1;grid-row:auto}.dashboard-critical-table{grid-column:1/-1}}
+@media(max-width:700px){.dashboard-live-grid{grid-template-columns:1fr}.dashboard-critical-table{grid-column:auto}.dashboard-map-wrap{min-height:250px}.dashboard-kpis{grid-template-columns:repeat(2,1fr)!important}.panel-title-row{align-items:flex-start;flex-direction:column}.dashboard-demand-panel,.dashboard-insights{min-height:260px}}
+@media(max-width:450px){.dashboard-kpis{grid-template-columns:1fr!important}.dashboard-map-wrap{min-height:210px}.dashboard-map-overlay{left:8px;top:8px}}
+
+/* =========================================================
+   C8 — DASHBOARD OPERATIONS POLISH
+   ========================================================= */
+
+.dashboard-insights #liveInsights {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.dashboard-insights .live-insight {
+    min-width: 0;
+    min-height: 86px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    padding: 10px;
+    border: 1px solid rgba(30, 75, 120, 0.06);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dashboard-insights .live-insight-icon {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: rgba(255,255,255,.75);
+    font-size: 10px;
+}
+
+.dashboard-insights .live-insight > span:last-child {
+    min-width: 0;
+}
+
+.dashboard-insights .live-insight b {
+    display: block;
+    font-size: 9px;
+    line-height: 1.25;
+}
+
+.dashboard-insights .live-insight small {
+    display: block;
+    margin-top: 5px;
+    font-size: 8px;
+    line-height: 1.45;
+    color: #5d7089;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-transfers #transferSignals {
+    margin-top: 5px;
+}
+
+.dashboard-transfer-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center !important;
+    gap: 8px;
+    padding: 9px 3px !important;
+}
+
+.dashboard-transfer-row > div {
+    min-width: 0;
+}
+
+.dashboard-transfer-row small,
+.dashboard-transfer-row strong,
+.dashboard-transfer-row em {
+    display: block;
+}
+
+.dashboard-transfer-row small {
+    color: #7b8ca2;
+    font-size: 7px;
+    margin-bottom: 3px;
+}
+
+.dashboard-transfer-row strong {
+    color: #18365e;
+    font-size: 9px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-transfer-row em {
+    margin-top: 3px;
+    color: #72839a;
+    font-size: 7px;
+    font-style: normal;
+}
+
+.dashboard-transfer-row > b {
+    color: #176de8;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.transfer-status-dot {
+    display: none !important;
+}
+
+.dashboard-empty {
+    padding: 20px 8px;
+    border: 1px dashed #dce6f2;
+    border-radius: 7px;
+}
+
+.dashboard-empty strong,
+.dashboard-empty small {
+    display: block;
+}
+
+.dashboard-empty strong {
+    color: #294464;
+    font-size: 9px;
+}
+
+.dashboard-empty small {
+    margin-top: 4px;
+    color: #7b8ca2;
+    font-size: 7px;
+    line-height: 1.45;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-insights #liveInsights {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-insights #liveInsights {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .dashboard-insights #liveInsights {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================
+   DASHBOARD - RESOURCE TRANSFER SIGNALS
+   Fix squeezed transfer cards
+   ============================================================ */
+
+/* The transfer container must NOT be a horizontal flex row */
+.dashboard-transfers > #transferSignals {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    margin-top: 8px;
+}
+
+/* Each transfer signal is its own horizontal row */
+.dashboard-transfers .dashboard-transfer-row {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+
+    padding: 13px 6px;
+    border-bottom: 1px solid #eaf0f6;
+
+    font-size: 10px;
+    box-sizing: border-box;
+}
+
+/* Remove border from last transfer */
+.dashboard-transfers .dashboard-transfer-row:last-child {
+    border-bottom: none;
+}
+
+/* Left side of transfer */
+.dashboard-transfers .dashboard-transfer-row > div {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Medicine name */
+.dashboard-transfers .dashboard-transfer-row small {
+    display: block;
+    color: #7b8da5;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* Source → Destination */
+.dashboard-transfers .dashboard-transfer-row strong {
+    display: block;
+    color: #17365e;
+    font-size: 11px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    /* prevents ugly word-by-word wrapping */
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Safe surplus information */
+.dashboard-transfers .dashboard-transfer-row em {
+    display: block;
+    color: #7b8da5;
+    font-size: 8px;
+    font-style: normal;
+}
+
+/* Transfer quantity on the right */
+.dashboard-transfers .dashboard-transfer-row > b {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 105px;
+    padding: 8px 10px;
+
+    border-radius: 6px;
+
+    background: #eaf3ff;
+    color: #176de8;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+/* Hover effect */
+.dashboard-transfers .dashboard-transfer-row:hover {
+    background: #f8fbff;
+}
+
+/* Empty state */
+.dashboard-transfers .dashboard-empty {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 120px;
+    padding: 20px;
+
+    border-bottom: none !important;
+    text-align: center;
+}
+
+.dashboard-transfers .dashboard-empty strong {
+    color: #294363;
+    font-size: 11px;
+}
+
+.dashboard-transfers .dashboard-empty small {
+    margin-top: 5px;
+    color: #7b8da5;
+    font-size: 9px;
+}
+
+/* ============================================================
+   MAKE THE TRANSFER PANEL TALLER
+   ============================================================ */
+
+.dashboard-transfers {
+    min-height: 210px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .dashboard-transfers .dashboard-transfer-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+    }
+
+    .dashboard-transfers .dashboard-transfer-row > b {
+        min-width: 90px;
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .dashboard-transfers .dashboard-transfer-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dashboard-transfers .dashboard-transfer-row > b {
+        width: fit-content;
+    }
+}
+
+/* =========================================================
+   DASHBOARD FINAL GRID LAYOUT
+   ========================================================= */
+
+@media (min-width: 1101px) {
+
+    .dashboard-live-grid {
+        display: grid;
+
+        /* Three equal dashboard columns */
+        grid-template-columns: 1.35fr 1fr 1fr;
+
+        /* Explicit rows */
+        grid-template-rows: auto auto auto;
+
+        /* Exact layout */
+        grid-template-areas:
+            "map chart insights"
+            "priority priority priority"
+            "transfers transfers alerts";
+
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    /* -----------------------------------------------------
+       TOP ROW
+       ----------------------------------------------------- */
+
+    .dashboard-live-grid .live-map {
+        grid-area: map;
+        grid-row: auto;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-demand-panel {
+        grid-area: chart;
+        grid-row: auto;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-insights {
+        grid-area: insights;
+        grid-row: auto;
+        grid-column: auto;
+    }
+
+    /* -----------------------------------------------------
+       SECOND ROW - PRIORITY PHCs
+       ----------------------------------------------------- */
+
+    .dashboard-live-grid .dashboard-critical-table {
+        grid-area: priority;
+        grid-column: auto;
+        grid-row: auto;
+        width: 100%;
+    }
+
+    /* -----------------------------------------------------
+       THIRD ROW - TRANSFER + ALERTS
+       ----------------------------------------------------- */
+
+    .dashboard-live-grid .dashboard-transfers {
+        grid-area: transfers;
+        grid-column: auto;
+        grid-row: auto;
+        width: 100%;
+    }
+
+    .dashboard-live-grid .dashboard-alerts {
+        grid-area: alerts;
+        grid-column: auto;
+        grid-row: auto;
+        width: 100%;
+    }
+
+    /* Keep all cards from forcing the grid wider */
+    .dashboard-live-grid > .panel {
+        min-width: 0;
+        width: 100%;
+    }
+
+    /* Priority table gets comfortable height */
+    .dashboard-critical-table {
+        min-height: 155px;
+    }
+
+    /* Transfer and alert cards */
+    .dashboard-transfers,
+    .dashboard-alerts {
+        min-height: 220px;
+    }
+}
+
+
+/* =========================================================
+   DASHBOARD - MEDIUM SCREEN
+   ========================================================= */
+
+@media (min-width: 701px) and (max-width: 1100px) {
+
+    .dashboard-live-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        grid-template-areas:
+            "map map"
+            "chart insights"
+            "priority priority"
+            "transfers alerts";
+
+        gap: 12px;
+    }
+
+    .dashboard-live-grid .live-map {
+        grid-area: map;
+        grid-row: auto;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-demand-panel {
+        grid-area: chart;
+    }
+
+    .dashboard-live-grid .dashboard-insights {
+        grid-area: insights;
+    }
+
+    .dashboard-live-grid .dashboard-critical-table {
+        grid-area: priority;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-transfers {
+        grid-area: transfers;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-alerts {
+        grid-area: alerts;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid > .panel {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   DASHBOARD - MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .dashboard-live-grid {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        grid-template-areas:
+            "map"
+            "chart"
+            "insights"
+            "priority"
+            "transfers"
+            "alerts";
+
+        gap: 12px;
+    }
+
+    .dashboard-live-grid .live-map {
+        grid-area: map;
+        grid-row: auto;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-demand-panel {
+        grid-area: chart;
+    }
+
+    .dashboard-live-grid .dashboard-insights {
+        grid-area: insights;
+    }
+
+    .dashboard-live-grid .dashboard-critical-table {
+        grid-area: priority;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-transfers {
+        grid-area: transfers;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid .dashboard-alerts {
+        grid-area: alerts;
+        grid-column: auto;
+    }
+
+    .dashboard-live-grid > .panel {
+        width: 100%;
+        min-width: 0;
+    }
+}

@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from datetime import datetime, date
+import time
 
-
+from firebase_config import db
 from ai.forecasting import forecast_demand
 from ai.stockout_prediction import analyze_stockout
 from ai.anomaly_detection import analyze_anomaly
@@ -10,6 +11,12 @@ from ai.redistribution import find_source_phcs, save_recommendation
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "arogyaflow-demo-key"
+
+# Dashboard cache prevents repeated Firestore reads while the page is open.
+DASHBOARD_CACHE_TTL = 300
+AI_ANALYSIS_CACHE_TTL = 600
+_dashboard_cache = {"timestamp": 0.0, "payload": None}
+_ai_analysis_cache = {}
 
 
 # ============================================================
@@ -133,6 +140,197 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+
+# ============================================================
+# LIVE DASHBOARD OVERVIEW API
+# ============================================================
+
+@app.route("/api/dashboard/overview", methods=["GET"])
+def dashboard_overview():
+    """Return dashboard data without scanning demand_history."""
+    try:
+        now = time.time()
+        if (_dashboard_cache["payload"] is not None and
+                now - _dashboard_cache["timestamp"] < DASHBOARD_CACHE_TTL):
+            return jsonify(_dashboard_cache["payload"])
+
+        # Cheap reads only: PHCs + medicines + one summary + alerts + saved transfers.
+        phc_docs = list(db.collection("phcs").stream())
+        medicine_docs = list(db.collection("medicines").stream())
+        summary = (
+            db.collection("dashboard_summary")
+            .document("network")
+            .get()
+            .to_dict()
+            or {}
+        )
+        alert_docs = list(db.collection("alerts").stream())
+
+        phcs = []
+        phc_by_id = {}
+        for doc in phc_docs:
+            item = doc.to_dict() or {}
+            item["id"] = doc.id
+            phcs.append(item)
+            phc_by_id[doc.id] = item
+
+        medicines = []
+        for doc in medicine_docs:
+            item = doc.to_dict() or {}
+            item["id"] = doc.id
+            medicines.append(item)
+
+        def num(value, default=0.0):
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return float(default)
+
+        def date_key(value):
+            if hasattr(value, "date") and not isinstance(value, str):
+                try:
+                    return value.date().isoformat()
+                except Exception:
+                    pass
+            return str(value or "")[:10]
+
+        total_phcs = len(phcs)
+        total_beds = sum(num(p.get("total_beds")) for p in phcs)
+        occupied_beds = sum(num(p.get("occupied_beds")) for p in phcs)
+        available_beds = sum(num(p.get("available_beds")) for p in phcs)
+        bed_occupancy = occupied_beds / total_beds * 100 if total_beds else 0
+
+        total_staff = sum(num(p.get("total_staff")) for p in phcs)
+        staff_on_duty = sum(num(p.get("present_staff")) for p in phcs)
+        staff_availability = staff_on_duty / total_staff * 100 if total_staff else 0
+
+        healthy_medicine_records = sum(
+            1 for m in medicines
+            if str(m.get("status", "")).lower() == "healthy"
+        )
+        medicine_availability = (
+            healthy_medicine_records / len(medicines) * 100
+            if medicines else 0
+        )
+
+        priority_rows = summary.get("priority_phcs", [])
+        priority_count = int(summary.get("priority_count", len(priority_rows)))
+        critical_phcs = int(summary.get("critical_phcs", 0))
+        high_phcs = int(summary.get("high_phcs", 0))
+        normal_phcs = max(total_phcs - priority_count, 0)
+
+        top_shortage = summary.get("top_shortage")
+        demand_trend = summary.get("demand_trend", [])
+        patients_today = num(summary.get("patients_today", 0))
+        latest_demand_date = summary.get("latest_demand_date", "")
+
+        alerts = []
+        for doc in alert_docs:
+            item = doc.to_dict() or {}
+            item["id"] = doc.id
+            alerts.append(item)
+        alerts.sort(key=lambda x: date_key(x.get("created_at")), reverse=True)
+        active_alerts = sum(
+            1 for a in alerts
+            if str(a.get("status", "active")).lower() == "active"
+        )
+
+        top_occupancy = None
+        if phcs:
+            top = max(
+                phcs,
+                key=lambda p: num(p.get("occupied_beds")) / num(p.get("total_beds"), 1)
+            )
+            occ = num(top.get("occupied_beds")) / num(top.get("total_beds"), 1) * 100
+            top_occupancy = {
+                "name": top.get("name", top.get("id", "PHC")),
+                "occupancy": occ,
+            }
+
+        # IMPORTANT: show only saved results from the actual redistribution optimizer.
+        transfer_signals = []
+        try:
+            recommendation_docs = list(
+                db.collection("transfer_recommendations")
+                .order_by("created_at", direction="DESCENDING")
+                .limit(5)
+                .stream()
+            )
+            for doc in recommendation_docs:
+                result = doc.to_dict() or {}
+                for transfer in result.get("transfer_plan") or []:
+                    transfer_signals.append({
+                        "medicine": result.get("medicine", transfer.get("medicine", "Medicine")),
+                        "source": transfer.get("source_name", transfer.get("source_phc", "Source PHC")),
+                        "destination": transfer.get("destination_name", result.get("destination_name", transfer.get("destination_phc", "Destination PHC"))),
+                        "quantity": round(num(transfer.get("recommended_quantity")), 1),
+                        "source_surplus": round(num(transfer.get("source_safe_surplus")), 1),
+                        "distance_km": round(num(transfer.get("distance_km")), 1),
+                        "optimization_score": round(num(transfer.get("optimization_score")), 2),
+                        "screening_note": "Saved redistribution optimizer result",
+                    })
+                    if len(transfer_signals) >= 5:
+                        break
+                if len(transfer_signals) >= 5:
+                    break
+        except Exception as transfer_error:
+            print(f"Dashboard transfer signal query: {type(transfer_error).__name__}: {transfer_error}")
+
+        health_score = 100
+        health_score -= min(35, critical_phcs * 5)
+        health_score -= min(25, high_phcs * 2)
+        health_score -= min(20, max(0, 90 - medicine_availability) * 0.4)
+        health_score -= min(10, max(0, 85 - staff_availability) * 0.25)
+        health_score = max(0, min(100, round(health_score)))
+        health_label = "Good" if health_score >= 75 else "Watch" if health_score >= 50 else "Needs Attention"
+
+        payload = make_json_safe({
+            "success": True,
+            "generated_at_display": datetime.now().strftime("%d %b %Y, %I:%M %p"),
+            "summary_source": "dashboard_summary/network",
+            "kpis": {
+                "total_phcs": total_phcs,
+                "total_beds": total_beds,
+                "available_beds": available_beds,
+                "bed_occupancy": bed_occupancy,
+                "patients_today": patients_today,
+                "patients_today_display": (
+                    f"{patients_today / 100000:.2f} Lakh" if patients_today >= 100000
+                    else f"{patients_today / 1000:.1f}K" if patients_today >= 1000
+                    else f"{patients_today:.0f}"
+                ),
+                "medicine_availability": medicine_availability,
+                "healthy_medicine_records": healthy_medicine_records,
+                "staff_on_duty": staff_on_duty,
+                "staff_availability": staff_availability,
+                "normal_phcs": normal_phcs,
+                "at_risk_phcs": priority_count,
+                "critical_phcs": critical_phcs,
+                "active_alerts": active_alerts,
+                "latest_demand_date": latest_demand_date,
+                "health_score": health_score,
+                "health_score_label": health_label,
+                "top_occupancy": top_occupancy,
+            },
+            "priority_count": priority_count,
+            "staff_availability": staff_availability,
+            "top_shortage": top_shortage,
+            "top_occupancy": top_occupancy,
+            "demand_trend": demand_trend,
+            "priority_phcs": priority_rows[:8],
+            "transfer_signals": transfer_signals[:5],
+            "alerts": alerts[:5],
+        })
+
+        _dashboard_cache["timestamp"] = time.time()
+        _dashboard_cache["payload"] = payload
+        return jsonify(payload)
+
+    except Exception as error:
+        print(f"Dashboard overview error: {type(error).__name__}: {error}")
+        return jsonify({"success": False, "error": str(error), "error_type": type(error).__name__}), 500
+
+
 @app.route("/phc-network")
 def phc_network():
     return render_template("phc_network.html")
@@ -221,6 +419,12 @@ def ai_analyze():
                 "success": False,
                 "error": "Medicine name is required."
             }), 400
+
+        cache_key = (phc_id.upper(), medicine.lower())
+        cached = _ai_analysis_cache.get(cache_key)
+        if cached and time.time() - cached["timestamp"] < AI_ANALYSIS_CACHE_TTL:
+            print(f"♻️ Returning cached AI analysis: {phc_id} / {medicine}")
+            return jsonify(cached["result"])
 
         print("\n")
         print("==========================================")
@@ -589,6 +793,11 @@ def ai_analyze():
         result = make_json_safe(
             result
         )
+
+        _ai_analysis_cache[cache_key] = {
+            "timestamp": time.time(),
+            "result": result,
+        }
 
         print("\n==========================================")
         print("        AI ANALYSIS COMPLETED")
