@@ -331,6 +331,354 @@ def dashboard_overview():
         return jsonify({"success": False, "error": str(error), "error_type": type(error).__name__}), 500
 
 
+
+# ============================================================
+# PHC NETWORK API
+# ============================================================
+
+PHC_NETWORK_CACHE_TTL = 300
+_phc_network_cache = {"timestamp": 0.0, "payload": None}
+
+
+@app.route("/api/phc-network", methods=["GET"])
+def phc_network_api():
+    """Return PHC Network data directly from Firestore."""
+    try:
+        now = time.time()
+        if (
+            _phc_network_cache["payload"] is not None
+            and now - _phc_network_cache["timestamp"] < PHC_NETWORK_CACHE_TTL
+        ):
+            return jsonify(_phc_network_cache["payload"])
+
+        # One read of PHCs and one read of current medicine inventory.
+        phc_docs = list(db.collection("phcs").stream())
+        medicine_docs = list(db.collection("medicines").stream())
+
+        phcs = []
+        phc_by_id = {}
+        for doc in phc_docs:
+            item = doc.to_dict() or {}
+            item["id"] = doc.id
+            phcs.append(item)
+            phc_by_id[doc.id] = item
+
+        medicines_by_phc = {}
+        for doc in medicine_docs:
+            item = doc.to_dict() or {}
+            phc_id = str(item.get("phc_id", "")).strip()
+            if phc_id:
+                medicines_by_phc.setdefault(phc_id, []).append(item)
+
+        def num(value, default=0.0):
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return float(default)
+
+        # --------------------------------------------------------
+        # PHC-level risk calculation
+        # --------------------------------------------------------
+        # This is a network-page operational risk classification.
+        # It is NOT presented as a trained ML prediction.
+        #
+        # Critical: high bed occupancy OR severe medicine pressure
+        #           OR severe staff shortage.
+        # At risk: moderate bed/staff/inventory pressure.
+        # Normal: no major pressure signal.
+        # --------------------------------------------------------
+        network_rows = []
+
+        for phc in phcs:
+            phc_id = phc["id"]
+            name = phc.get("name", phc_id)
+            total_beds = num(phc.get("total_beds"))
+            occupied_beds = num(phc.get("occupied_beds"))
+            total_staff = num(phc.get("total_staff"))
+            present_staff = num(phc.get("present_staff"))
+
+            occupancy = (
+                occupied_beds / total_beds * 100
+                if total_beds > 0 else 0
+            )
+            staff_availability = (
+                present_staff / total_staff * 100
+                if total_staff > 0 else 100
+            )
+
+            inventory = medicines_by_phc.get(phc_id, [])
+            low_inventory = 0
+            critical_inventory = 0
+            shortage_units = 0.0
+
+            for medicine in inventory:
+                stock = num(
+                    medicine.get(
+                        "current_stock",
+                        medicine.get("stock", medicine.get("quantity", 0))
+                    )
+                )
+                minimum = num(
+                    medicine.get(
+                        "minimum_stock",
+                        medicine.get("min_stock", 0)
+                    )
+                )
+                status = str(medicine.get("status", "")).lower()
+
+                if minimum > 0 and stock < minimum:
+                    shortage_units += minimum - stock
+                    low_inventory += 1
+                    if stock <= minimum * 0.50:
+                        critical_inventory += 1
+                elif status in {"low", "critical", "out_of_stock", "stockout"}:
+                    low_inventory += 1
+                    if status in {"critical", "out_of_stock", "stockout"}:
+                        critical_inventory += 1
+
+            reasons = []
+            risk_score = 0
+
+            if occupancy >= 85:
+                risk_score += 3
+                reasons.append("High Bed Occupancy")
+            elif occupancy >= 70:
+                risk_score += 2
+                reasons.append("Elevated Bed Occupancy")
+
+            if staff_availability < 70:
+                risk_score += 3
+                reasons.append("Staff Shortage")
+            elif staff_availability < 85:
+                risk_score += 2
+                reasons.append("Reduced Staff Availability")
+
+            if critical_inventory > 0:
+                risk_score += 3
+                reasons.append("Critical Medicine Shortage")
+            elif low_inventory > 0:
+                risk_score += 2
+                reasons.append("Medicine Shortage")
+
+            if risk_score >= 4:
+                risk = "critical"
+            elif risk_score >= 2:
+                risk = "warning"
+            else:
+                risk = "normal"
+
+            # Preserve a stored critical/warning status when it is more severe
+            # than the calculated operational score.
+            stored_status = str(phc.get("status", "")).lower()
+            if stored_status == "critical":
+                risk = "critical"
+            elif stored_status in {"warning", "at_risk", "at risk"} and risk == "normal":
+                risk = "warning"
+
+            if not reasons:
+                reasons.append("Normal Operations")
+
+            network_rows.append({
+                "id": phc_id,
+                "name": name,
+                "district": phc.get("district", ""),
+                "state": phc.get("state", "India"),
+                "latitude": num(phc.get("latitude")),
+                "longitude": num(phc.get("longitude")),
+                "status": risk,
+                "risk_score": risk_score,
+                "risk_percent": min(99, max(1, risk_score * 20)),
+                "primary_issue": reasons[0],
+                "occupancy": round(occupancy, 1),
+                "staff_availability": round(staff_availability, 1),
+                "low_inventory": low_inventory,
+                "critical_inventory": critical_inventory,
+                "shortage_units": round(shortage_units, 1),
+                "patients_today": num(phc.get("patients_today")),
+            })
+
+        total_phcs = len(network_rows)
+        normal = sum(1 for row in network_rows if row["status"] == "normal")
+        at_risk = sum(1 for row in network_rows if row["status"] == "warning")
+        critical = sum(1 for row in network_rows if row["status"] == "critical")
+
+        states = {}
+        districts = set()
+        for row in network_rows:
+            state = row["state"] or "Unknown"
+            states[state] = states.get(state, 0) + 1
+            district = row["district"]
+            if district:
+                districts.add(str(district))
+
+        state_rows = [
+            {"state": state, "count": count}
+            for state, count in states.items()
+        ]
+        state_rows.sort(key=lambda item: item["count"], reverse=True)
+
+        # Highest-risk PHCs first. This is a network operational list, not ML output.
+        critical_rows = [
+            row for row in network_rows
+            if row["status"] == "critical"
+        ]
+        critical_rows.sort(
+            key=lambda row: (row["risk_score"], row["shortage_units"], row["occupancy"]),
+            reverse=True,
+        )
+
+        # Include warning PHCs if fewer than five critical PHCs exist so the panel
+        # remains useful with the current 50-PHC demo database.
+        if len(critical_rows) < 5:
+            remaining = [
+                row for row in network_rows
+                if row["status"] == "warning"
+            ]
+            remaining.sort(
+                key=lambda row: (row["risk_score"], row["shortage_units"], row["occupancy"]),
+                reverse=True,
+            )
+            critical_rows.extend(remaining[:5 - len(critical_rows)])
+
+        critical_phcs = [
+            {
+                "id": row["id"],
+                "name": row["name"],
+                "state": row["state"],
+                "issue": row["primary_issue"],
+                "risk": row["risk_percent"],
+                "status": row["status"],
+                "occupancy": row["occupancy"],
+                "staff_availability": row["staff_availability"],
+                "shortage_units": row["shortage_units"],
+            }
+            for row in critical_rows[:5]
+        ]
+
+        # --------------------------------------------------------
+        # PATIENTS TODAY
+        # --------------------------------------------------------
+        # Prefer the patients_today value stored directly on the
+        # PHC documents.
+        #
+        # If those PHC records do not contain usable patient
+        # counts, use the existing quota-safe network summary.
+        #
+        # We intentionally do NOT scan demand_history here.
+        # --------------------------------------------------------
+
+        total_patients_today = sum(
+            row["patients_today"]
+            for row in network_rows
+            if row["patients_today"] > 0
+        )
+
+        # If PHC-level patient counts are unavailable, use the
+        # existing Firestore dashboard summary.
+        if total_patients_today <= 0:
+
+            try:
+
+                network_summary_doc = (
+                    db.collection("dashboard_summary")
+                    .document("network")
+                    .get()
+                )
+
+                network_summary_data = (
+                    network_summary_doc.to_dict()
+                    or {}
+                )
+
+                total_patients_today = num(
+                    network_summary_data.get(
+                        "patients_today",
+                        0
+                    )
+                )
+
+            except Exception as summary_error:
+
+                print(
+                    "PHC Network patient summary fallback: "
+                    f"{type(summary_error).__name__}: "
+                    f"{summary_error}"
+                )
+
+                total_patients_today = 0
+
+        total_beds = sum(
+            num(phc.get("total_beds"))
+            for phc in phcs
+        )
+
+        occupied_beds = sum(
+            num(phc.get("occupied_beds"))
+            for phc in phcs
+        )
+
+        average_occupancy = (
+            occupied_beds / total_beds * 100
+            if total_beds > 0 else 0
+        )
+
+        # India-map positioning uses the PHC latitude/longitude as an approximate
+        # normalized position. It is intentionally simple so no new map library is required.
+        map_points = []
+        for row in network_rows:
+            lat = row["latitude"]
+            lon = row["longitude"]
+            if lat == 0 and lon == 0:
+                continue
+            left = max(2, min(98, (lon - 68) / 30 * 100))
+            top = max(2, min(98, (37 - lat) / 29 * 100))
+            map_points.append({
+                "id": row["id"],
+                "name": row["name"],
+                "status": row["status"],
+                "latitude": lat,
+                "longitude": lon,
+                "left": round(left, 2),
+                "top": round(top, 2),
+            })
+
+        payload = make_json_safe({
+            "success": True,
+            "source": "Firestore phcs + medicines",
+            "generated_at": datetime.now(),
+            "summary": {
+                "total_phcs": total_phcs,
+                "normal": normal,
+                "at_risk": at_risk,
+                "critical": critical,
+                "total_districts": len(districts),
+                "total_states": len(states),
+                "normal_percent": round(normal / total_phcs * 100, 1) if total_phcs else 0,
+                "at_risk_percent": round(at_risk / total_phcs * 100, 1) if total_phcs else 0,
+                "critical_percent": round(critical / total_phcs * 100, 1) if total_phcs else 0,
+            },
+            "states": state_rows[:6],
+            "critical_phcs": critical_phcs,
+            "network_summary": {
+                "patients_today": round(total_patients_today),
+                "average_occupancy": round(average_occupancy, 1),
+            },
+            "map_points": map_points,
+        })
+
+        _phc_network_cache["timestamp"] = time.time()
+        _phc_network_cache["payload"] = payload
+        return jsonify(payload)
+
+    except Exception as error:
+        print(f"PHC Network API error: {type(error).__name__}: {error}")
+        return jsonify({
+            "success": False,
+            "error": str(error),
+            "error_type": type(error).__name__,
+        }), 500
+
+
 @app.route("/phc-network")
 def phc_network():
     return render_template("phc_network.html")
