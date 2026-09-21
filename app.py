@@ -684,6 +684,221 @@ def phc_network():
     return render_template("phc_network.html")
 
 
+
+# ============================================================
+# MEDICINE INVENTORY API
+# ============================================================
+
+MEDICINE_INVENTORY_CACHE_TTL = 300
+_medicine_inventory_cache = {"timestamp": 0.0, "payload": None}
+
+
+@app.route("/api/medicine-inventory", methods=["GET"])
+def medicine_inventory_api():
+    """Return quota-safe live medicine inventory statistics from Firestore."""
+    try:
+        now = time.time()
+        if (
+            _medicine_inventory_cache["payload"] is not None
+            and now - _medicine_inventory_cache["timestamp"] < MEDICINE_INVENTORY_CACHE_TTL
+        ):
+            return jsonify(_medicine_inventory_cache["payload"])
+
+        # One read of the PHC collection and one read of the medicine collection.
+        # No demand_history scan is required for this page.
+        phc_docs = list(db.collection("phcs").stream())
+        medicine_docs = list(db.collection("medicines").stream())
+
+        phcs_by_id = {}
+        for doc in phc_docs:
+            phc = doc.to_dict() or {}
+            phcs_by_id[doc.id] = phc
+
+        medicines = []
+        for doc in medicine_docs:
+            item = doc.to_dict() or {}
+            item["id"] = doc.id
+            medicines.append(item)
+
+        def num(value, default=0.0):
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return float(default)
+
+        def normalize_name(value):
+            name = str(value or "").strip()
+            replacements = {
+                "Paracetamol 500mg": "Paracetamol",
+                "Amoxicillin 500mg": "Amoxicillin",
+                "Iron Folic Acid Tablet": "Iron Folic Acid",
+                "Amlodipine 5mg": "Amlodipine",
+                "Cetirizine 10mg": "Cetirizine",
+                "Metformin 500mg": "Metformin",
+                "Omeprazole 20mg": "Omeprazole",
+                "ORS Sachet": "ORS",
+            }
+            return replacements.get(name, name)
+
+        total = len(medicines)
+        sufficient = 0
+        low_stock = 0
+        out_of_stock = 0
+
+        medicine_stats = {}
+        state_stats = {}
+        latest_updated = None
+
+        for medicine in medicines:
+            stock = num(
+                medicine.get(
+                    "current_stock",
+                    medicine.get("stock", medicine.get("quantity", 0)),
+                )
+            )
+            minimum = num(
+                medicine.get(
+                    "minimum_stock",
+                    medicine.get("min_stock", 0),
+                )
+            )
+
+            if stock <= 0:
+                inventory_status = "out_of_stock"
+                out_of_stock += 1
+            elif minimum > 0 and stock < minimum:
+                inventory_status = "low"
+                low_stock += 1
+            else:
+                inventory_status = "sufficient"
+                sufficient += 1
+
+            medicine_name = normalize_name(medicine.get("medicine_name", "Medicine"))
+            stats = medicine_stats.setdefault(
+                medicine_name,
+                {"low_stock": 0, "out_of_stock": 0, "total": 0},
+            )
+            stats["total"] += 1
+            if inventory_status == "low":
+                stats["low_stock"] += 1
+            elif inventory_status == "out_of_stock":
+                stats["out_of_stock"] += 1
+
+            phc_id = str(medicine.get("phc_id", "")).strip()
+            phc = phcs_by_id.get(phc_id, {})
+            state = str(phc.get("state", "Unknown")).strip() or "Unknown"
+
+            state_entry = state_stats.setdefault(
+                state,
+                {"total": 0, "sufficient": 0, "low_stock": 0, "out_of_stock": 0},
+            )
+            state_entry["total"] += 1
+            state_entry[inventory_status] = state_entry.get(inventory_status, 0) + 1
+
+            updated_at = medicine.get("updated_at")
+            if updated_at is not None:
+                try:
+                    if latest_updated is None or updated_at > latest_updated:
+                        latest_updated = updated_at
+                except TypeError:
+                    pass
+
+        availability_percent = (sufficient / total * 100) if total else 0
+
+        top_medicines = []
+        for name, stats in medicine_stats.items():
+            affected = stats["low_stock"] + stats["out_of_stock"]
+            if affected <= 0:
+                continue
+
+            if stats["out_of_stock"] > 0 and stats["out_of_stock"] >= stats["low_stock"]:
+                status = "Critical"
+            elif affected >= max(3, round(stats["total"] * 0.30)):
+                status = "High"
+            else:
+                status = "Low"
+
+            top_medicines.append({
+                "medicine_name": name,
+                "low_stock_phcs": stats["low_stock"],
+                "out_of_stock_phcs": stats["out_of_stock"],
+                "affected_phcs": affected,
+                "status": status,
+            })
+
+        top_medicines.sort(
+            key=lambda row: (
+                row["out_of_stock_phcs"],
+                row["low_stock_phcs"],
+                row["affected_phcs"],
+            ),
+            reverse=True,
+        )
+
+        state_rows = []
+        for state, stats in state_stats.items():
+            state_total = stats["total"]
+            state_availability = (
+                stats["sufficient"] / state_total * 100
+                if state_total else 0
+            )
+            state_rows.append({
+                "state": state,
+                "availability_percent": round(state_availability, 1),
+                "total_records": state_total,
+                "sufficient": stats["sufficient"],
+                "low_stock": stats["low_stock"],
+                "out_of_stock": stats["out_of_stock"],
+            })
+
+        state_rows.sort(
+            key=lambda row: row["availability_percent"],
+            reverse=True,
+        )
+
+        if latest_updated is None:
+            updated_display = datetime.now().strftime("%d %b %Y, %I:%M %p")
+        else:
+            try:
+                updated_display = latest_updated.strftime("%d %b %Y, %I:%M %p")
+            except AttributeError:
+                updated_display = str(latest_updated)
+
+        payload = make_json_safe({
+            "success": True,
+            "source": "Firestore medicines + phcs",
+            "generated_at": datetime.now(),
+            "updated_display": updated_display,
+            "summary": {
+                "total_medicines": total,
+                "sufficient_stock": sufficient,
+                "low_stock": low_stock,
+                "out_of_stock": out_of_stock,
+                "availability_percent": round(availability_percent, 1),
+                "sufficient_percent": round(sufficient / total * 100, 1) if total else 0,
+                "low_stock_percent": round(low_stock / total * 100, 1) if total else 0,
+                "out_of_stock_percent": round(out_of_stock / total * 100, 1) if total else 0,
+            },
+            "top_medicines": top_medicines[:5],
+            "state_availability": state_rows[:8],
+        })
+
+        _medicine_inventory_cache["timestamp"] = time.time()
+        _medicine_inventory_cache["payload"] = payload
+        return jsonify(payload)
+
+    except Exception as error:
+        print(
+            f"Medicine inventory API error: "
+            f"{type(error).__name__}: {error}"
+        )
+        return jsonify({
+            "success": False,
+            "error": str(error),
+            "error_type": type(error).__name__,
+        }), 500
+
+
 @app.route("/medicine-inventory")
 def medicine_inventory():
     return render_template(

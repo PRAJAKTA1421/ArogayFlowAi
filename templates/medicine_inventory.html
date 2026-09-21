@@ -1,319 +1,331 @@
-{% extends 'base.html' %}{% block title %}Medicine Inventory | ArogyaFlow AI{% endblock %}{% block content %}
-<main class="dash report-page">
- <aside class="sidebar">
-  <a class="brand" href="/">
-   <span class="brand-mark">
-    +
-   </span>
-   <span>
-    ArogyaFlow
-    <b>
-     AI
-    </b>
-    <small>
-     Smart Health. Stronger Tomorrow.
-    </small>
-   </span>
-  </a>
-  <nav>
-   <a href="/dashboard">
-    ⌂
-    <span>
-     Dashboard
-    </span>
-   </a>
-   <a href="/phc-network">
-    ⚯
-    <span>
-     PHC Network
-    </span>
-   </a>
-   <a class="selected" href="/medicine-inventory">
-    ⚭
-    <span>
-     Medicine Inventory
-    </span>
-   </a>
-   <a href="/beds-overview">
-    ▦
-    <span>
-     Beds Overview
-    </span>
-   </a>
-   <a href="#">
-    ♙
-    <span>
-     Medical Staff
-    </span>
-   </a>
-   <a href="#">
-    ✧
-    <span>
-     AI Predictions
-    </span>
-   </a>
-   <a href="#">
-    ⇄
-    <span>
-     Resource Transfer
-    </span>
-   </a>
-   <a href="#">
-    ♪
-    <span>
-     Alerts &amp; Notifications
-    </span>
-    <b>
-     12
-    </b>
-   </a>
-  </nav>
- </aside>
- <section class="dash-content">
-  <header class="dash-head">
-   <div>
-    <h1>
-     Medicine Inventory
-    </h1>
-    <p>
-     Track medicine availability across all PHCs
-    </p>
-   </div>
-   <button class="location">
-    All India　⌄
-   </button>
-   <span class="updated">
-    16 May 2025
-   </span>
-   <span class="bell">
-    ♧
-    <i>
-     4
-    </i>
-   </span>
-   <div class="profile">
-    ●
-    <span>
-     PHC Manager
-     <small>
-      Admin
-     </small>
-    </span>
-    ⌄
-   </div>
-  </header>
-  <div class="dash-body">
-   <div class="report-kpis">
-    <article>
-     <small>
-      Total Medicines Tracked
-     </small>
-     <strong>
-      1,256
-     </strong>
-    </article>
-    <article class="good">
-     <small>
-      Sufficient Stock
-     </small>
-     <strong>
-      946
-      <em>
-       (75.4%)
-      </em>
-     </strong>
-    </article>
-    <article class="warn">
-     <small>
-      Low Stock
-     </small>
-     <strong>
-      286
-      <em>
-       (22.8%)
-      </em>
-     </strong>
-    </article>
-    <article class="bad">
-     <small>
-      Out of Stock
-     </small>
-     <strong>
-      124
-      <em>
-       (9.8%)
-      </em>
-     </strong>
-    </article>
-   </div>
-   <div class="report-grid inventory-grid">
-    <article class="panel donut-panel">
-     <h3>
-      Medicine Availability Overview
-     </h3>
-     <div class="donut">
-      <strong>
-       91.6%
-       <small>
-        Overall Availability
-       </small>
-      </strong>
-     </div>
-     <div class="donut-legend">
-      <p>
-       <i>
-       </i>
-       Sufficient (974)
-      </p>
-      <p>
-       <i>
-       </i>
-       Low Stock (228)
-      </p>
-      <p>
-       <i>
-       </i>
-       Out of Stock (124)
-      </p>
-     </div>
-    </article>
-    <article class="panel stock-table">
-     <h3>
-      Top 5 Medicines - Low Stock / Out of Stock
-     </h3>
-     <table>
-      <tr>
-       <th>
-        Medicine Name
-       </th>
-       <th>
-        Low Stock PHCs
-       </th>
-       <th>
-        Out of Stock PHCs
-       </th>
-       <th>
-        Status
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Paracetamol
-       </td>
-       <td>
-        132
-       </td>
-       <td>
-        20
-       </td>
-       <td>
-        <b>
-         Critical
-        </b>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Amoxicillin
-       </td>
-       <td>
-        98
-       </td>
-       <td>
-        16
-       </td>
-       <td>
-        <b>
-         High
-        </b>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        ORS
-       </td>
-       <td>
-        85
-       </td>
-       <td>
-        12
-       </td>
-       <td>
-        <b>
-         Low
-        </b>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Azithromycin
-       </td>
-       <td>
-        64
-       </td>
-       <td>
-        9
-       </td>
-       <td>
-        <b>
-         Low
-        </b>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Metformin
-       </td>
-       <td>
-        60
-       </td>
-       <td>
-        8
-       </td>
-       <td>
-        <b>
-         Low
-        </b>
-       </td>
-      </tr>
-     </table>
-    </article>
-    <article class="panel bar-panel">
-     <h3>
-      Medicine Stock by State (Availability %)
-     </h3>
-     <div class="bars">
-      <b style="height:68%">
-       Maharashtra
-      </b>
-      <b style="height:87%">
-       Karnataka
-      </b>
-      <b style="height:92%">
-       Tamil Nadu
-      </b>
-      <b style="height:84%">
-       Uttar Pradesh
-      </b>
-      <b style="height:81%">
-       Rajasthan
-      </b>
-      <b style="height:90%">
-       Gujarat
-      </b>
-      <b style="height:88%">
-       West Bengal
-      </b>
-      <b style="height:83%">
-       Madhya Pradesh
-      </b>
-     </div>
-     <a>
-      View Detailed Medicine Report →
-     </a>
-    </article>
-   </div>
-  </div>
- </section>
+{% extends 'base.html' %}
+{% block title %}Medicine Inventory | ArogyaFlow AI{% endblock %}
+
+{% block content %}
+<main class="dash report-page medicine-inventory-page">
+  <aside class="sidebar">
+    <a class="brand" href="/">
+      <span class="brand-mark">+</span>
+      <span>
+        ArogyaFlow <b>AI</b>
+        <small>Smart Health. Stronger Tomorrow.</small>
+      </span>
+    </a>
+    <nav>
+      <a href="/dashboard"><span>Dashboard</span></a>
+      <a href="/phc-network"><span>PHC Network</span></a>
+      <a class="selected" href="/medicine-inventory"><span>Medicine Inventory</span></a>
+      <a href="/beds-overview"><span>Beds Overview</span></a>
+      <a href="#"><span>Medical Staff</span></a>
+      <a href="/ai-predictions"><span>AI Predictions</span></a>
+      <a href="/resource-transfer"><span>Resource Transfer</span></a>
+      <a href="#"><span>Alerts &amp; Notifications</span><b>4</b></a>
+      <a href="#"><span>My PHC</span></a>
+      <a href="#"><span>Settings</span></a>
+    </nav>
+
+    <div class="health-score">
+      <small>AI Health Resilience Score</small>
+      <div class="score"><span>82</span><em>/100</em></div>
+      <strong>Good</strong>
+      <p>Network Health Status</p>
+    </div>
+  </aside>
+
+  <section class="dash-content">
+    <header class="dash-head">
+      <div class="inventory-title-wrap">
+        <h1>Medicine Inventory</h1>
+        <p>Track medicine availability across all PHCs</p>
+      </div>
+      <button class="location" type="button">All India <span>⌄</span></button>
+      <span class="updated" id="inventoryUpdated">Loading...</span>
+      <span class="bell" aria-label="Notifications">♧<i>4</i></span>
+      <div class="profile">
+        <span class="profile-avatar">●</span>
+        <span>PHC Manager<small>Admin</small></span>
+        <b>⌄</b>
+      </div>
+    </header>
+
+    <div class="dash-body inventory-body">
+      <!-- KPI CARDS -->
+      <section class="report-kpis" aria-label="Medicine inventory summary">
+        <article class="inventory-kpi kpi-total">
+          <div class="kpi-icon">✦</div>
+          <small>Total Medicines Tracked</small>
+          <strong id="totalMedicines">—</strong>
+          <span class="kpi-subtext">Medicine records in database</span>
+          <span class="kpi-arrow">→</span>
+        </article>
+
+        <article class="inventory-kpi good">
+          <div class="kpi-icon">✓</div>
+          <small>Sufficient Stock</small>
+          <strong id="sufficientStock">— <em id="sufficientPercent">(—)</em></strong>
+          <span class="kpi-subtext positive">↑ <span id="sufficientTrend">—</span> of total</span>
+          <span class="kpi-arrow">→</span>
+        </article>
+
+        <article class="inventory-kpi warn">
+          <div class="kpi-icon">!</div>
+          <small>Low Stock</small>
+          <strong id="lowStock">— <em id="lowStockPercent">(—)</em></strong>
+          <span class="kpi-subtext warning">↑ <span id="lowTrend">—</span> of total</span>
+          <span class="kpi-arrow">→</span>
+        </article>
+
+        <article class="inventory-kpi bad">
+          <div class="kpi-icon">×</div>
+          <small>Out of Stock</small>
+          <strong id="outOfStock">— <em id="outOfStockPercent">(—)</em></strong>
+          <span class="kpi-subtext danger">→ <span id="outTrend">—</span> of total</span>
+          <span class="kpi-arrow">→</span>
+        </article>
+      </section>
+
+      <!-- TOP SECTION -->
+      <section class="inventory-top-grid">
+        <article class="panel inventory-card donut-panel modern-panel">
+          <div class="panel-title-row">
+            <div>
+              <h3><span class="title-icon blue">▥</span> Medicine Availability Overview</h3>
+              <p>Current stock status across medicine records</p>
+            </div>
+          </div>
+
+          <div class="availability-content">
+            <div class="donut modern-donut" id="availabilityDonut" style="--availability:97%;">
+              <strong>
+                <span id="availabilityPercent">—</span>
+                <small>Overall Availability</small>
+              </strong>
+            </div>
+            <div class="donut-legend modern-legend">
+              <p><i class="sufficient-dot"></i><span>Sufficient Stock</span><b id="legendSufficient">—</b><em id="legendSufficientPct">—</em></p>
+              <p><i class="low-dot"></i><span>Low Stock</span><b id="legendLow">—</b><em id="legendLowPct">—</em></p>
+              <p><i class="out-dot"></i><span>Out of Stock</span><b id="legendOut">—</b><em id="legendOutPct">—</em></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel inventory-card stock-table modern-panel">
+          <div class="panel-title-row">
+            <div>
+              <h3><span class="title-icon slate">☷</span> Top 5 Medicines — Low Stock / Out of Stock</h3>
+              <p>Medicines requiring the most attention</p>
+            </div>
+            <a href="#" onclick="return false;">View All Medicines&nbsp; →</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Medicine Name</th>
+                  <th>Low Stock PHCs</th>
+                  <th>Out of Stock PHCs</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="topMedicinesBody">
+                <tr><td colspan="5" class="loading-cell">Loading medicine inventory...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- BOTTOM SECTION -->
+      <section class="inventory-bottom-grid">
+        <article class="panel inventory-card bar-panel modern-panel">
+          <div class="panel-title-row">
+            <div>
+              <h3><span class="title-icon blue">▥</span> Medicine Stock by State <span class="title-muted">(Availability %)</span></h3>
+              <p>Availability calculated from live Firestore medicine records</p>
+            </div>
+            <button class="state-filter" type="button">All States <span>⌄</span></button>
+          </div>
+          <div class="state-chart" id="stateAvailabilityBars">
+            <span class="chart-loading">Loading state availability...</span>
+          </div>
+        </article>
+
+        <article class="panel inventory-card insights-panel modern-panel">
+          <div class="panel-title-row">
+            <div>
+              <h3><span class="title-icon mint">💡</span> Key Insights</h3>
+              <p>What the current inventory data indicates</p>
+            </div>
+          </div>
+          <div class="insight-list">
+            <div class="insight-item insight-good">
+              <span class="insight-badge">✓</span>
+              <div><strong>High Availability</strong><p id="insightAvailability">Overall medicine availability is excellent.</p></div>
+            </div>
+            <div class="insight-item insight-warn">
+              <span class="insight-badge">↗</span>
+              <div><strong>Low Stock Alert</strong><p id="insightLowStock">Some medicine records are below minimum stock levels.</p></div>
+            </div>
+            <div class="insight-item insight-safe">
+              <span class="insight-badge">◆</span>
+              <div><strong>No Stockouts</strong><p id="insightStockout">No medicines are currently out of stock.</p></div>
+            </div>
+            <div class="insight-item insight-update">
+              <span class="insight-badge">▣</span>
+              <div><strong>Last Updated</strong><p id="insightUpdated">Loading latest inventory time...</p><small>Data synced from Firestore</small></div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </section>
 </main>
+
+<script>
+(function () {
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+
+    function number(value) {
+        const n = Number(value);
+        return Number.isFinite(n) ? n : 0;
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function statusClass(status) {
+        const value = String(status || "").toLowerCase();
+        if (value === "critical" || value === "out of stock" || value === "high") return "bad";
+        if (value === "low") return "warn";
+        return "good";
+    }
+
+    function pct(value) {
+        return number(value).toFixed(1) + "%";
+    }
+
+    function renderSummary(summary) {
+        const total = number(summary.total_medicines);
+        const sufficient = number(summary.sufficient_stock);
+        const low = number(summary.low_stock);
+        const out = number(summary.out_of_stock);
+        const availability = number(summary.availability_percent);
+
+        $("totalMedicines").textContent = total.toLocaleString("en-IN");
+        $("sufficientStock").firstChild.textContent = sufficient.toLocaleString("en-IN") + " ";
+        $("sufficientPercent").textContent = `(${pct(summary.sufficient_percent)})`;
+        $("lowStock").firstChild.textContent = low.toLocaleString("en-IN") + " ";
+        $("lowStockPercent").textContent = `(${pct(summary.low_stock_percent)})`;
+        $("outOfStock").firstChild.textContent = out.toLocaleString("en-IN") + " ";
+        $("outOfStockPercent").textContent = `(${pct(summary.out_of_stock_percent)})`;
+
+        $("sufficientTrend").textContent = pct(summary.sufficient_percent);
+        $("lowTrend").textContent = pct(summary.low_stock_percent);
+        $("outTrend").textContent = pct(summary.out_of_stock_percent);
+
+        $("availabilityPercent").textContent = pct(availability);
+        $("legendSufficient").textContent = sufficient.toLocaleString("en-IN");
+        $("legendLow").textContent = low.toLocaleString("en-IN");
+        $("legendOut").textContent = out.toLocaleString("en-IN");
+        $("legendSufficientPct").textContent = pct(summary.sufficient_percent);
+        $("legendLowPct").textContent = pct(summary.low_stock_percent);
+        $("legendOutPct").textContent = pct(summary.out_of_stock_percent);
+
+        const sufficientPct = total ? (sufficient / total) * 100 : 0;
+        const lowPct = total ? (low / total) * 100 : 0;
+        const outPct = total ? (out / total) * 100 : 0;
+        $("availabilityDonut").style.setProperty("--sufficient", sufficientPct + "%");
+        $("availabilityDonut").style.setProperty("--low", lowPct + "%");
+        $("availabilityDonut").style.setProperty("--out", outPct + "%");
+
+        $("insightAvailability").textContent =
+            `Overall medicine availability is ${pct(availability)} across ${total.toLocaleString("en-IN")} records.`;
+        $("insightLowStock").textContent =
+            `${low.toLocaleString("en-IN")} medicine records are below minimum stock levels.`;
+        $("insightStockout").textContent = out === 0
+            ? "No medicines are currently out of stock."
+            : `${out.toLocaleString("en-IN")} medicine records are currently out of stock.`;
+    }
+
+    function renderTopMedicines(rows) {
+        const body = $("topMedicinesBody");
+        if (!rows || rows.length === 0) {
+            body.innerHTML = '<tr><td colspan="5" class="empty-cell">No medicine shortages found.</td></tr>';
+            return;
+        }
+
+        body.innerHTML = rows.slice(0, 5).map((item, index) => {
+            const status = escapeHTML(item.status || "Normal");
+            const cls = statusClass(item.status);
+            return `
+                <tr>
+                    <td class="rank">${index + 1}</td>
+                    <td class="medicine-name">${escapeHTML(item.medicine_name)}</td>
+                    <td>${number(item.low_stock_phcs).toLocaleString("en-IN")}</td>
+                    <td>${number(item.out_of_stock_phcs).toLocaleString("en-IN")}</td>
+                    <td><b class="inventory-status ${cls}">${status}</b></td>
+                </tr>`;
+        }).join("");
+    }
+
+    function renderStateAvailability(rows) {
+        const container = $("stateAvailabilityBars");
+        if (!rows || rows.length === 0) {
+            container.innerHTML = '<span class="chart-loading">No state data available.</span>';
+            return;
+        }
+
+        const sorted = rows.slice(0, 8).sort((a, b) => number(b.availability_percent) - number(a.availability_percent));
+        container.innerHTML = sorted.map((item) => {
+            const value = Math.max(0, Math.min(100, number(item.availability_percent)));
+            return `
+                <div class="state-bar-item" title="${escapeHTML(item.state)}: ${value.toFixed(1)}%">
+                    <div class="state-bar-value">${value.toFixed(1)}%</div>
+                    <div class="state-bar-track"><div class="state-bar-fill" style="height:${value}%"></div></div>
+                    <div class="state-bar-label">${escapeHTML(item.state)}</div>
+                </div>`;
+        }).join("");
+    }
+
+    async function loadMedicineInventory() {
+        try {
+            const response = await fetch("/api/medicine-inventory", {
+                headers: { "Accept": "application/json" },
+                cache: "no-store"
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || "Medicine inventory API failed.");
+            }
+
+            renderSummary(data.summary || {});
+            renderTopMedicines(data.top_medicines || []);
+            renderStateAvailability(data.state_availability || []);
+
+            const updated = data.updated_display || data.generated_at || "Updated just now";
+            $("inventoryUpdated").textContent = updated;
+            $("insightUpdated").textContent = updated;
+        } catch (error) {
+            console.error("Medicine Inventory error:", error);
+            $("inventoryUpdated").textContent = "Unable to update";
+            $("insightUpdated").textContent = "Unable to update";
+            $("topMedicinesBody").innerHTML =
+                '<tr><td colspan="5" class="empty-cell">Unable to load medicine inventory.</td></tr>';
+            $("stateAvailabilityBars").innerHTML =
+                '<span class="chart-loading">Unable to load state availability.</span>';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadMedicineInventory);
+})();
+</script>
 {% endblock %}

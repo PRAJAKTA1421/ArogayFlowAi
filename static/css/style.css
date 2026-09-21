@@ -1712,3 +1712,770 @@
         min-width: 0;
     }
 }
+
+/* ================================================================
+   AROGYAFLOW AI — MEDICINE INVENTORY MODERN REDESIGN
+   Appended override block: keeps the existing dashboard styles intact
+   while giving Medicine Inventory its own polished visual system.
+   ================================================================ */
+
+.medicine-inventory-page {
+    --mi-blue: #176cf0;
+    --mi-blue-soft: #edf5ff;
+    --mi-navy: #102d59;
+    --mi-muted: #71839d;
+    --mi-line: #dce8f6;
+    --mi-bg: #f5f9ff;
+    --mi-green: #18b978;
+    --mi-green-soft: #eafaf3;
+    --mi-orange: #f5a914;
+    --mi-orange-soft: #fff6df;
+    --mi-red: #ef4a58;
+    --mi-red-soft: #fff0f2;
+    background: var(--mi-bg);
+}
+
+.medicine-inventory-page .dash-content {
+    background: var(--mi-bg);
+}
+
+.medicine-inventory-page .dash-head {
+    height: 76px;
+    padding: 0 24px;
+    gap: 22px;
+    border-bottom: 1px solid #e1ebf6;
+    box-shadow: 0 1px 0 rgba(20,70,120,.02);
+}
+
+.medicine-inventory-page .dash-head h1 {
+    color: #102e5d;
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -.4px;
+}
+
+.medicine-inventory-page .dash-head p {
+    color: #7286a1;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.medicine-inventory-page .location {
+    height: 40px;
+    min-width: 132px;
+    margin-left: auto;
+    border: 1px solid #dce7f4;
+    border-radius: 9px;
+    background: #fff;
+    color: #304b70;
+    font-size: 11px;
+    box-shadow: 0 2px 7px rgba(25,76,130,.03);
+}
+
+.medicine-inventory-page .location span {
+    margin-left: 10px;
+    color: #6d819d;
+}
+
+.medicine-inventory-page .updated {
+    color: #8293a9;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.medicine-inventory-page .bell {
+    color: #f5ad18;
+    font-size: 23px;
+    line-height: 1;
+}
+
+.medicine-inventory-page .bell i {
+    top: -7px;
+    right: -8px;
+    min-width: 17px;
+    text-align: center;
+    background: #f24855;
+    font-size: 9px;
+}
+
+.medicine-inventory-page .profile {
+    gap: 9px;
+    color: #102d59;
+}
+
+.medicine-inventory-page .profile-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg,#1e78f2,#1260d9);
+    color: #fff;
+    font-size: 13px;
+    box-shadow: 0 3px 9px rgba(23,108,240,.22);
+}
+
+.medicine-inventory-page .profile span:not(.profile-avatar) {
+    font-size: 11px;
+}
+
+.medicine-inventory-page .profile small {
+    margin-top: 2px;
+    color: #71839d;
+}
+
+.medicine-inventory-page .profile > b {
+    color: #176cf0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.medicine-inventory-page .inventory-body {
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ---------------- KPI cards ---------------- */
+.medicine-inventory-page .report-kpis {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 18px;
+}
+
+.medicine-inventory-page .inventory-kpi {
+    position: relative;
+    min-height: 126px;
+    overflow: hidden;
+    padding: 19px 20px 18px 74px;
+    border: 1px solid #dce8f6;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(25,76,130,.055);
+}
+
+.medicine-inventory-page .inventory-kpi::after {
+    content: '';
+    position: absolute;
+    left: 74px;
+    right: 20px;
+    bottom: 11px;
+    height: 22px;
+    opacity: .75;
+    background: center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24'%3E%3Cpath d='M1 19 C15 14 24 22 38 14 S60 18 74 10 S98 17 113 8 S136 15 153 7 S176 14 191 5 S216 11 239 2' fill='none' stroke='%232b78ef' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.medicine-inventory-page .inventory-kpi.good {
+    border-color: #c8ecdd;
+    background: linear-gradient(135deg,#fff 0%,#f3fcf8 100%);
+}
+
+.medicine-inventory-page .inventory-kpi.good::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24'%3E%3Cpath d='M1 19 C15 14 24 22 38 14 S60 18 74 10 S98 17 113 8 S136 15 153 7 S176 14 191 5 S216 11 239 2' fill='none' stroke='%2318b978' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.medicine-inventory-page .inventory-kpi.warn {
+    border-color: #f2dfb0;
+    background: linear-gradient(135deg,#fff 0%,#fffaf0 100%);
+}
+
+.medicine-inventory-page .inventory-kpi.warn::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24'%3E%3Cpath d='M1 19 C15 14 24 22 38 14 S60 18 74 10 S98 17 113 8 S136 15 153 7 S176 14 191 5 S216 11 239 2' fill='none' stroke='%23f5a914' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.medicine-inventory-page .inventory-kpi.bad {
+    border-color: #f1cbd1;
+    background: linear-gradient(135deg,#fff 0%,#fff5f6 100%);
+}
+
+.medicine-inventory-page .inventory-kpi.bad::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24'%3E%3Cpath d='M1 19 C15 14 24 22 38 14 S60 18 74 10 S98 17 113 8 S136 15 153 7 S176 14 191 5 S216 11 239 2' fill='none' stroke='%23ef4a58' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.medicine-inventory-page .inventory-kpi small {
+    display: block;
+    color: #176cf0;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .inventory-kpi.good small { color: #119c69; }
+.medicine-inventory-page .inventory-kpi.warn small { color: #e59408; }
+.medicine-inventory-page .inventory-kpi.bad small { color: #eb3e4e; }
+
+.medicine-inventory-page .inventory-kpi strong {
+    display: block;
+    margin: 9px 0 0;
+    color: #102f5e;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.medicine-inventory-page .inventory-kpi strong em {
+    color: #17385f;
+    font-size: 13px;
+    font-style: normal;
+    letter-spacing: 0;
+}
+
+.medicine-inventory-page .kpi-icon {
+    position: absolute;
+    left: 19px;
+    top: 19px;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #eaf3ff;
+    color: #176cf0;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .good .kpi-icon { background: #dcf8eb; color: #13ad72; }
+.medicine-inventory-page .warn .kpi-icon { background: #fff0cc; color: #f1a30e; }
+.medicine-inventory-page .bad .kpi-icon { background: #ffe1e6; color: #ee4656; }
+
+.medicine-inventory-page .kpi-subtext {
+    position: absolute;
+    left: 74px;
+    bottom: 13px;
+    z-index: 2;
+    color: #72839b;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.medicine-inventory-page .kpi-subtext.positive { color: #159d6b; }
+.medicine-inventory-page .kpi-subtext.warning { color: #d9910b; }
+.medicine-inventory-page .kpi-subtext.danger { color: #e64b57; }
+
+.medicine-inventory-page .kpi-arrow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #176cf0;
+    font-size: 17px;
+}
+
+.medicine-inventory-page .good .kpi-arrow { color: #13ae72; }
+.medicine-inventory-page .warn .kpi-arrow { color: #f1a30e; }
+.medicine-inventory-page .bad .kpi-arrow { color: #ee4656; }
+
+/* ---------------- Panels ---------------- */
+.medicine-inventory-page .inventory-top-grid,
+.medicine-inventory-page .inventory-bottom-grid {
+    display: grid;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.medicine-inventory-page .inventory-top-grid {
+    grid-template-columns: minmax(350px,.95fr) minmax(560px,1.55fr);
+}
+
+.medicine-inventory-page .inventory-bottom-grid {
+    grid-template-columns: minmax(0,1.65fr) minmax(330px,.8fr);
+}
+
+.medicine-inventory-page .modern-panel {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #dce8f6;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(25,76,130,.055);
+}
+
+.medicine-inventory-page .panel-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.medicine-inventory-page .panel-title-row h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    color: #17365f;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .panel-title-row p {
+    margin: 5px 0 0 28px;
+    color: #8292a8;
+    font-size: 9px;
+    line-height: 1.45;
+}
+
+.medicine-inventory-page .title-icon {
+    width: 23px;
+    height: 23px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 7px;
+    background: #edf5ff;
+    color: #176cf0;
+    font-size: 12px;
+}
+
+.medicine-inventory-page .title-icon.slate { background: #eef3f9; color: #52708f; }
+.medicine-inventory-page .title-icon.mint { background: #e5f9f1; color: #16a875; }
+.medicine-inventory-page .title-muted { color: #7a8ca5; font-weight: 600; }
+
+.medicine-inventory-page .stock-table .panel-title-row > a {
+    color: #176cf0;
+    font-size: 9px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-top: 4px;
+}
+
+/* ---------------- Donut ---------------- */
+.medicine-inventory-page .donut-panel {
+    min-height: 285px;
+}
+
+.medicine-inventory-page .availability-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    min-height: 205px;
+}
+
+.medicine-inventory-page .modern-donut {
+    --sufficient: 97%;
+    --low: 3%;
+    --out: 0%;
+    flex: 0 0 185px;
+    width: 185px;
+    height: 185px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(
+        #20b978 0 var(--sufficient),
+        #f5a914 var(--sufficient) calc(var(--sufficient) + var(--low)),
+        #ef4a58 calc(var(--sufficient) + var(--low)) 100%
+    );
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+}
+
+.medicine-inventory-page .modern-donut::before {
+    content: '';
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+}
+
+.medicine-inventory-page .modern-donut strong {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    color: #17365f;
+}
+
+.medicine-inventory-page .modern-donut strong span {
+    font-size: 26px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .modern-donut strong small {
+    margin-top: 8px;
+    color: #8091a8;
+    font-size: 8px;
+    font-weight: 600;
+}
+
+.medicine-inventory-page .modern-legend {
+    flex: 1;
+    display: grid;
+    gap: 17px;
+}
+
+.medicine-inventory-page .modern-legend p {
+    display: grid;
+    grid-template-columns: 11px 1fr auto;
+    align-items: center;
+    column-gap: 9px;
+    margin: 0;
+    color: #657b97;
+    font-size: 10px;
+}
+
+.medicine-inventory-page .modern-legend p i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.medicine-inventory-page .sufficient-dot { background: #20b978; }
+.medicine-inventory-page .low-dot { background: #f5a914; }
+.medicine-inventory-page .out-dot { background: #ef4a58; }
+
+.medicine-inventory-page .modern-legend p b {
+    color: #17365f;
+    font-size: 12px;
+}
+
+.medicine-inventory-page .modern-legend p em {
+    grid-column: 2 / 4;
+    color: #8797ab;
+    font-size: 8px;
+    font-style: normal;
+    margin-top: -5px;
+}
+
+/* ---------------- Table ---------------- */
+.medicine-inventory-page .stock-table {
+    min-height: 285px;
+}
+
+.medicine-inventory-page .table-wrap {
+    overflow-x: auto;
+}
+
+.medicine-inventory-page .stock-table table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid #e4edf7;
+    border-radius: 10px;
+    font-size: 10px;
+}
+
+.medicine-inventory-page .stock-table th {
+    padding: 11px 12px;
+    background: #f7faff;
+    color: #7890aa;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid #e4edf7;
+}
+
+.medicine-inventory-page .stock-table td {
+    padding: 12px;
+    color: #506985;
+    border-bottom: 1px solid #edf2f7;
+    white-space: nowrap;
+}
+
+.medicine-inventory-page .stock-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.medicine-inventory-page .stock-table tbody tr:hover td {
+    background: #f9fbff;
+}
+
+.medicine-inventory-page .stock-table td.rank {
+    width: 38px;
+    color: #91a1b4;
+    font-weight: 700;
+}
+
+.medicine-inventory-page .stock-table td.medicine-name {
+    color: #234466;
+    font-weight: 700;
+}
+
+.medicine-inventory-page .inventory-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .inventory-status.good { background: #e8f8ef; color: #159c68; }
+.medicine-inventory-page .inventory-status.warn { background: #fff2d9; color: #db920a; }
+.medicine-inventory-page .inventory-status.bad { background: #ffe5e8; color: #e44453; }
+
+.medicine-inventory-page .loading-cell,
+.medicine-inventory-page .empty-cell {
+    text-align: center;
+    padding: 28px 10px !important;
+    color: #8292a8 !important;
+}
+
+/* ---------------- State chart ---------------- */
+.medicine-inventory-page .bar-panel {
+    min-height: 280px;
+}
+
+.medicine-inventory-page .state-filter {
+    height: 34px;
+    min-width: 108px;
+    padding: 0 10px;
+    border: 1px solid #dce7f3;
+    border-radius: 8px;
+    background: #fff;
+    color: #3f5b7b;
+    font: 700 9px 'DM Sans',sans-serif;
+}
+
+.medicine-inventory-page .state-filter span {
+    margin-left: 8px;
+    color: #7e90a7;
+}
+
+.medicine-inventory-page .state-chart {
+    position: relative;
+    min-height: 190px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(24px,4vw,65px);
+    padding: 16px 22px 3px 40px;
+    border-bottom: 1px solid #cfdceb;
+    background:
+        repeating-linear-gradient(to top, transparent 0 36px, #eaf0f7 37px),
+        linear-gradient(to bottom, transparent, transparent);
+}
+
+.medicine-inventory-page .state-chart::before {
+    content: '100%\\A 75%\\A 50%\\A 25%\\A 0%';
+    white-space: pre;
+    position: absolute;
+    left: 0;
+    top: 5px;
+    color: #8a9aae;
+    font-size: 8px;
+    line-height: 37px;
+}
+
+.medicine-inventory-page .state-bar-item {
+    position: relative;
+    width: 74px;
+    height: 166px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.medicine-inventory-page .state-bar-value {
+    margin-bottom: 5px;
+    color: #224d82;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .state-bar-track {
+    position: relative;
+    width: 42px;
+    height: 125px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    background: #edf3f9;
+}
+
+.medicine-inventory-page .state-bar-fill {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    background: linear-gradient(180deg,#2478ef,#1765df);
+    box-shadow: 0 4px 10px rgba(23,108,240,.18);
+}
+
+.medicine-inventory-page .state-bar-label {
+    width: 100px;
+    margin-top: 8px;
+    overflow: hidden;
+    color: #667d99;
+    font-size: 8px;
+    font-weight: 700;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.medicine-inventory-page .chart-loading {
+    align-self: center;
+    color: #8292a8;
+    font-size: 10px;
+}
+
+/* ---------------- Key insights ---------------- */
+.medicine-inventory-page .insights-panel {
+    min-height: 280px;
+    background: linear-gradient(145deg,#f7fffc 0%,#effaf8 100%);
+    border-color: #cfece3;
+}
+
+.medicine-inventory-page .insight-list {
+    display: grid;
+    gap: 9px;
+}
+
+.medicine-inventory-page .insight-item {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(219,234,238,.9);
+}
+
+.medicine-inventory-page .insight-badge {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #dff8ec;
+    color: #16aa73;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .insight-item strong {
+    display: block;
+    color: #149a68;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .insight-item p {
+    margin: 3px 0 0;
+    color: #6f8299;
+    font-size: 8px;
+    line-height: 1.45;
+}
+
+.medicine-inventory-page .insight-item small {
+    display: block;
+    margin-top: 2px;
+    color: #91a0b0;
+    font-size: 7px;
+}
+
+.medicine-inventory-page .insight-warn .insight-badge { background: #eaf2ff; color: #2777eb; }
+.medicine-inventory-page .insight-warn strong { color: #246fe1; }
+.medicine-inventory-page .insight-safe .insight-badge { background: #eeeaff; color: #6654d9; }
+.medicine-inventory-page .insight-safe strong { color: #4d55b9; }
+.medicine-inventory-page .insight-update .insight-badge { background: #e8f1ff; color: #176cf0; }
+.medicine-inventory-page .insight-update strong { color: #176cf0; }
+
+/* ---------------- Sidebar polish ---------------- */
+.medicine-inventory-page .sidebar {
+    background: #fff;
+    border-right: 1px solid #e1eaf4;
+    box-shadow: 2px 0 12px rgba(20,70,120,.045);
+}
+
+.medicine-inventory-page .sidebar nav a.selected {
+    background: #edf5ff !important;
+    color: #176cf0;
+}
+
+.medicine-inventory-page .sidebar nav a.selected span {
+    color: #176cf0 !important;
+    font-weight: 800;
+}
+
+.medicine-inventory-page .health-score {
+    border-color: #d9e7f5;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(25,76,130,.045);
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1150px) {
+    .medicine-inventory-page .inventory-top-grid,
+    .medicine-inventory-page .inventory-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .medicine-inventory-page .insights-panel,
+    .medicine-inventory-page .bar-panel,
+    .medicine-inventory-page .donut-panel,
+    .medicine-inventory-page .stock-table {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 900px) {
+    .medicine-inventory-page .report-kpis {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .medicine-inventory-page .availability-content {
+        justify-content: center;
+    }
+
+    .medicine-inventory-page .state-chart {
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 650px) {
+    .medicine-inventory-page .dash-head {
+        height: auto;
+        min-height: 70px;
+        padding: 12px;
+        flex-wrap: wrap;
+    }
+
+    .medicine-inventory-page .dash-head h1 { font-size: 17px; }
+    .medicine-inventory-page .dash-head p { font-size: 9px; }
+    .medicine-inventory-page .updated { display: none; }
+    .medicine-inventory-page .inventory-body { padding: 10px; }
+
+    .medicine-inventory-page .report-kpis {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .medicine-inventory-page .inventory-kpi {
+        min-height: 112px;
+    }
+
+    .medicine-inventory-page .availability-content {
+        flex-direction: column;
+        padding-bottom: 10px;
+    }
+
+    .medicine-inventory-page .modern-donut {
+        flex-basis: 160px;
+        width: 160px;
+        height: 160px;
+    }
+
+    .medicine-inventory-page .modern-donut::before {
+        width: 112px;
+        height: 112px;
+    }
+
+    .medicine-inventory-page .state-chart {
+        justify-content: flex-start;
+        gap: 25px;
+    }
+}
