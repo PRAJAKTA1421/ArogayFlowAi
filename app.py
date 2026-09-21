@@ -8,6 +8,22 @@ from ai.stockout_prediction import analyze_stockout
 from ai.anomaly_detection import analyze_anomaly
 from ai.redistribution import find_source_phcs, save_recommendation
 
+def safe_float(value, default=0.0):
+    """Safely convert Firestore/numeric values to float."""
+    try:
+        if value is None:
+            return default
+
+        if isinstance(value, str):
+            value = value.strip()
+
+            if value == "":
+                return default
+
+        return float(value)
+
+    except (TypeError, ValueError):
+        return default
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "arogyaflow-demo-key"
@@ -912,6 +928,382 @@ def beds_overview():
         "beds_overview.html"
     )
 
+# ============================================================
+# BEDS OVERVIEW API
+# ============================================================
+
+BEDS_OVERVIEW_CACHE_TTL = 300
+
+_beds_overview_cache = {
+    "timestamp": 0.0,
+    "payload": None,
+}
+
+
+@app.route("/api/beds-overview", methods=["GET"])
+def beds_overview_api():
+
+    try:
+        now = time.time()
+
+        # ----------------------------------------------------
+        # CACHE
+        # ----------------------------------------------------
+
+        if (
+            _beds_overview_cache["payload"] is not None
+            and
+            now - _beds_overview_cache["timestamp"]
+            < BEDS_OVERVIEW_CACHE_TTL
+        ):
+            return jsonify(
+                _beds_overview_cache["payload"]
+            )
+
+        # ----------------------------------------------------
+        # READ PHC DATA
+        # ----------------------------------------------------
+
+        phc_docs = list(
+            db.collection("phcs").stream()
+        )
+
+        phcs = []
+
+        for doc in phc_docs:
+
+            data = doc.to_dict() or {}
+
+            def safe_number(value, default=0):
+                try:
+                    if value is None:
+                        return float(default)
+                    return float(value)
+                except (TypeError, ValueError):
+                    return float(default)
+
+            phc_id = str(
+                data.get("phc_id", doc.id)
+            ).strip()
+
+            name = str(
+                data.get(
+                    "name",
+                    data.get(
+                        "phc_name",
+                        phc_id
+                    )
+                )
+            ).strip()
+
+            state = str(
+                data.get(
+                    "state",
+                    "Unknown"
+                )
+            ).strip()
+
+            total_beds = max(
+                0,
+                safe_number(
+                    data.get("total_beds")
+                )
+            )
+
+            occupied_beds = max(
+                0,
+                safe_number(
+                    data.get("occupied_beds")
+                )
+            )
+
+            # Never allow occupied beds to exceed
+            # the total beds for display calculations.
+            if total_beds > 0:
+                occupied_beds = min(
+                    occupied_beds,
+                    total_beds
+                )
+
+            available_beds = max(
+                0,
+                safe_number(
+                    data.get("available_beds")
+                )
+            )
+
+            # Recalculate available beds from the
+            # actual total/occupied values.
+            if total_beds > 0:
+                available_beds = max(
+                    0,
+                    total_beds - occupied_beds
+                )
+
+            occupancy = (
+                (occupied_beds / total_beds) * 100
+                if total_beds > 0
+                else 0
+            )
+
+            phcs.append({
+                "id": phc_id,
+                "name": name,
+                "state": state,
+                "total_beds": int(
+                    round(total_beds)
+                ),
+                "occupied_beds": int(
+                    round(occupied_beds)
+                ),
+                "available_beds": int(
+                    round(available_beds)
+                ),
+                "occupancy": round(
+                    occupancy,
+                    1
+                ),
+            })
+
+        # ----------------------------------------------------
+        # NETWORK TOTALS
+        # ----------------------------------------------------
+
+        total_beds = sum(
+            item["total_beds"]
+            for item in phcs
+        )
+
+        occupied_beds = sum(
+            item["occupied_beds"]
+            for item in phcs
+        )
+
+        available_beds = sum(
+            item["available_beds"]
+            for item in phcs
+        )
+
+        average_occupancy = (
+            (occupied_beds / total_beds) * 100
+            if total_beds > 0
+            else 0
+        )
+
+        # ----------------------------------------------------
+        # STATE-LEVEL OCCUPANCY
+        # ----------------------------------------------------
+
+        state_data = {}
+
+        for item in phcs:
+
+            state = item["state"]
+
+            if state not in state_data:
+                state_data[state] = {
+                    "state": state,
+                    "total_beds": 0,
+                    "occupied_beds": 0,
+                    "available_beds": 0,
+                }
+
+            state_data[state]["total_beds"] += (
+                item["total_beds"]
+            )
+
+            state_data[state]["occupied_beds"] += (
+                item["occupied_beds"]
+            )
+
+            state_data[state]["available_beds"] += (
+                item["available_beds"]
+            )
+
+        state_occupancy = []
+
+        for state, item in state_data.items():
+
+            state_total = item["total_beds"]
+            state_occupied = item["occupied_beds"]
+
+            occupancy = (
+                (state_occupied / state_total) * 100
+                if state_total > 0
+                else 0
+            )
+
+            state_occupancy.append({
+                "state": state,
+                "total_beds": state_total,
+                "occupied_beds": state_occupied,
+                "available_beds":
+                    item["available_beds"],
+                "occupancy": round(
+                    occupancy,
+                    1
+                ),
+            })
+
+        state_occupancy.sort(
+            key=lambda x: x["occupancy"],
+            reverse=True
+        )
+
+        # ----------------------------------------------------
+        # HIGH OCCUPANCY PHCs
+        # ----------------------------------------------------
+
+        high_occupancy = sorted(
+            [
+                item
+                for item in phcs
+                if item["occupancy"] > 90
+            ],
+            key=lambda x: x["occupancy"],
+            reverse=True
+        )[:10]
+
+        # ----------------------------------------------------
+        # LOW OCCUPANCY PHCs
+        # ----------------------------------------------------
+
+        low_occupancy = sorted(
+            [
+                item
+                for item in phcs
+                if item["occupancy"] < 30
+            ],
+            key=lambda x: x["occupancy"]
+        )[:10]
+
+        # ----------------------------------------------------
+        # SUMMARY
+        # ----------------------------------------------------
+
+        summary = {
+            "total_phcs":
+                len(phcs),
+
+            "total_beds":
+                total_beds,
+
+            "occupied_beds":
+                occupied_beds,
+
+            "available_beds":
+                available_beds,
+
+            "occupancy_percent":
+                round(
+                    average_occupancy,
+                    1
+                ),
+
+            "occupied_percent":
+                round(
+                    (
+                        occupied_beds /
+                        total_beds *
+                        100
+                    )
+                    if total_beds > 0
+                    else 0,
+                    1
+                ),
+
+            "available_percent":
+                round(
+                    (
+                        available_beds /
+                        total_beds *
+                        100
+                    )
+                    if total_beds > 0
+                    else 0,
+                    1
+                ),
+
+            "high_occupancy_count":
+                len([
+                    p for p in phcs
+                    if p["occupancy"] > 90
+                ]),
+
+            "low_occupancy_count":
+                len([
+                    p for p in phcs
+                    if p["occupancy"] < 30
+                ]),
+        }
+
+        # ----------------------------------------------------
+        # FINAL PAYLOAD
+        # ----------------------------------------------------
+
+        payload = make_json_safe({
+
+            "success":
+                True,
+
+            "source":
+                "Firestore phcs",
+
+            "generated_at":
+                datetime.now().isoformat(),
+
+            "updated_display":
+                datetime.now().strftime(
+                    "%d %b %Y, %I:%M %p"
+                ),
+
+            "summary":
+                summary,
+
+            "state_occupancy":
+                state_occupancy,
+
+            "high_occupancy_phcs":
+                high_occupancy,
+
+            "low_occupancy_phcs":
+                low_occupancy,
+
+        })
+
+        # ----------------------------------------------------
+        # CACHE
+        # ----------------------------------------------------
+
+        _beds_overview_cache[
+            "timestamp"
+        ] = time.time()
+
+        _beds_overview_cache[
+            "payload"
+        ] = payload
+
+        return jsonify(payload)
+
+    except Exception as error:
+
+        print(
+            "Beds Overview API error: "
+            f"{type(error).__name__}: {error}"
+        )
+
+        return jsonify({
+
+            "success":
+                False,
+
+            "error":
+                str(error),
+
+            "error_type":
+                type(error).__name__,
+
+        }), 500
 
 @app.route("/medical-staff")
 def medical_staff():
@@ -919,6 +1311,408 @@ def medical_staff():
         "medical_staff.html"
     )
 
+# ============================================================
+# MEDICAL STAFF API
+# ============================================================
+
+MEDICAL_STAFF_CACHE_TTL = 300
+_medical_staff_cache = {
+    "timestamp": 0.0,
+    "payload": None
+}
+
+
+@app.route("/api/medical-staff")
+def api_medical_staff():
+    global _medical_staff_cache
+
+    now = time.time()
+
+    # Return cached response for 5 minutes
+    if (
+        _medical_staff_cache["payload"] is not None
+        and now - _medical_staff_cache["timestamp"] < MEDICAL_STAFF_CACHE_TTL
+    ):
+        return jsonify(_medical_staff_cache["payload"])
+
+    try:
+        phc_docs = list(db.collection("phcs").stream())
+
+        if not phc_docs:
+            return jsonify({
+                "success": True,
+                "source": "Firestore phcs.staff",
+                "summary": {
+                    "total_staff": 0,
+                    "present_staff": 0,
+                    "required_staff": 0,
+                    "staff_gap": 0,
+                    "availability_percent": 0,
+                    "doctors": 0,
+                    "nurses": 0,
+                    "paramedics": 0,
+                    "on_leave": 0,
+                    "unavailable": 0
+                },
+                "state_staff": [],
+                "availability": {
+                    "available": 0,
+                    "on_leave": 0,
+                    "unavailable": 0
+                },
+                "shortage_alerts": [],
+                "generated_at": datetime.utcnow().isoformat()
+            })
+
+        total_staff = 0
+        present_staff = 0
+        required_staff = 0
+        total_gap = 0
+
+        total_doctors = 0
+        total_nurses = 0
+        total_paramedics = 0
+
+        total_on_leave = 0
+        total_unavailable = 0
+
+        state_data = {}
+        shortage_alerts = []
+
+        for doc in phc_docs:
+            phc = doc.to_dict() or {}
+
+            phc_id = phc.get("id") or doc.id
+            phc_name = (
+                phc.get("name")
+                or phc.get("phc_name")
+                or f"{phc_id} PHC"
+            )
+
+            state = (
+                phc.get("state")
+                or phc.get("State")
+                or "Unknown"
+            )
+
+            staff = phc.get("staff") or {}
+
+            doctors = staff.get("doctors") or {}
+            nurses = staff.get("nurses") or {}
+            paramedics = staff.get("paramedics") or {}
+            summary = staff.get("summary") or {}
+
+            # ------------------------------------------------
+            # Role-level values
+            # ------------------------------------------------
+
+            doctor_total = safe_float(doctors.get("total", 0))
+            doctor_present = safe_float(doctors.get("present", 0))
+            doctor_required = safe_float(doctors.get("required", 0))
+            doctor_leave = safe_float(doctors.get("on_leave", 0))
+            doctor_unavailable = safe_float(doctors.get("unavailable", 0))
+            doctor_gap = safe_float(
+                doctors.get(
+                    "gap",
+                    max(doctor_required - doctor_present, 0)
+                )
+            )
+
+            nurse_total = safe_float(nurses.get("total", 0))
+            nurse_present = safe_float(nurses.get("present", 0))
+            nurse_required = safe_float(nurses.get("required", 0))
+            nurse_leave = safe_float(nurses.get("on_leave", 0))
+            nurse_unavailable = safe_float(nurses.get("unavailable", 0))
+            nurse_gap = safe_float(
+                nurses.get(
+                    "gap",
+                    max(nurse_required - nurse_present, 0)
+                )
+            )
+
+            paramedic_total = safe_float(paramedics.get("total", 0))
+            paramedic_present = safe_float(paramedics.get("present", 0))
+            paramedic_required = safe_float(paramedics.get("required", 0))
+            paramedic_leave = safe_float(paramedics.get("on_leave", 0))
+            paramedic_unavailable = safe_float(paramedics.get("unavailable", 0))
+            paramedic_gap = safe_float(
+                paramedics.get(
+                    "gap",
+                    max(paramedic_required - paramedic_present, 0)
+                )
+            )
+
+            # ------------------------------------------------
+            # PHC totals
+            # ------------------------------------------------
+
+            phc_total = (
+                doctor_total
+                + nurse_total
+                + paramedic_total
+            )
+
+            phc_present = (
+                doctor_present
+                + nurse_present
+                + paramedic_present
+            )
+
+            phc_required = (
+                doctor_required
+                + nurse_required
+                + paramedic_required
+            )
+
+            phc_gap = (
+                doctor_gap
+                + nurse_gap
+                + paramedic_gap
+            )
+
+            phc_leave = (
+                doctor_leave
+                + nurse_leave
+                + paramedic_leave
+            )
+
+            phc_unavailable = (
+                doctor_unavailable
+                + nurse_unavailable
+                + paramedic_unavailable
+            )
+
+            # ------------------------------------------------
+            # Global totals
+            # ------------------------------------------------
+
+            total_staff += phc_total
+            present_staff += phc_present
+            required_staff += phc_required
+            total_gap += phc_gap
+
+            total_doctors += doctor_total
+            total_nurses += nurse_total
+            total_paramedics += paramedic_total
+
+            total_on_leave += phc_leave
+            total_unavailable += phc_unavailable
+
+            # ------------------------------------------------
+            # State aggregation
+            # ------------------------------------------------
+
+            if state not in state_data:
+                state_data[state] = {
+                    "state": state,
+                    "total_staff": 0,
+                    "present_staff": 0,
+                    "required_staff": 0,
+                    "gap": 0,
+                    "doctors": 0,
+                    "nurses": 0,
+                    "paramedics": 0,
+                    "on_leave": 0,
+                    "unavailable": 0
+                }
+
+            state_data[state]["total_staff"] += phc_total
+            state_data[state]["present_staff"] += phc_present
+            state_data[state]["required_staff"] += phc_required
+            state_data[state]["gap"] += phc_gap
+
+            state_data[state]["doctors"] += doctor_total
+            state_data[state]["nurses"] += nurse_total
+            state_data[state]["paramedics"] += paramedic_total
+
+            state_data[state]["on_leave"] += phc_leave
+            state_data[state]["unavailable"] += phc_unavailable
+
+            # ------------------------------------------------
+            # Shortage alerts
+            # ------------------------------------------------
+
+            role_data = [
+                (
+                    "Doctors",
+                    doctor_required,
+                    doctor_present,
+                    doctor_gap
+                ),
+                (
+                    "Nurses",
+                    nurse_required,
+                    nurse_present,
+                    nurse_gap
+                ),
+                (
+                    "Paramedics",
+                    paramedic_required,
+                    paramedic_present,
+                    paramedic_gap
+                )
+            ]
+
+            for role, required, present, gap in role_data:
+
+                if gap > 0:
+                    shortage_alerts.append({
+                        "phc_id": phc_id,
+                        "phc": phc_name,
+                        "state": state,
+                        "role": role,
+                        "required": round(required, 1),
+                        "available": round(present, 1),
+                        "gap": round(gap, 1)
+                    })
+
+        # ----------------------------------------------------
+        # State records
+        # ----------------------------------------------------
+
+        state_staff = []
+
+        for item in state_data.values():
+
+            state_total = item["total_staff"]
+            state_present = item["present_staff"]
+
+            availability = (
+                (state_present / state_total) * 100
+                if state_total > 0
+                else 0
+            )
+
+            state_staff.append({
+                "state": item["state"],
+                "total_staff": round(item["total_staff"], 1),
+                "present_staff": round(item["present_staff"], 1),
+                "required_staff": round(item["required_staff"], 1),
+                "gap": round(item["gap"], 1),
+                "doctors": round(item["doctors"], 1),
+                "nurses": round(item["nurses"], 1),
+                "paramedics": round(item["paramedics"], 1),
+                "on_leave": round(item["on_leave"], 1),
+                "unavailable": round(item["unavailable"], 1),
+                "availability_percent": round(availability, 1)
+            })
+
+        # Highest staffing gaps first
+        state_staff.sort(
+            key=lambda x: x["gap"],
+            reverse=True
+        )
+
+        # Highest role shortages first
+        shortage_alerts.sort(
+            key=lambda x: x["gap"],
+            reverse=True
+        )
+
+        # Keep dashboard response compact
+        shortage_alerts = shortage_alerts[:10]
+
+        # ----------------------------------------------------
+        # Availability
+        # ----------------------------------------------------
+
+        available_staff = present_staff
+
+        total_available_pool = (
+            present_staff
+            + total_on_leave
+            + total_unavailable
+        )
+
+        availability_percent = (
+            (present_staff / total_staff) * 100
+            if total_staff > 0
+            else 0
+        )
+
+        leave_percent = (
+            (total_on_leave / total_available_pool) * 100
+            if total_available_pool > 0
+            else 0
+        )
+
+        unavailable_percent = (
+            (total_unavailable / total_available_pool) * 100
+            if total_available_pool > 0
+            else 0
+        )
+
+        payload = {
+            "success": True,
+            "source": "Firestore phcs.staff",
+            "data_type": "synthetic_demo",
+            "schema_version": "1.0",
+
+            "summary": {
+                "total_staff": round(total_staff, 1),
+                "present_staff": round(present_staff, 1),
+                "required_staff": round(required_staff, 1),
+                "staff_gap": round(total_gap, 1),
+
+                "availability_percent": round(
+                    availability_percent,
+                    1
+                ),
+
+                "doctors": round(total_doctors, 1),
+                "nurses": round(total_nurses, 1),
+                "paramedics": round(total_paramedics, 1),
+
+                "on_leave": round(total_on_leave, 1),
+                "unavailable": round(total_unavailable, 1),
+
+                "leave_percent": round(
+                    leave_percent,
+                    1
+                ),
+
+                "unavailable_percent": round(
+                    unavailable_percent,
+                    1
+                )
+            },
+
+            "availability": {
+                "available": round(available_staff, 1),
+                "on_leave": round(total_on_leave, 1),
+                "unavailable": round(total_unavailable, 1)
+            },
+
+            "state_staff": state_staff,
+
+            "shortage_alerts": shortage_alerts,
+
+            "generated_at": datetime.utcnow().isoformat(),
+            "updated_display": datetime.now().strftime(
+                "%d %b %Y, %I:%M %p"
+            )
+        }
+
+        payload = make_json_safe(payload)
+
+        _medical_staff_cache = {
+            "timestamp": now,
+            "payload": payload
+        }
+
+        return jsonify(payload)
+
+    except Exception as e:
+
+        print(
+            "MEDICAL STAFF API ERROR:",
+            repr(e)
+        )
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
 
 @app.route("/ai-predictions")
 def ai_predictions():
@@ -933,6 +1727,591 @@ def resource_transfer():
         "resource_transfer.html"
     )
 
+# ============================================================
+# RESOURCE TRANSFER API
+# ============================================================
+
+RESOURCE_TRANSFER_CACHE_TTL = 300
+
+_resource_transfer_cache = {
+    "timestamp": 0.0,
+    "payload": None,
+}
+
+
+@app.route("/api/resource-transfer", methods=["GET"])
+def resource_transfer_api():
+    """
+    Return the latest saved redistribution optimizer results.
+
+    Important:
+    - Does NOT run find_source_phcs()
+    - Reads only transfer_recommendations
+    - Deduplicates older recommendations
+    - Preserves all source PHCs from the latest optimizer run
+    """
+
+    try:
+
+        # ====================================================
+        # CACHE
+        # ====================================================
+
+        now = time.time()
+
+        if (
+            _resource_transfer_cache["payload"] is not None
+            and
+            now - _resource_transfer_cache["timestamp"]
+            < RESOURCE_TRANSFER_CACHE_TTL
+        ):
+            return jsonify(
+                _resource_transfer_cache["payload"]
+            )
+
+        # ====================================================
+        # READ SAVED REDISTRIBUTION RESULTS
+        # ====================================================
+
+        recommendation_docs = list(
+            db.collection(
+                "transfer_recommendations"
+            )
+            .order_by(
+                "created_at",
+                direction="DESCENDING"
+            )
+            .limit(50)
+            .stream()
+        )
+
+        # ====================================================
+        # KEEP ONLY THE LATEST RECOMMENDATION FOR:
+        #
+        # destination PHC + medicine
+        #
+        # This removes repeated older optimizer runs.
+        # ====================================================
+
+        latest_recommendations = {}
+
+        for doc in recommendation_docs:
+
+            result = doc.to_dict() or {}
+
+            destination_phc = str(
+                result.get(
+                    "destination_phc",
+                    ""
+                )
+            ).strip()
+
+            destination_name = str(
+                result.get(
+                    "destination_name",
+                    destination_phc or "Destination PHC"
+                )
+            ).strip()
+
+            medicine = str(
+                result.get(
+                    "medicine",
+                    "Medicine"
+                )
+            ).strip()
+
+            # Unique key
+            recommendation_key = (
+                destination_phc.lower(),
+                medicine.lower()
+            )
+
+            # Because documents are ordered newest first,
+            # the first document is the latest one.
+            if recommendation_key not in latest_recommendations:
+
+                latest_recommendations[
+                    recommendation_key
+                ] = {
+                    "id": doc.id,
+                    "result": result,
+                    "destination_phc":
+                        destination_phc,
+                    "destination_name":
+                        destination_name,
+                    "medicine":
+                        medicine,
+                }
+
+        # ====================================================
+        # BUILD TRANSFER ROWS
+        # ====================================================
+
+        transfers = []
+
+        medicine_totals = {}
+
+        total_units = 0.0
+
+        today_string = datetime.now().date().isoformat()
+
+        transfers_today = 0
+
+        pending_recommendations = 0
+        transit_recommendations = 0
+        completed_recommendations = 0
+
+        # ====================================================
+        # PROCESS LATEST RECOMMENDATIONS
+        # ====================================================
+
+        for recommendation in latest_recommendations.values():
+
+            result = recommendation["result"]
+
+            recommendation_id = recommendation["id"]
+
+            destination_phc = (
+                recommendation[
+                    "destination_phc"
+                ]
+            )
+
+            destination_name = (
+                recommendation[
+                    "destination_name"
+                ]
+            )
+
+            medicine = (
+                recommendation[
+                    "medicine"
+                ]
+            )
+
+            action = str(
+                result.get(
+                    "action",
+                    "NO_ACTION_REQUIRED"
+                )
+            )
+
+            raw_status = str(
+                result.get(
+                    "status",
+                    "pending"
+                )
+            ).strip().lower()
+
+            # ------------------------------------------------
+            # Status
+            # ------------------------------------------------
+
+            if raw_status in (
+                "completed",
+                "complete"
+            ):
+
+                display_status = "Completed"
+
+                completed_recommendations += 1
+
+            elif raw_status in (
+                "in_transit",
+                "in transit",
+                "transit"
+            ):
+
+                display_status = "In Transit"
+
+                transit_recommendations += 1
+
+            else:
+
+                display_status = "Pending"
+
+                pending_recommendations += 1
+
+            # ------------------------------------------------
+            # Created date
+            # ------------------------------------------------
+
+            created_at = result.get(
+                "created_at"
+            )
+
+            if created_at:
+
+                created_string = str(
+                    created_at
+                )
+
+                if created_string.startswith(
+                    today_string
+                ):
+                    is_today = True
+                else:
+                    is_today = False
+
+            else:
+
+                is_today = False
+
+            # ------------------------------------------------
+            # Shortage
+            # ------------------------------------------------
+
+            shortage = float(
+                result.get(
+                    "shortage",
+                    0
+                )
+                or 0
+            )
+
+            remaining_shortage = float(
+                result.get(
+                    "remaining_shortage",
+                    0
+                )
+                or 0
+            )
+
+            # ------------------------------------------------
+            # Priority
+            # ------------------------------------------------
+
+            if shortage >= 250:
+
+                priority = "Critical"
+
+            elif shortage >= 100:
+
+                priority = "High"
+
+            elif shortage > 0:
+
+                priority = "Medium"
+
+            else:
+
+                priority = "Low"
+
+            # ------------------------------------------------
+            # Actual optimizer transfer plan
+            # ------------------------------------------------
+
+            transfer_plan = (
+                result.get(
+                    "transfer_plan"
+                )
+                or []
+            )
+
+            recommendation_had_transfer = False
+
+            for transfer in transfer_plan:
+
+                quantity = float(
+                    transfer.get(
+                        "recommended_quantity",
+                        0
+                    )
+                    or 0
+                )
+
+                if quantity <= 0:
+                    continue
+
+                recommendation_had_transfer = True
+
+                source_phc = str(
+                    transfer.get(
+                        "source_phc",
+                        ""
+                    )
+                ).strip()
+
+                source_name = str(
+                    transfer.get(
+                        "source_name",
+                        source_phc or "Source PHC"
+                    )
+                ).strip()
+
+                distance = transfer.get(
+                    "distance_km"
+                )
+
+                optimization_score = (
+                    transfer.get(
+                        "optimization_score"
+                    )
+                )
+
+                transfer_row = {
+
+                    "id":
+                        recommendation_id,
+
+                    "source_phc":
+                        source_phc,
+
+                    "source_name":
+                        source_name,
+
+                    "destination_phc":
+                        destination_phc,
+
+                    "destination_name":
+                        destination_name,
+
+                    "medicine":
+                        medicine,
+
+                    "quantity":
+                        round(
+                            quantity,
+                            1
+                        ),
+
+                    "distance_km":
+                        (
+                            round(
+                                float(distance),
+                                1
+                            )
+                            if distance is not None
+                            else None
+                        ),
+
+                    "optimization_score":
+                        (
+                            round(
+                                float(
+                                    optimization_score
+                                ),
+                                2
+                            )
+                            if optimization_score is not None
+                            else None
+                        ),
+
+                    "shortage":
+                        round(
+                            shortage,
+                            1
+                        ),
+
+                    "remaining_shortage":
+                        round(
+                            remaining_shortage,
+                            1
+                        ),
+
+                    "priority":
+                        priority,
+
+                    "status":
+                        display_status,
+
+                    "action":
+                        action,
+
+                    "reason":
+                        (
+                            "Forecasted stock shortage"
+                            if shortage > 0
+                            else
+                            "Redistribution recommended"
+                        ),
+
+                    "created_at":
+                        created_at,
+                }
+
+                transfers.append(
+                    transfer_row
+                )
+
+                total_units += quantity
+
+                # --------------------------------------------
+                # Transfers today
+                # --------------------------------------------
+
+                if is_today:
+                    transfers_today += 1
+
+                # --------------------------------------------
+                # Medicine summary
+                # --------------------------------------------
+
+                if medicine not in medicine_totals:
+
+                    medicine_totals[
+                        medicine
+                    ] = {
+
+                        "medicine":
+                            medicine,
+
+                        "quantity":
+                            0.0,
+
+                        "transfers":
+                            0,
+                    }
+
+                medicine_totals[
+                    medicine
+                ]["quantity"] += quantity
+
+                medicine_totals[
+                    medicine
+                ]["transfers"] += 1
+
+        # ====================================================
+        # SORT
+        # ====================================================
+
+        transfers.sort(
+            key=lambda item: (
+                item.get(
+                    "optimization_score"
+                )
+                if item.get(
+                    "optimization_score"
+                ) is not None
+                else -1
+            ),
+            reverse=True
+        )
+
+        # ====================================================
+        # MEDICINE SUMMARY
+        # ====================================================
+
+        medicine_summary = sorted(
+            medicine_totals.values(),
+            key=lambda item:
+                item["quantity"],
+            reverse=True
+        )
+
+        for item in medicine_summary:
+
+            item["quantity"] = round(
+                item["quantity"],
+                1
+            )
+
+        # ====================================================
+        # RECENT TRANSFERS
+        # ====================================================
+
+        recent_transfers = transfers[:5]
+
+        # ====================================================
+        # SUMMARY
+        # ====================================================
+
+        summary = {
+
+            "transfers_today":
+                transfers_today,
+
+            "in_transit":
+                transit_recommendations,
+
+            "completed":
+                completed_recommendations,
+
+            "pending_approval":
+                pending_recommendations,
+
+            "total_units":
+                round(
+                    total_units,
+                    1
+                ),
+
+            "updated_display":
+                datetime.now().strftime(
+                    "%d %b %Y, %I:%M %p"
+                ),
+
+            "model":
+                (
+                    "Distance + Safe Surplus "
+                    "Weighted Optimization"
+                ),
+        }
+
+        # ====================================================
+        # FINAL PAYLOAD
+        # ====================================================
+
+        payload = make_json_safe({
+
+            "success":
+                True,
+
+            "source":
+                "Firestore transfer_recommendations",
+
+            "summary":
+                summary,
+
+            "transfers":
+                transfers,
+
+            "medicine_summary":
+                medicine_summary,
+
+            "recent_transfers":
+                recent_transfers,
+
+            "generated_at":
+                datetime.now().isoformat(),
+
+        })
+
+        # ====================================================
+        # SAVE CACHE
+        # ====================================================
+
+        _resource_transfer_cache[
+            "timestamp"
+        ] = time.time()
+
+        _resource_transfer_cache[
+            "payload"
+        ] = payload
+
+        return jsonify(
+            payload
+        )
+
+    except Exception as error:
+
+        print(
+            "Resource Transfer API error: "
+            f"{type(error).__name__}: {error}"
+        )
+
+        return jsonify({
+
+            "success":
+                False,
+
+            "error":
+                str(error),
+
+            "error_type":
+                type(error).__name__,
+
+        }), 500
 
 @app.route("/settings")
 def settings():

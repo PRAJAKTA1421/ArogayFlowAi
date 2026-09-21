@@ -1,299 +1,432 @@
-{% extends 'base.html' %}{% block title %}Resource Transfer | ArogyaFlow AI{% endblock %}{% block content %}
-<main class="dash report-page">
- {% include '_dashboard_sidebar.html' %}
- <section class="dash-content">
-  <header class="dash-head">
-   <div>
-    <h1>
-     Resource Transfer
-    </h1>
-    <p>
-     Manage and monitor resource transfers across PHCs
-    </p>
-   </div>
-   <button class="location">
-    All India　⌄
-   </button>
-   <span class="updated">
-    16 May 2025
-   </span>
-   <span class="bell">
-    ♧
-    <i>
-     4
-    </i>
-   </span>
-   <div class="profile">
-    ●
-    <span>
-     PHC Manager
-     <small>
-      Admin
-     </small>
-    </span>
-    ⌄
-   </div>
-  </header>
-  <div class="dash-body">
-   <div class="transfer-summary">
-    <article>
-     <small>
-      Transfers Today
-     </small>
-     <strong>
-      28
-     </strong>
-    </article>
-    <article>
-     <small>
-      In Transit
-     </small>
-     <strong style="color:#1eb86e">
-      15
-     </strong>
-    </article>
-    <article>
-     <small>
-      Completed
-     </small>
-     <strong style="color:#1eb86e">
-      198
-     </strong>
-    </article>
-    <article>
-     <small>
-      Pending Approval
-     </small>
-     <strong style="color:#f24c53">
-      7
-     </strong>
-    </article>
-   </div>
-   <div class="operations-grid">
-    <article class="panel transfer-table wide">
-     <h3>
-      AI Recommended Transfers
-     </h3>
-     <table>
-      <tr>
-       <th>
-        From PHC
-       </th>
-       <th>
-        To PHC
-       </th>
-       <th>
-        Resource
-       </th>
-       <th>
-        Quantity
-       </th>
-       <th>
-        Reason
-       </th>
-       <th>
-        Priority
-       </th>
-       <th>
-        Status
-       </th>
-       <th>
-        Action
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Vasai PHC
-       </td>
-       <td>
-        Palghar PHC
-       </td>
-       <td>
-        Paracetamol
-       </td>
-       <td>
-        500 Units
-       </td>
-       <td>
-        High demand prediction
-       </td>
-       <td>
-        <span class="status warn">
-         High
-        </span>
-       </td>
-       <td>
-        <span class="status good">
-         Approved
-        </span>
-       </td>
-       <td>
-        <button class="action-button">
-         Track
-        </button>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Nashik PHC
-       </td>
-       <td>
-        Aurangabad PHC
-       </td>
-       <td>
-        IV Fluids
-       </td>
-       <td>
-        120 Units
-       </td>
-       <td>
-        Critical stock requirement
-       </td>
-       <td>
-        <span class="status warn">
-         High
-        </span>
-       </td>
-       <td>
-        <span class="status good">
-         In Transit
-        </span>
-       </td>
-       <td>
-        <button class="action-button">
-         Track
-        </button>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Pune PHC
-       </td>
-       <td>
-        Satara PHC
-       </td>
-       <td>
-        Nurses
-       </td>
-       <td>
-        4 Staff
-       </td>
-       <td>
-        Staff shortage
-       </td>
-       <td>
-        <span class="status warn">
-         Medium
-        </span>
-       </td>
-       <td>
-        <span class="status good">
-         Approved
-        </span>
-       </td>
-       <td>
-        <button class="action-button">
-         Track
-        </button>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Thane PHC
-       </td>
-       <td>
-        Raigad PHC
-       </td>
-       <td>
-        Doctors
-       </td>
-       <td>
-        2 Staff
-       </td>
-       <td>
-        High patient load
-       </td>
-       <td>
-        <span class="status warn">
-         Medium
-        </span>
-       </td>
-       <td>
-        <span class="status">
-         Pending
-        </span>
-       </td>
-       <td>
-        <button class="action-button">
-         Approve
-        </button>
-       </td>
-      </tr>
-     </table>
-    </article>
-    <article class="panel">
-     <h3>
-      Transfer Summary
-     </h3>
-     <div class="availability">
-      <div class="availability-ring">
-      </div>
-      <div class="availability-list">
-       <p>
-        <i>
-        </i>
-        Medicines  15 transfers
-       </p>
-       <p>
-        <i>
-        </i>
-        Beds  8 transfers
-       </p>
-       <p>
-        <i>
-        </i>
-        Staff  5 transfers
-       </p>
-      </div>
-     </div>
-    </article>
-    <article class="panel insight-list">
-     <h3>
-      Recent Transfers
-     </h3>
-     <p>
-      <b>
-       ✓ Nashik PHC → Sangli PHC
-      </b>
-      <br/>
-      Paracetamol - 500 Units
-      <span style="float:right;color:#18a76a">
-       Completed
-      </span>
-     </p>
-     <p>
-      <b>
-       ◉ Pune PHC → Mumbai PHC
-      </b>
-      <br/>
-      IV Fluids - 100 Units
-      <span style="float:right;color:#2475df">
-       In Transit
-      </span>
-     </p>
-     <p>
-      <b>
-       ◉ Aurangabad PHC → Jalna PHC
-      </b>
-      <br/>
-      Doctors - 2 Staff
-      <span style="float:right;color:#2475df">
-       In Transit
-      </span>
-     </p>
-    </article>
-   </div>
-  </div>
- </section>
+{% extends 'base.html' %}
+{% block title %}Resource Transfer | ArogyaFlow AI{% endblock %}
+
+{% block content %}
+<main class="dash report-page resource-transfer-page">
+    {% include '_dashboard_sidebar.html' %}
+
+    <section class="dash-content">
+        <header class="dash-head">
+            <div>
+                <h1>Resource Transfer</h1>
+                <p>AI-powered resource redistribution across PHCs</p>
+            </div>
+
+            <button class="location">All India　⌄</button>
+            <span class="updated" id="transferUpdated">Loading...</span>
+
+            <span class="bell">
+                ♧
+                <i>4</i>
+            </span>
+
+            <div class="profile">
+                ●
+                <span>
+                    PHC Manager
+                    <small>Admin</small>
+                </span>
+                ⌄
+            </div>
+        </header>
+
+        <div class="dash-body resource-transfer-body">
+
+            <!-- LIVE SUMMARY -->
+            <div class="transfer-summary">
+                <article>
+                    <small>Transfers Today</small>
+                    <strong id="transfersToday">—</strong>
+                </article>
+
+                <article>
+                    <small>In Transit</small>
+                    <strong id="transfersTransit" class="positive">—</strong>
+                </article>
+
+                <article>
+                    <small>Completed</small>
+                    <strong id="transfersCompleted" class="positive">—</strong>
+                </article>
+
+                <article>
+                    <small>Pending Approval</small>
+                    <strong id="transfersPending" class="negative">—</strong>
+                </article>
+            </div>
+
+            <!-- MAIN TRANSFER TABLE -->
+            <div class="operations-grid resource-transfer-grid">
+
+                <article class="panel transfer-table wide resource-transfer-main">
+                    <div class="resource-panel-head">
+                        <div>
+                            <h3>AI Recommended Transfers</h3>
+                            <p>Saved results from the redistribution optimization model</p>
+                        </div>
+
+                        <span class="live-badge">
+                            <i></i> Live Model Results
+                        </span>
+                    </div>
+
+                    <div class="transfer-table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From PHC</th>
+                                    <th>To PHC</th>
+                                    <th>Medicine</th>
+                                    <th>Quantity</th>
+                                    <th>Reason</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="transferTableBody">
+                                <tr>
+                                    <td colspan="8" class="transfer-loading">
+                                        Loading redistribution recommendations...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <!-- TRANSFER SUMMARY -->
+                <article class="panel resource-transfer-summary">
+                    <div class="resource-panel-head">
+                        <div>
+                            <h3>Transfer Summary</h3>
+                            <p>Recommended quantities by medicine</p>
+                        </div>
+                    </div>
+
+                    <div class="transfer-summary-content">
+                        <div class="availability-ring" id="transferRing">
+                            <div>
+                                <strong id="transferRingValue">0</strong>
+                                <span>units</span>
+                            </div>
+                        </div>
+
+                        <div class="availability-list" id="transferMedicineSummary">
+                            <p class="transfer-empty">Waiting for transfer data...</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- RECENT TRANSFERS -->
+                <article class="panel insight-list recent-transfer-panel">
+                    <div class="resource-panel-head">
+                        <div>
+                            <h3>Recent Transfers</h3>
+                            <p>Latest saved redistribution recommendations</p>
+                        </div>
+                    </div>
+
+                    <div id="recentTransfers">
+                        <p class="transfer-empty">Loading recent transfers...</p>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="resource-transfer-footer">
+                <span>
+                    Source: Firestore <code>transfer_recommendations</code>
+                </span>
+                <span id="transferModelInfo">
+                    Redistribution model
+                </span>
+            </div>
+        </div>
+    </section>
 </main>
+
+<script>
+(function () {
+    "use strict";
+
+    const tableBody = document.getElementById("transferTableBody");
+    const recentTransfers = document.getElementById("recentTransfers");
+    const medicineSummary = document.getElementById("transferMedicineSummary");
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function number(value, decimals = 0) {
+        const n = Number(value);
+        if (!Number.isFinite(n)) return "0";
+        return n.toFixed(decimals).replace(/\.0+$/, "");
+    }
+
+    function statusClass(status) {
+        const value = String(status || "").toLowerCase();
+
+        if (value.includes("complete")) return "good";
+        if (value.includes("transit")) return "info";
+        if (value.includes("approve") || value.includes("pending")) return "warn";
+        return "";
+    }
+
+    function priorityClass(priority) {
+        const value = String(priority || "").toLowerCase();
+
+        if (value.includes("critical")) return "critical";
+        if (value.includes("high")) return "warn";
+        if (value.includes("medium")) return "medium";
+        return "low";
+    }
+
+    function renderSummary(summary) {
+        document.getElementById("transfersToday").textContent =
+            number(summary.transfers_today);
+
+        document.getElementById("transfersTransit").textContent =
+            number(summary.in_transit);
+
+        document.getElementById("transfersCompleted").textContent =
+            number(summary.completed);
+
+        document.getElementById("transfersPending").textContent =
+            number(summary.pending_approval);
+
+        document.getElementById("transferRingValue").textContent =
+            number(summary.total_units);
+
+        const updated = document.getElementById("transferUpdated");
+        updated.textContent = summary.updated_display || "Live";
+
+        const modelInfo = document.getElementById("transferModelInfo");
+        modelInfo.textContent =
+            summary.model || "Redistribution optimization model";
+    }
+
+    function renderTable(transfers) {
+        if (!transfers || !transfers.length) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="transfer-empty">
+                        No saved redistribution recommendations are available.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tableBody.innerHTML = transfers.map((item) => {
+            const priority = item.priority || "Medium";
+            const status = item.status || "Pending";
+
+            const distance = item.distance_km !== null &&
+                item.distance_km !== undefined
+                ? `${number(item.distance_km, 1)} km`
+                : "—";
+
+            const score = item.optimization_score !== null &&
+                item.optimization_score !== undefined
+                ? `Score ${number(item.optimization_score, 1)}`
+                : "";
+
+            const reason = item.reason ||
+                "Forecasted stock shortage";
+
+            return `
+                <tr>
+                    <td>
+                        <div class="transfer-phc">
+                            <strong>${escapeHTML(item.source_name)}</strong>
+                            <small>${escapeHTML(item.source_phc || "")}</small>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="transfer-phc destination">
+                            <strong>${escapeHTML(item.destination_name)}</strong>
+                            <small>${escapeHTML(item.destination_phc || "")}</small>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="medicine-name">
+                            ${escapeHTML(item.medicine)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>${number(item.quantity, 1)}</strong>
+                        <small class="quantity-label">units</small>
+                    </td>
+
+                    <td>
+                        <div class="transfer-reason">
+                            <span>${escapeHTML(reason)}</span>
+                            <small>${escapeHTML(distance)} ${escapeHTML(score)}</small>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="status ${priorityClass(priority)}">
+                            ${escapeHTML(priority)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="status ${statusClass(status)}">
+                            ${escapeHTML(status)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="action-button transfer-action-button"
+                            data-id="${escapeHTML(item.id || "")}"
+                            data-destination="${escapeHTML(item.destination_phc || "")}"
+                        >
+                            ${String(status).toLowerCase() === "pending"
+                                ? "Review"
+                                : "View"}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    function renderMedicineSummary(items) {
+        if (!items || !items.length) {
+            medicineSummary.innerHTML = `
+                <p class="transfer-empty">
+                    No medicine transfer recommendations yet.
+                </p>
+            `;
+            return;
+        }
+
+        const max = Math.max(...items.map(item => Number(item.quantity) || 0), 1);
+
+        medicineSummary.innerHTML = items.slice(0, 5).map((item) => {
+            const quantity = Number(item.quantity) || 0;
+            const width = Math.max(8, Math.min(100, quantity / max * 100));
+
+            return `
+                <div class="medicine-transfer-item">
+                    <div class="medicine-transfer-top">
+                        <span>${escapeHTML(item.medicine)}</span>
+                        <strong>${number(quantity, 1)} units</strong>
+                    </div>
+                    <div class="medicine-transfer-bar">
+                        <span style="width:${width}%"></span>
+                    </div>
+                    <small>${number(item.transfers)} transfer${item.transfers === 1 ? "" : "s"}</small>
+                </div>
+            `;
+        }).join("");
+    }
+
+    function renderRecentTransfers(items) {
+        if (!items || !items.length) {
+            recentTransfers.innerHTML = `
+                <p class="transfer-empty">
+                    No recent transfers available.
+                </p>
+            `;
+            return;
+        }
+
+        recentTransfers.innerHTML = items.slice(0, 5).map((item) => {
+            const status = item.status || "Pending";
+            const icon = String(status).toLowerCase().includes("complete")
+                ? "✓"
+                : "◉";
+
+            return `
+                <div class="recent-transfer-item">
+                    <div class="recent-transfer-icon">${icon}</div>
+                    <div class="recent-transfer-content">
+                        <strong>
+                            ${escapeHTML(item.source_name)}
+                            <span>→</span>
+                            ${escapeHTML(item.destination_name)}
+                        </strong>
+                        <p>
+                            ${escapeHTML(item.medicine)}
+                            · ${number(item.quantity, 1)} units
+                        </p>
+                        <small>
+                            ${escapeHTML(item.distance_km !== null && item.distance_km !== undefined
+                                ? number(item.distance_km, 1) + " km"
+                                : "Distance unavailable")}
+                        </small>
+                    </div>
+                    <span class="recent-transfer-status ${statusClass(status)}">
+                        ${escapeHTML(status)}
+                    </span>
+                </div>
+            `;
+        }).join("");
+    }
+
+    async function loadResourceTransfers() {
+        try {
+            const response = await fetch("/api/resource-transfer", {
+                method: "GET",
+                cache: "no-store"
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || "Unable to load resource transfers.");
+            }
+
+            renderSummary(data.summary);
+            renderTable(data.transfers);
+            renderMedicineSummary(data.medicine_summary);
+            renderRecentTransfers(data.recent_transfers);
+
+        } catch (error) {
+            console.error("Resource Transfer API error:", error);
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="transfer-error">
+                        Unable to load redistribution recommendations.
+                        <small>${escapeHTML(error.message)}</small>
+                    </td>
+                </tr>
+            `;
+
+            medicineSummary.innerHTML = `
+                <p class="transfer-empty">
+                    Transfer summary unavailable.
+                </p>
+            `;
+
+            recentTransfers.innerHTML = `
+                <p class="transfer-empty">
+                    Recent transfers unavailable.
+                </p>
+            `;
+        }
+    }
+
+    loadResourceTransfers();
+
+    // Light refresh only. The backend API is cached, so this does not
+    // repeatedly execute the redistribution model.
+    setInterval(loadResourceTransfers, 300000);
+})();
+</script>
 {% endblock %}

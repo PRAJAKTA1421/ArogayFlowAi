@@ -82,9 +82,12 @@
    <button class="location">
     All India　⌄
    </button>
-   <span class="updated">
-    16 May 2025
-   </span>
+   <span
+    class="updated"
+    id="bedsUpdated"
+>
+    Live
+</span>
    <span class="bell">
     ♧
     <i>
@@ -104,272 +107,676 @@
   </header>
   <div class="dash-body">
    <div class="report-kpis beds-kpis">
+
     <article>
-     <small>
-      Total Beds
-     </small>
-     <strong>
-      2,850
-     </strong>
+        <small>Total Beds</small>
+        <strong id="totalBeds">—</strong>
     </article>
+
     <article class="good">
-     <small>
-      Available Beds
-     </small>
-     <strong>
-      18,426
-      <em>
-       (29.3%)
-      </em>
-     </strong>
+        <small>Available Beds</small>
+        <strong>
+            <span id="availableBeds">—</span>
+            <em id="availablePercent">—</em>
+        </strong>
     </article>
+
     <article class="bad">
-     <small>
-      Occupied Beds
-     </small>
-     <strong>
-      44,424
-      <em>
-       (70.7%)
-      </em>
-     </strong>
+        <small>Occupied Beds</small>
+        <strong>
+            <span id="occupiedBeds">—</span>
+            <em id="occupiedPercent">—</em>
+        </strong>
     </article>
+
     <article class="purple">
-     <small>
-      Avg. Occupancy
-     </small>
-     <strong>
-      72%
-     </strong>
+        <small>Avg. Occupancy</small>
+        <strong id="averageOccupancy">—</strong>
     </article>
-   </div>
+
+</div>
    <div class="report-grid beds-grid">
+
+    <!-- ================================================
+         OCCUPANCY OVERVIEW
+         ================================================ -->
+
     <article class="panel donut-panel">
-     <h3>
-      Bed Occupancy Overview
-     </h3>
-     <div class="donut occupancy">
-      <strong>
-       72%
-       <small>
-        Average Occupancy
-       </small>
-      </strong>
-     </div>
-     <div class="donut-legend">
-      <p>
-       <i>
-       </i>
-       Occupied (70.7%)
-      </p>
-      <p>
-       <i>
-       </i>
-       Available (29.3%)
-      </p>
-     </div>
+
+        <h3>Bed Occupancy Overview</h3>
+
+        <div
+            class="donut occupancy"
+            id="occupancyDonut"
+        >
+            <strong>
+                <span id="donutOccupancy">—</span>
+
+                <small>
+                    Average Occupancy
+                </small>
+            </strong>
+        </div>
+
+        <div class="donut-legend">
+
+            <p>
+                <i></i>
+                Occupied
+                <strong id="donutOccupiedPercent">
+                    —
+                </strong>
+            </p>
+
+            <p>
+                <i></i>
+                Available
+                <strong id="donutAvailablePercent">
+                    —
+                </strong>
+            </p>
+
+        </div>
+
     </article>
+
+
+    <!-- ================================================
+         STATE OCCUPANCY
+         ================================================ -->
+
     <article class="panel occupancy-states">
-     <h3>
-      Bed Occupancy by State (%)
-     </h3>
-     <p>
-      Maharashtra
-      <i style="width:92%">
-      </i>
-      <b>
-       92%
-      </b>
-     </p>
-     <p>
-      Tamil Nadu
-      <i style="width:89%">
-      </i>
-      <b>
-       89%
-      </b>
-     </p>
-     <p>
-      Karnataka
-      <i style="width:72%">
-      </i>
-      <b>
-       72%
-      </b>
-     </p>
-     <p>
-      Uttar Pradesh
-      <i style="width:67%">
-      </i>
-      <b>
-       67%
-      </b>
-     </p>
-     <p>
-      Rajasthan
-      <i style="width:65%">
-      </i>
-      <b>
-       65%
-      </b>
-     </p>
-     <p>
-      Gujarat
-      <i style="width:60%">
-      </i>
-      <b>
-       60%
-      </b>
-     </p>
-     <p>
-      West Bengal
-      <i style="width:48%">
-      </i>
-      <b>
-       48%
-      </b>
-     </p>
+
+        <h3>Bed Occupancy by State (%)</h3>
+
+        <div id="stateOccupancyList">
+            <div class="beds-loading">
+                Loading live data...
+            </div>
+        </div>
+
     </article>
+
+
+    <!-- ================================================
+         HIGH OCCUPANCY
+         ================================================ -->
+
     <article class="panel compact-table">
-     <h3>
-      High Occupancy PHCs (&gt; 90%)
-     </h3>
-     <table>
-      <tr>
-       <th>
-        PHC Name
-       </th>
-       <th>
-        State
-       </th>
-       <th>
-        Occupancy
-       </th>
-       <th>
-        Available Beds
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Pune PHC
-       </td>
-       <td>
-        Maharashtra
-       </td>
-       <td>
-        <b>
-         96%
-        </b>
-       </td>
-       <td>
-        2 / 50
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Nagpur PHC
-       </td>
-       <td>
-        Maharashtra
-       </td>
-       <td>
-        <b>
-         94%
-        </b>
-       </td>
-       <td>
-        3 / 60
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Mysore PHC
-       </td>
-       <td>
-        Karnataka
-       </td>
-       <td>
-        <b>
-         92%
-        </b>
-       </td>
-       <td>
-        4 / 50
-       </td>
-      </tr>
-     </table>
+
+        <h3>
+            High Occupancy PHCs
+            <span class="threshold">
+                &gt; 90%
+            </span>
+        </h3>
+
+        <div class="beds-table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>PHC Name</th>
+                        <th>State</th>
+                        <th>Occupancy</th>
+                        <th>Available Beds</th>
+                    </tr>
+                </thead>
+
+                <tbody id="highOccupancyBody">
+
+                    <tr>
+                        <td colspan="4">
+                            Loading...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </article>
+
+
+    <!-- ================================================
+         LOW OCCUPANCY
+         ================================================ -->
+
     <article class="panel compact-table">
-     <h3>
-      Low Occupancy PHCs (&lt; 30%)
-     </h3>
-     <table>
-      <tr>
-       <th>
-        PHC Name
-       </th>
-       <th>
-        State
-       </th>
-       <th>
-        Occupancy
-       </th>
-       <th>
-        Available Beds
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Latur PHC
-       </td>
-       <td>
-        Maharashtra
-       </td>
-       <td>
-        <b class="low">
-         18%
-        </b>
-       </td>
-       <td>
-        41 / 50
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Kanpur PHC
-       </td>
-       <td>
-        Uttar Pradesh
-       </td>
-       <td>
-        <b class="low">
-         20%
-        </b>
-       </td>
-       <td>
-        40 / 50
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Ajmer PHC
-       </td>
-       <td>
-        Rajasthan
-       </td>
-       <td>
-        <b class="low">
-         22%
-        </b>
-       </td>
-       <td>
-        39 / 50
-       </td>
-      </tr>
-     </table>
+
+        <h3>
+            Low Occupancy PHCs
+            <span class="threshold low-threshold">
+                &lt; 30%
+            </span>
+        </h3>
+
+        <div class="beds-table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>PHC Name</th>
+                        <th>State</th>
+                        <th>Occupancy</th>
+                        <th>Available Beds</th>
+                    </tr>
+                </thead>
+
+                <tbody id="lowOccupancyBody">
+
+                    <tr>
+                        <td colspan="4">
+                            Loading...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </article>
-   </div>
+
+</div>
   </div>
  </section>
 </main>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadBedsOverview();
+
+    // Refresh every 5 minutes
+    setInterval(
+        loadBedsOverview,
+        300000
+    );
+
+});
+
+
+function formatNumber(value) {
+
+    return Number(
+        value || 0
+    ).toLocaleString("en-IN");
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+async function loadBedsOverview() {
+
+    try {
+
+        const response = await fetch(
+            "/api/beds-overview"
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Unable to load beds data"
+            );
+
+        }
+
+        renderBedsOverview(data);
+
+    } catch (error) {
+
+        console.error(
+            "Beds Overview:",
+            error
+        );
+
+        showBedsError(
+            error.message
+        );
+
+    }
+
+}
+
+
+function renderBedsOverview(data) {
+
+    const updatedElement =
+    document.getElementById("bedsUpdated");
+
+if (updatedElement) {
+    updatedElement.textContent =
+        data.updated_display || "Live";
+}
+
+    const summary =
+        data.summary || {};
+
+    // =====================================================
+    // KPIs
+    // =====================================================
+
+    document.getElementById(
+        "totalBeds"
+    ).textContent =
+        formatNumber(
+            summary.total_beds
+        );
+
+    document.getElementById(
+        "availableBeds"
+    ).textContent =
+        formatNumber(
+            summary.available_beds
+        );
+
+    document.getElementById(
+        "occupiedBeds"
+    ).textContent =
+        formatNumber(
+            summary.occupied_beds
+        );
+
+    document.getElementById(
+        "availablePercent"
+    ).textContent =
+        ` (${summary.available_percent}%)`;
+
+    document.getElementById(
+        "occupiedPercent"
+    ).textContent =
+        ` (${summary.occupied_percent}%)`;
+
+    document.getElementById(
+        "averageOccupancy"
+    ).textContent =
+        `${summary.occupancy_percent}%`;
+
+
+    // =====================================================
+    // DONUT
+    // =====================================================
+
+    const occupancy =
+        Number(
+            summary.occupancy_percent || 0
+        );
+
+    document.getElementById(
+        "donutOccupancy"
+    ).textContent =
+        `${occupancy}%`;
+
+    document.getElementById(
+        "donutOccupiedPercent"
+    ).textContent =
+        `${summary.occupied_percent}%`;
+
+    document.getElementById(
+        "donutAvailablePercent"
+    ).textContent =
+        `${summary.available_percent}%`;
+
+
+    const donut =
+    document.getElementById(
+        "occupancyDonut"
+    );
+
+if (donut) {
+
+    const occupiedDegrees =
+        (occupancy / 100) * 360;
+
+    donut.style.background =
+        `conic-gradient(
+            #27c27b 0deg ${occupiedDegrees}deg,
+            #e8edf3 ${occupiedDegrees}deg 360deg
+        )`;
+
+}
+
+
+    // =====================================================
+    // STATE OCCUPANCY
+    // =====================================================
+
+    renderStateOccupancy(
+        data.state_occupancy || []
+    );
+
+
+    // =====================================================
+    // HIGH OCCUPANCY
+    // =====================================================
+
+    renderPHCTable(
+        "highOccupancyBody",
+        data.high_occupancy_phcs || [],
+        false
+    );
+
+
+    // =====================================================
+    // LOW OCCUPANCY
+    // =====================================================
+
+    renderPHCTable(
+        "lowOccupancyBody",
+        data.low_occupancy_phcs || [],
+        true
+    );
+
+
+    // =====================================================
+    // UPDATED DATE
+    // =====================================================
+
+    const updated =
+        document.querySelector(
+            ".beds-kpis"
+        );
+
+    if (updated) {
+
+        updated.setAttribute(
+            "data-updated",
+            data.updated_display || ""
+        );
+
+    }
+
+}
+
+
+function renderStateOccupancy(states) {
+
+    const container =
+        document.getElementById(
+            "stateOccupancyList"
+        );
+
+    if (!container) return;
+
+
+    if (!states.length) {
+
+        container.innerHTML =
+            `<div class="beds-loading">
+                No state occupancy data available.
+            </div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        states
+        .slice(0, 8)
+        .map(item => {
+
+            const occupancy =
+                Math.min(
+                    100,
+                    Math.max(
+                        0,
+                        Number(
+                            item.occupancy || 0
+                        )
+                    )
+                );
+
+            let statusClass =
+                "state-normal";
+
+            if (occupancy >= 90) {
+
+                statusClass =
+                    "state-critical";
+
+            } else if (occupancy >= 75) {
+
+                statusClass =
+                    "state-warning";
+
+            }
+
+            return `
+                <div class="state-occupancy-row">
+
+                    <div class="state-occupancy-top">
+
+                        <span>
+                            ${escapeHTML(
+                                item.state
+                            )}
+                        </span>
+
+                        <strong>
+                            ${occupancy.toFixed(1)}%
+                        </strong>
+
+                    </div>
+
+                    <div class="state-occupancy-bar">
+
+                        <i
+                            class="${statusClass}"
+                            style="width:${occupancy}%"
+                        ></i>
+
+                    </div>
+
+                </div>
+            `;
+
+        })
+        .join("");
+
+}
+
+
+function renderPHCTable(
+    elementId,
+    rows,
+    lowOccupancy
+) {
+
+    const tbody =
+        document.getElementById(
+            elementId
+        );
+
+    if (!tbody) return;
+
+
+    if (!rows || rows.length === 0) {
+
+        const message =
+            lowOccupancy
+                ? "No PHCs below 30% occupancy"
+                : "No PHCs above 90% occupancy";
+
+
+        const icon =
+            lowOccupancy
+                ? "✓"
+                : "✓";
+
+
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="4"
+                    class="beds-empty-cell"
+                >
+
+                    <div class="beds-empty-state">
+
+                        <span class="beds-empty-icon">
+                            ${icon}
+                        </span>
+
+                        <div>
+                            <strong>
+                                All PHCs are within range
+                            </strong>
+
+                            <small>
+                                ${message}
+                            </small>
+                        </div>
+
+                    </div>
+
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        rows
+        .slice(0, 8)
+        .map(item => {
+
+            const occupancy =
+                Number(
+                    item.occupancy || 0
+                );
+
+
+            return `
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            ${escapeHTML(
+                                item.name
+                            )}
+                        </strong>
+
+                        <small class="phc-id">
+                            ${escapeHTML(
+                                item.id
+                            )}
+                        </small>
+
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.state
+                        )}
+                    </td>
+
+                    <td>
+
+                        <b class="${
+                            lowOccupancy
+                                ? "low"
+                                : "high"
+                        }">
+                            ${occupancy.toFixed(1)}%
+                        </b>
+
+                    </td>
+
+                    <td>
+                        ${formatNumber(
+                            item.available_beds
+                        )}
+                        /
+                        ${formatNumber(
+                            item.total_beds
+                        )}
+                    </td>
+
+                </tr>
+            `;
+
+        })
+        .join("");
+
+}
+
+
+function showBedsError(message) {
+
+    const containers = [
+        "stateOccupancyList",
+        "highOccupancyBody",
+        "lowOccupancyBody"
+    ];
+
+    const state =
+        document.getElementById(
+            "stateOccupancyList"
+        );
+
+    if (state) {
+
+        state.innerHTML = `
+            <div class="beds-error">
+                Unable to load live bed data.
+            </div>
+        `;
+
+    }
+
+
+    [
+        "highOccupancyBody",
+        "lowOccupancyBody"
+    ].forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+
+            element.innerHTML = `
+                <tr>
+                    <td
+                        colspan="4"
+                        class="beds-error"
+                    >
+                        Unable to load data.
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    });
+
+}
+</script>
 {% endblock %}

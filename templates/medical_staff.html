@@ -1,353 +1,987 @@
-{% extends 'base.html' %}{% block title %}Medical Staff | ArogyaFlow AI{% endblock %}{% block content %}
+{% extends 'base.html' %}
+
+{% block title %}Medical Staff | ArogyaFlow AI{% endblock %}
+
+{% block content %}
+
 <main class="dash report-page">
- {% include '_dashboard_sidebar.html' %}
- <section class="dash-content">
-  <header class="dash-head">
-   <div>
-    <h1>
-     Medical Staff
-    </h1>
-    <p>
-     Track and manage medical staff across all PHCs
-    </p>
-   </div>
-   <button class="location">
-    All India　⌄
-   </button>
-   <span class="updated">
-    16 May 2025
-   </span>
-   <span class="bell">
-    ♧
-    <i>
-     4
-    </i>
-   </span>
-   <div class="profile">
-    ●
-    <span>
-     PHC Manager
-     <small>
-      Admin
-     </small>
-    </span>
-    ⌄
-   </div>
-  </header>
-  <div class="dash-body">
-   <div class="metric-cards">
-    <article>
-     <small>
-      Total Staff
-     </small>
-     <strong>
-      24,350
-     </strong>
-     <em>
-      Across India
-     </em>
-    </article>
-    <article>
-     <small>
-      Doctors
-     </small>
-     <strong>
-      8,250
-     </strong>
-     <em>
-      33.9%
-     </em>
-    </article>
-    <article>
-     <small>
-      Nurses
-     </small>
-     <strong>
-      10,540
-     </strong>
-     <em>
-      43.3%
-     </em>
-    </article>
-    <article>
-     <small>
-      Paramedics
-     </small>
-     <strong>
-      4,120
-     </strong>
-     <em>
-      16.9%
-     </em>
-    </article>
-   </div>
-   <div class="operations-grid">
-    <article class="panel india-staff-map">
-     <h3>
-      Staff Distribution by State
-     </h3>
-    </article>
-    <article class="panel staff-table">
-     <h3>
-      Staff Overview by State
-      <a class="view-link" href="#">
-       View All States
-      </a>
-     </h3>
-     <table>
-      <tr>
-       <th>
-        State
-       </th>
-       <th>
-        Total Staff
-       </th>
-       <th>
-        Doctors
-       </th>
-       <th>
-        Nurses
-       </th>
-       <th>
-        Paramedics
-       </th>
-       <th>
-        Action
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Uttar Pradesh
-       </td>
-       <td>
-        3,125
-       </td>
-       <td>
-        1,050
-       </td>
-       <td>
-        1,350
-       </td>
-       <td>
-        210
-       </td>
-       <td>
-        <a class="view-link">
-         View
-        </a>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Maharashtra
-       </td>
-       <td>
-        2,640
-       </td>
-       <td>
-        890
-       </td>
-       <td>
-        1,200
-       </td>
-       <td>
-        180
-       </td>
-       <td>
-        <a class="view-link">
-         View
-        </a>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Karnataka
-       </td>
-       <td>
-        2,210
-       </td>
-       <td>
-        740
-       </td>
-       <td>
-        930
-       </td>
-       <td>
-        140
-       </td>
-       <td>
-        <a class="view-link">
-         View
-        </a>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Tamil Nadu
-       </td>
-       <td>
-        1,980
-       </td>
-       <td>
-        670
-       </td>
-       <td>
-        860
-       </td>
-       <td>
-        120
-       </td>
-       <td>
-        <a class="view-link">
-         View
-        </a>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Rajasthan
-       </td>
-       <td>
-        1,750
-       </td>
-       <td>
-        600
-       </td>
-       <td>
-        770
-       </td>
-       <td>
-        100
-       </td>
-       <td>
-        <a class="view-link">
-         View
-        </a>
-       </td>
-      </tr>
-     </table>
-    </article>
-    <article class="panel availability">
-     <div>
-      <h3>
-       Staff Availability Status
-      </h3>
-      <div class="availability-ring">
-      </div>
-     </div>
-     <div class="availability-list">
-      <p>
-       <i>
-       </i>
-       Available  22,950 (90%)
-      </p>
-      <p>
-       <i>
-       </i>
-       On Leave  1,020 (4%)
-      </p>
-      <p>
-       <i>
-       </i>
-       Unavailable  380 (6%)
-      </p>
-     </div>
-    </article>
-    <article class="panel staff-table">
-     <h3>
-      Staff Shortage Alert
-     </h3>
-     <table>
-      <tr>
-       <th>
-        State / UT
-       </th>
-       <th>
-        Staff
-       </th>
-       <th>
-        Required
-       </th>
-       <th>
-        Available
-       </th>
-       <th>
-        Gap
-       </th>
-       <th>
-        Action
-       </th>
-      </tr>
-      <tr>
-       <td>
-        Bihar
-       </td>
-       <td>
-        Doctors
-       </td>
-       <td>
-        560
-       </td>
-       <td>
-        320
-       </td>
-       <td style="color:#ef4350">
-        240
-       </td>
-       <td>
-        <a class="view-link">
-         Redistribute
-        </a>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Jharkhand
-       </td>
-       <td>
-        Nurses
-       </td>
-       <td>
-        420
-       </td>
-       <td>
-        210
-       </td>
-       <td style="color:#ef4350">
-        210
-       </td>
-       <td>
-        <a class="view-link">
-         Redistribute
-        </a>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        Odisha
-       </td>
-       <td>
-        Paramedics
-       </td>
-       <td>
-        310
-       </td>
-       <td>
-        160
-       </td>
-       <td style="color:#ef4350">
-        150
-       </td>
-       <td>
-        <a class="view-link">
-         Redistribute
-        </a>
-       </td>
-      </tr>
-     </table>
-    </article>
-   </div>
-  </div>
- </section>
+
+    {% include '_dashboard_sidebar.html' %}
+
+    <section class="dash-content">
+
+        <!-- Header -->
+        <header class="dash-head">
+
+            <div>
+                <h1>Medical Staff</h1>
+                <p>Monitor staffing availability and shortages across PHCs</p>
+            </div>
+
+            <button class="location">
+                All India　⌄
+            </button>
+
+            <span class="updated" id="staffUpdated">
+                Live
+            </span>
+
+            <span class="bell">
+                ♧
+                <i>4</i>
+            </span>
+
+            <div class="profile">
+                ●
+                <span>
+                    PHC Manager
+                    <small>Admin</small>
+                </span>
+                ⌄
+            </div>
+
+        </header>
+
+
+        <div class="dash-body">
+
+            <!-- =====================================================
+                 KPI CARDS
+            ====================================================== -->
+
+            <div class="report-kpis staff-kpis">
+
+                <article>
+                    <small>Total Staff</small>
+                    <strong id="totalStaff">—</strong>
+                    <em>Assigned Staff</em>
+                </article>
+
+                <article class="good">
+                    <small>Doctors</small>
+                    <strong id="totalDoctors">—</strong>
+                    <em id="doctorPercent">—</em>
+                </article>
+
+                <article class="purple">
+                    <small>Nurses</small>
+                    <strong id="totalNurses">—</strong>
+                    <em id="nursePercent">—</em>
+                </article>
+
+                <article class="orange">
+                    <small>Paramedics</small>
+                    <strong id="totalParamedics">—</strong>
+                    <em id="paramedicPercent">—</em>
+                </article>
+
+            </div>
+
+
+            <!-- =====================================================
+                 MAIN GRID
+            ====================================================== -->
+
+            <div class="report-grid medical-staff-grid">
+
+
+                <!-- =================================================
+                     STAFF DISTRIBUTION
+                ================================================== -->
+
+                <article class="panel staff-distribution-panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Staff Distribution by State</h3>
+                            <p>Assigned medical staff</p>
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="staffDistribution"
+                        class="staff-distribution"
+                    ></div>
+
+                </article>
+
+
+                <!-- =================================================
+                     STAFF OVERVIEW
+                ================================================== -->
+
+                <article class="panel staff-overview-panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Staff Overview by State</h3>
+                            <p>Doctors, nurses and paramedics</p>
+                        </div>
+
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table class="compact-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>State / UT</th>
+                                    <th>Total Staff</th>
+                                    <th>Doctors</th>
+                                    <th>Nurses</th>
+                                    <th>Paramedics</th>
+                                    <th>Availability</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="staffStateBody">
+
+                                <tr>
+                                    <td
+                                        colspan="6"
+                                        class="staff-loading"
+                                    >
+                                        Loading staff data...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     AVAILABILITY
+                ================================================== -->
+
+                <article class="panel staff-availability-panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Staff Availability Status</h3>
+                            <p>Current staffing availability</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="staff-ring-wrap">
+
+                        <div
+                            class="staff-ring"
+                            id="staffAvailabilityRing"
+                        >
+
+                            <strong id="staffRingValue">
+                                —
+                            </strong>
+
+                            <small>
+                                Available
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="staff-status-list">
+
+                        <div class="staff-status-item">
+                            <span>
+                                <i class="status-dot available"></i>
+                                Available
+                            </span>
+
+                            <strong id="availableStaff">
+                                —
+                            </strong>
+                        </div>
+
+
+                        <div class="staff-status-item">
+                            <span>
+                                <i class="status-dot leave"></i>
+                                On Leave
+                            </span>
+
+                            <strong id="leaveStaff">
+                                —
+                            </strong>
+                        </div>
+
+
+                        <div class="staff-status-item">
+                            <span>
+                                <i class="status-dot unavailable"></i>
+                                Unavailable
+                            </span>
+
+                            <strong id="unavailableStaff">
+                                —
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     SHORTAGE ALERT
+                ================================================== -->
+
+                <article class="panel staff-shortage-panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Staff Shortage Alert</h3>
+                            <p>
+                                PHCs requiring additional staff
+                            </p>
+                        </div>
+
+                        <span
+                            class="staff-gap-badge"
+                            id="staffGapBadge"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table class="compact-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>PHC</th>
+                                    <th>Role</th>
+                                    <th>Required</th>
+                                    <th>Available</th>
+                                    <th>Gap</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="staffShortageBody">
+
+                                <tr>
+                                    <td
+                                        colspan="6"
+                                        class="staff-loading"
+                                    >
+                                        Loading shortage data...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </main>
+
+
+<script>
+
+let medicalStaffLoaded = false;
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
+
+function staffNumber(value) {
+
+    const number = Number(value || 0);
+
+    if (Number.isInteger(number)) {
+        return number.toLocaleString("en-IN");
+    }
+
+    return number.toLocaleString(
+        "en-IN",
+        {
+            maximumFractionDigits: 1
+        }
+    );
+}
+
+
+function staffPercent(value) {
+
+    return `${Number(value || 0).toFixed(1)}%`;
+
+}
+
+
+function escapeStaffHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ============================================================
+   LOAD API
+============================================================ */
+
+async function loadMedicalStaff() {
+
+    try {
+
+        const response = await fetch(
+            "/api/medical-staff",
+            {
+                cache: "no-store"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.error || "Unable to load medical staff data"
+            );
+        }
+
+        renderMedicalStaff(data);
+
+        medicalStaffLoaded = true;
+
+    } catch (error) {
+
+        console.error(
+            "Medical staff loading error:",
+            error
+        );
+
+        showMedicalStaffError();
+
+    }
+
+}
+
+
+/* ============================================================
+   RENDER EVERYTHING
+============================================================ */
+
+function renderMedicalStaff(data) {
+
+    const summary = data.summary || {};
+    const availability = data.availability || {};
+    const states = data.state_staff || [];
+    const shortages = data.shortage_alerts || [];
+
+
+    /* --------------------------------------------------------
+       KPI CARDS
+    -------------------------------------------------------- */
+
+    document.getElementById("totalStaff").textContent =
+        staffNumber(summary.total_staff);
+
+
+    document.getElementById("totalDoctors").textContent =
+        staffNumber(summary.doctors);
+
+
+    document.getElementById("totalNurses").textContent =
+        staffNumber(summary.nurses);
+
+
+    document.getElementById("totalParamedics").textContent =
+        staffNumber(summary.paramedics);
+
+
+    const roleTotal =
+        Number(summary.doctors || 0)
+        + Number(summary.nurses || 0)
+        + Number(summary.paramedics || 0);
+
+
+    document.getElementById("doctorPercent").textContent =
+        roleTotal
+            ? `${((summary.doctors / roleTotal) * 100).toFixed(1)}% of staff`
+            : "0% of staff";
+
+
+    document.getElementById("nursePercent").textContent =
+        roleTotal
+            ? `${((summary.nurses / roleTotal) * 100).toFixed(1)}% of staff`
+            : "0% of staff";
+
+
+    document.getElementById("paramedicPercent").textContent =
+        roleTotal
+            ? `${((summary.paramedics / roleTotal) * 100).toFixed(1)}% of staff`
+            : "0% of staff";
+
+
+    /* --------------------------------------------------------
+       AVAILABILITY
+    -------------------------------------------------------- */
+
+    const availabilityPercent =
+        Number(summary.availability_percent || 0);
+
+
+    document.getElementById("availableStaff").textContent =
+        staffNumber(availability.available);
+
+
+    document.getElementById("leaveStaff").textContent =
+        staffNumber(availability.on_leave);
+
+
+    document.getElementById("unavailableStaff").textContent =
+        staffNumber(availability.unavailable);
+
+
+    document.getElementById("staffRingValue").textContent =
+        `${availabilityPercent.toFixed(1)}%`;
+
+
+    const ring =
+        document.getElementById(
+            "staffAvailabilityRing"
+        );
+
+
+    if (ring) {
+
+    const degrees =
+        Math.max(
+            0,
+            Math.min(
+                360,
+                availabilityPercent * 3.6
+            )
+        );
+
+    ring.style.setProperty(
+        "background",
+        `conic-gradient(
+            #27c27b 0deg ${degrees}deg,
+            #e8edf3 ${degrees}deg 360deg
+        )`,
+        "important"
+    );
+
+}
+
+
+    /* --------------------------------------------------------
+       STAFF GAP
+    -------------------------------------------------------- */
+
+    const staffGap =
+        Number(summary.staff_gap || 0);
+
+
+    document.getElementById("staffGapBadge").textContent =
+        `${staffNumber(staffGap)} gap`;
+
+
+    /* --------------------------------------------------------
+       STATE DISTRIBUTION
+    -------------------------------------------------------- */
+
+    renderStaffDistribution(states);
+
+
+    /* --------------------------------------------------------
+       STATE TABLE
+    -------------------------------------------------------- */
+
+    renderStaffStateTable(states);
+
+
+    /* --------------------------------------------------------
+       SHORTAGE TABLE
+    -------------------------------------------------------- */
+
+    renderStaffShortages(shortages);
+
+
+    /* --------------------------------------------------------
+       UPDATED TIME
+    -------------------------------------------------------- */
+
+    const updated =
+        data.updated_display
+        || data.generated_at
+        || "Live";
+
+
+    document.getElementById(
+        "staffUpdated"
+    ).textContent = updated;
+
+}
+
+
+/* ============================================================
+   STATE DISTRIBUTION
+============================================================ */
+
+function renderStaffDistribution(states) {
+
+    const container =
+        document.getElementById(
+            "staffDistribution"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (!states.length) {
+
+        container.innerHTML = `
+            <div class="staff-empty">
+                No staff distribution data available.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const maxStaff =
+        Math.max(
+            ...states.map(
+                state =>
+                    Number(state.total_staff || 0)
+            ),
+            1
+        );
+
+
+    container.innerHTML =
+        states.map(state => {
+
+            const total =
+                Number(
+                    state.total_staff || 0
+                );
+
+
+            const percentage =
+                (total / maxStaff) * 100;
+
+
+            return `
+
+                <div class="staff-distribution-row">
+
+                    <div class="staff-distribution-top">
+
+                        <span>
+                            ${escapeStaffHTML(state.state)}
+                        </span>
+
+                        <strong>
+                            ${staffNumber(total)}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="staff-distribution-bar">
+
+                        <i
+                            style="width:${percentage}%"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ============================================================
+   STATE TABLE
+============================================================ */
+
+function renderStaffStateTable(states) {
+
+    const body =
+        document.getElementById(
+            "staffStateBody"
+        );
+
+
+    if (!body) {
+        return;
+    }
+
+
+    if (!states.length) {
+
+        body.innerHTML = `
+            <tr>
+                <td
+                    colspan="6"
+                    class="staff-empty-cell"
+                >
+                    No state-level staff data available.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    body.innerHTML =
+        states.map(state => {
+
+            const availability =
+                Number(
+                    state.availability_percent || 0
+                );
+
+
+            let availabilityClass =
+                "staff-good";
+
+
+            if (availability < 70) {
+
+                availabilityClass =
+                    "staff-critical";
+
+            } else if (availability < 85) {
+
+                availabilityClass =
+                    "staff-warning";
+
+            }
+
+
+            return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeStaffHTML(state.state)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${staffNumber(state.total_staff)}
+                    </td>
+
+                    <td>
+                        ${staffNumber(state.doctors)}
+                    </td>
+
+                    <td>
+                        ${staffNumber(state.nurses)}
+                    </td>
+
+                    <td>
+                        ${staffNumber(state.paramedics)}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="staff-availability-pill ${availabilityClass}"
+                        >
+                            ${availability.toFixed(1)}%
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ============================================================
+   SHORTAGE TABLE
+============================================================ */
+
+function renderStaffShortages(shortages) {
+
+    const body =
+        document.getElementById(
+            "staffShortageBody"
+        );
+
+
+    if (!body) {
+        return;
+    }
+
+
+    if (!shortages.length) {
+
+        body.innerHTML = `
+            <tr>
+                <td
+                    colspan="6"
+                    class="staff-empty-cell"
+                >
+
+                    <div class="staff-empty-state">
+
+                        <span>✓</span>
+
+                        <div>
+                            <strong>
+                                No staffing shortages detected
+                            </strong>
+
+                            <small>
+                                All monitored roles meet current staffing requirements.
+                            </small>
+                        </div>
+
+                    </div>
+
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    body.innerHTML =
+        shortages.map(item => {
+
+            const gap =
+                Number(item.gap || 0);
+
+
+            let gapClass =
+                "gap-low";
+
+
+            if (gap >= 8) {
+
+                gapClass =
+                    "gap-critical";
+
+            } else if (gap >= 4) {
+
+                gapClass =
+                    "gap-high";
+
+            } else if (gap > 0) {
+
+                gapClass =
+                    "gap-medium";
+
+            }
+
+
+            return `
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            ${escapeStaffHTML(item.phc)}
+                        </strong>
+
+                        <small class="staff-state-name">
+                            ${escapeStaffHTML(item.state)}
+                        </small>
+
+                    </td>
+
+                    <td>
+                        ${escapeStaffHTML(item.role)}
+                    </td>
+
+                    <td>
+                        ${staffNumber(item.required)}
+                    </td>
+
+                    <td>
+                        ${staffNumber(item.available)}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="staff-gap-value ${gapClass}"
+                        >
+                            ${staffNumber(gap)}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="staff-action-btn"
+                            type="button"
+                            onclick="showStaffAction(
+                                '${escapeStaffHTML(item.phc)}',
+                                '${escapeStaffHTML(item.role)}',
+                                ${Number(item.gap || 0)}
+                            )"
+                        >
+                            Review
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ============================================================
+   SHORTAGE ACTION
+============================================================ */
+
+function showStaffAction(
+    phc,
+    role,
+    gap
+) {
+
+    alert(
+        `${phc}\n\n` +
+        `${role} shortage: ${gap} staff\n\n` +
+        `Staffing review required.`
+    );
+
+}
+
+
+/* ============================================================
+   ERROR STATE
+============================================================ */
+
+function showMedicalStaffError() {
+
+    document.getElementById(
+        "staffUpdated"
+    ).textContent = "Data unavailable";
+
+
+    const body =
+        document.getElementById(
+            "staffStateBody"
+        );
+
+
+    if (body) {
+
+        body.innerHTML = `
+            <tr>
+                <td
+                    colspan="6"
+                    class="staff-empty-cell staff-error"
+                >
+                    Unable to load staff data.
+                    Please refresh the page.
+                </td>
+            </tr>
+        `;
+
+    }
+
+
+    const shortageBody =
+        document.getElementById(
+            "staffShortageBody"
+        );
+
+
+    if (shortageBody) {
+
+        shortageBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="6"
+                    class="staff-empty-cell staff-error"
+                >
+                    Staff shortage data unavailable.
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+/* ============================================================
+   INITIAL LOAD
+============================================================ */
+
+loadMedicalStaff();
+
+
+/* ============================================================
+   REFRESH EVERY 5 MINUTES
+============================================================ */
+
+setInterval(
+    loadMedicalStaff,
+    300000
+);
+
+</script>
+
 {% endblock %}

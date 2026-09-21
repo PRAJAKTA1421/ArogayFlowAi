@@ -2479,3 +2479,1899 @@
         gap: 25px;
     }
 }
+
+/* ============================================================
+   RESOURCE TRANSFER PAGE — MODERN UI
+   ============================================================ */
+
+.resource-transfer-page {
+    background: #f5f8fc;
+}
+
+.resource-transfer-body {
+    padding-bottom: 30px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.resource-transfer-page .dash-head {
+    background: #ffffff;
+    border-bottom: 1px solid #e5ebf3;
+}
+
+.resource-transfer-page .dash-head h1 {
+    color: #17345f;
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.resource-transfer-page .dash-head p {
+    color: #71819b;
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   KPI CARDS
+   ============================================================ */
+
+.resource-transfer-page .transfer-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.resource-transfer-page .transfer-summary article {
+    position: relative;
+    min-height: 86px;
+    padding: 17px 20px;
+    background: #ffffff;
+    border: 1px solid #e3eaf3;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(31, 55, 85, 0.04);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.resource-transfer-page .transfer-summary article::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #2f80ed;
+}
+
+.resource-transfer-page .transfer-summary article:nth-child(2)::before {
+    background: #22b573;
+}
+
+.resource-transfer-page .transfer-summary article:nth-child(3)::before {
+    background: #27ae60;
+}
+
+.resource-transfer-page .transfer-summary article:nth-child(4)::before {
+    background: #f2994a;
+}
+
+.resource-transfer-page .transfer-summary article small {
+    display: block;
+    color: #71819b;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+
+.resource-transfer-page .transfer-summary article strong {
+    color: #17345f;
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.resource-transfer-page .transfer-summary article strong.positive {
+    color: #20a86b;
+}
+
+.resource-transfer-page .transfer-summary article strong.negative {
+    color: #f2994a;
+}
+
+
+/* ============================================================
+   MAIN GRID
+   ============================================================ */
+
+.resource-transfer-page .resource-transfer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+    grid-template-areas:
+        "main main"
+        "summary recent";
+
+    gap: 16px;
+    align-items: stretch;
+}
+
+.resource-transfer-main {
+    grid-area: main;
+    min-width: 0;
+}
+
+.resource-transfer-summary {
+    grid-area: summary;
+    min-width: 0;
+}
+
+.recent-transfer-panel {
+    grid-area: recent;
+    min-width: 0;
+}
+
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+
+.resource-transfer-page .panel {
+    background: #ffffff;
+    border: 1px solid #e1e8f1;
+    border-radius: 11px;
+    box-shadow: 0 3px 12px rgba(31, 55, 85, 0.045);
+}
+
+.resource-transfer-main {
+    padding: 0;
+    overflow: hidden;
+}
+
+.resource-transfer-summary,
+.recent-transfer-panel {
+    padding: 0;
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   PANEL HEADERS
+   ============================================================ */
+
+.resource-transfer-page .resource-panel-head {
+    min-height: 68px;
+    padding: 17px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    border-bottom: 1px solid #edf1f6;
+    background: #ffffff;
+}
+
+.resource-transfer-page .resource-panel-head h3 {
+    margin: 0 0 4px;
+    color: #17345f;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.resource-transfer-page .resource-panel-head p {
+    margin: 0;
+    color: #7a8aa3;
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   LIVE MODEL BADGE
+   ============================================================ */
+
+.resource-transfer-page .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 7px 11px;
+
+    color: #1676e8;
+    background: #edf6ff;
+    border: 1px solid #d7eaff;
+    border-radius: 20px;
+
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.resource-transfer-page .live-badge i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #20b879;
+    box-shadow: 0 0 0 3px rgba(32, 184, 121, 0.12);
+}
+
+
+/* ============================================================
+   TRANSFER TABLE
+   ============================================================ */
+
+.resource-transfer-page .transfer-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.resource-transfer-page .transfer-table table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.resource-transfer-page .transfer-table thead {
+    background: #f8fafd;
+}
+
+.resource-transfer-page .transfer-table th {
+    padding: 12px 14px;
+
+    color: #74839a;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+
+    border-bottom: 1px solid #e8edf4;
+}
+
+.resource-transfer-page .transfer-table td {
+    padding: 14px;
+
+    color: #344867;
+    font-size: 11px;
+
+    border-bottom: 1px solid #edf1f5;
+    vertical-align: middle;
+}
+
+.resource-transfer-page .transfer-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.resource-transfer-page .transfer-table tbody tr:hover {
+    background: #f9fbfe;
+}
+
+.resource-transfer-page .transfer-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ============================================================
+   PHC NAMES
+   ============================================================ */
+
+.resource-transfer-page .transfer-phc {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 130px;
+}
+
+.resource-transfer-page .transfer-phc strong {
+    color: #19375f;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.resource-transfer-page .transfer-phc small {
+    color: #91a0b5;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.resource-transfer-page .transfer-phc.destination strong {
+    color: #234a79;
+}
+
+
+/* ============================================================
+   MEDICINE
+   ============================================================ */
+
+.resource-transfer-page .medicine-name {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 8px;
+
+    color: #355578;
+    background: #f1f6fb;
+    border-radius: 5px;
+
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   QUANTITY
+   ============================================================ */
+
+.resource-transfer-page .transfer-table td:nth-child(4) {
+    white-space: nowrap;
+}
+
+.resource-transfer-page .transfer-table td:nth-child(4) strong {
+    color: #17345f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.resource-transfer-page .quantity-label {
+    color: #8a99ad;
+    font-size: 9px;
+    margin-left: 2px;
+}
+
+
+/* ============================================================
+   REASON / OPTIMIZATION
+   ============================================================ */
+
+.resource-transfer-page .transfer-reason {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 190px;
+}
+
+.resource-transfer-page .transfer-reason span {
+    color: #526780;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.resource-transfer-page .transfer-reason small {
+    color: #8b9aae;
+    font-size: 9px;
+}
+
+.resource-transfer-page .transfer-reason small::first-letter {
+    color: #2f80ed;
+}
+
+
+/* ============================================================
+   STATUS / PRIORITY BADGES
+   ============================================================ */
+
+.resource-transfer-page .status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 66px;
+    padding: 6px 10px;
+
+    border-radius: 18px;
+
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.resource-transfer-page .status.critical {
+    color: #e23b3b;
+    background: #fff0f0;
+}
+
+.resource-transfer-page .status.warn {
+    color: #e88b16;
+    background: #fff4df;
+}
+
+.resource-transfer-page .status.medium {
+    color: #d28b17;
+    background: #fff7e7;
+}
+
+.resource-transfer-page .status.low {
+    color: #2d9d68;
+    background: #eaf9f1;
+}
+
+.resource-transfer-page .status.good {
+    color: #229965;
+    background: #eaf9f1;
+}
+
+.resource-transfer-page .status.info {
+    color: #2778d5;
+    background: #edf5ff;
+}
+
+
+/* ============================================================
+   REVIEW BUTTON
+   ============================================================ */
+
+.resource-transfer-page .transfer-action-button {
+    border: none;
+    outline: none;
+
+    padding: 6px 10px;
+
+    color: #2676dc;
+    background: #edf5ff;
+
+    border-radius: 5px;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.resource-transfer-page .transfer-action-button:hover {
+    background: #dcecff;
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   TRANSFER SUMMARY PANEL
+   ============================================================ */
+
+.resource-transfer-page .transfer-summary-content {
+    min-height: 300px;
+    padding: 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+
+/* ============================================================
+   DONUT / RING
+   ============================================================ */
+
+.resource-transfer-page .availability-ring {
+    flex: 0 0 155px;
+    width: 155px;
+    height: 155px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            #27bd78 0deg,
+            #27bd78 325deg,
+            #f5b638 325deg,
+            #f5b638 345deg,
+            #ef5350 345deg,
+            #ef5350 360deg
+        );
+
+    box-shadow:
+        0 5px 15px rgba(39, 189, 120, 0.10);
+}
+
+.resource-transfer-page .availability-ring::after {
+    content: "";
+    position: absolute;
+
+    width: 116px;
+    height: 116px;
+
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+.resource-transfer-page .availability-ring > div {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.resource-transfer-page .availability-ring strong {
+    color: #17345f;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.resource-transfer-page .availability-ring span {
+    color: #8090a5;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+
+/* ============================================================
+   MEDICINE SUMMARY LIST
+   ============================================================ */
+
+.resource-transfer-page .availability-list {
+    flex: 1;
+    min-width: 0;
+}
+
+.resource-transfer-page .medicine-transfer-item {
+    padding: 11px 0;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.resource-transfer-page .medicine-transfer-item:last-child {
+    border-bottom: none;
+}
+
+.resource-transfer-page .medicine-transfer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 7px;
+}
+
+.resource-transfer-page .medicine-transfer-top span {
+    color: #314b6d;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.resource-transfer-page .medicine-transfer-top strong {
+    color: #17345f;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.resource-transfer-page .medicine-transfer-bar {
+    height: 6px;
+
+    overflow: hidden;
+
+    background: #edf2f7;
+    border-radius: 10px;
+}
+
+.resource-transfer-page .medicine-transfer-bar span {
+    display: block;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #2f80ed,
+        #27bd78
+    );
+
+    border-radius: inherit;
+}
+
+.resource-transfer-page .medicine-transfer-item small {
+    display: block;
+    margin-top: 5px;
+
+    color: #91a0b4;
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   RECENT TRANSFERS
+   ============================================================ */
+
+.resource-transfer-page .recent-transfer-panel {
+    min-height: 344px;
+}
+
+.resource-transfer-page .recent-transfer-panel > #recentTransfers {
+    padding: 8px 18px 14px;
+}
+
+.resource-transfer-page .recent-transfer-item {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px 5px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+.resource-transfer-page .recent-transfer-item:last-child {
+    border-bottom: none;
+}
+
+.resource-transfer-page .recent-transfer-icon {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #2878dc;
+    background: #edf5ff;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.resource-transfer-page .recent-transfer-content {
+    min-width: 0;
+}
+
+.resource-transfer-page .recent-transfer-content strong {
+    display: block;
+
+    color: #19375f;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resource-transfer-page .recent-transfer-content strong span {
+    color: #2f80ed;
+    margin: 0 3px;
+}
+
+.resource-transfer-page .recent-transfer-content p {
+    margin: 5px 0 3px;
+
+    color: #657891;
+
+    font-size: 10px;
+}
+
+.resource-transfer-page .recent-transfer-content small {
+    color: #95a2b5;
+    font-size: 9px;
+}
+
+.resource-transfer-page .recent-transfer-status {
+    padding: 5px 9px;
+
+    border-radius: 15px;
+
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.resource-transfer-page .recent-transfer-status.warn {
+    color: #e88b16;
+    background: #fff4df;
+}
+
+.resource-transfer-page .recent-transfer-status.good {
+    color: #229965;
+    background: #eaf9f1;
+}
+
+.resource-transfer-page .recent-transfer-status.info {
+    color: #2778d5;
+    background: #edf5ff;
+}
+
+
+/* ============================================================
+   EMPTY / ERROR / LOADING
+   ============================================================ */
+
+.resource-transfer-page .transfer-empty,
+.resource-transfer-page .transfer-loading,
+.resource-transfer-page .transfer-error {
+    padding: 35px 20px !important;
+
+    color: #8997aa !important;
+
+    text-align: center !important;
+
+    font-size: 11px !important;
+}
+
+.resource-transfer-page .transfer-error {
+    color: #d9534f !important;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.resource-transfer-page .resource-transfer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 14px;
+    padding: 11px 4px;
+
+    color: #8291a5;
+
+    font-size: 10px;
+}
+
+.resource-transfer-page .resource-transfer-footer code {
+    color: #58708e;
+    background: #edf2f7;
+
+    padding: 3px 6px;
+
+    border-radius: 4px;
+
+    font-family: monospace;
+}
+
+.resource-transfer-page .resource-transfer-footer span:last-child {
+    color: #6f8198;
+    font-weight: 500;
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .resource-transfer-page .transfer-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .resource-transfer-page .resource-transfer-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "main"
+            "summary"
+            "recent";
+    }
+
+    .resource-transfer-page .transfer-summary-content {
+        min-height: auto;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .resource-transfer-page .transfer-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-transfer-page .transfer-summary article {
+        min-height: 78px;
+    }
+
+    .resource-transfer-page .resource-panel-head {
+        padding: 14px;
+        align-items: flex-start;
+    }
+
+    .resource-transfer-page .live-badge {
+        font-size: 9px;
+        padding: 6px 8px;
+    }
+
+    .resource-transfer-page .transfer-summary-content {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .resource-transfer-page .availability-ring {
+        width: 145px;
+        height: 145px;
+        flex-basis: 145px;
+    }
+
+    .resource-transfer-page .availability-list {
+        width: 100%;
+    }
+
+    .resource-transfer-page .recent-transfer-item {
+        grid-template-columns: 28px minmax(0, 1fr);
+    }
+
+    .resource-transfer-page .recent-transfer-status {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .resource-transfer-page .resource-transfer-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* =========================================================
+   BEDS OVERVIEW — LIVE DATA UI
+   ========================================================= */
+
+.beds-kpis {
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.beds-kpis article {
+    min-height: 92px;
+    padding: 17px 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    box-shadow: 0 2px 8px rgba(20, 45, 80, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.beds-kpis article small {
+    color: #6f8097;
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.beds-kpis article strong {
+    color: #17345f;
+    font-size: 25px;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.beds-kpis article strong em {
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6f8097;
+    margin-left: 3px;
+}
+
+.beds-kpis article.good {
+    border-left: 4px solid #20bf75;
+}
+
+.beds-kpis article.good strong {
+    color: #16a765;
+}
+
+.beds-kpis article.bad {
+    border-left: 4px solid #ff6262;
+}
+
+.beds-kpis article.bad strong {
+    color: #e84c4c;
+}
+
+.beds-kpis article.purple {
+    border-left: 4px solid #8067e8;
+}
+
+.beds-kpis article.purple strong {
+    color: #7055d8;
+}
+
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.beds-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-rows: auto auto;
+    gap: 14px;
+    align-items: stretch;
+}
+
+.beds-grid > .panel {
+    min-width: 0;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 13px;
+    box-shadow: 0 2px 8px rgba(20, 45, 80, 0.035);
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DONUT PANEL
+   ========================================================= */
+
+.beds-grid .donut-panel {
+    min-height: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.beds-grid .donut-panel h3,
+.beds-grid .occupancy-states h3,
+.beds-grid .compact-table h3 {
+    width: 100%;
+    margin: 0 0 17px;
+    color: #17345f;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.beds-grid .donut-panel h3 {
+    text-align: left;
+}
+
+
+/* =========================================================
+   OCCUPANCY DONUT
+   ========================================================= */
+
+.beds-grid .donut.occupancy {
+    --occupancy: 61.5;
+
+    width: 155px;
+    height: 155px;
+    margin: 8px auto 16px;
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            #27c27b calc(var(--occupancy) * 1%),
+            #e9eef5 0
+        );
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.beds-grid .donut.occupancy::after {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+.beds-grid .donut.occupancy strong {
+    position: relative;
+    z-index: 2;
+    color: #17345f;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.beds-grid .donut.occupancy strong small {
+    display: block;
+    margin-top: 5px;
+    color: #7a8ba1;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   DONUT LEGEND
+   ========================================================= */
+
+.beds-grid .donut-legend {
+    width: 100%;
+    max-width: 240px;
+}
+
+.beds-grid .donut-legend p {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #60738b;
+    font-size: 11px;
+}
+
+.beds-grid .donut-legend p i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    background: #27c27b;
+}
+
+.beds-grid .donut-legend p:nth-child(2) i {
+    background: #e1e8f0;
+}
+
+.beds-grid .donut-legend strong {
+    margin-left: auto;
+    color: #17345f;
+}
+
+
+/* =========================================================
+   STATE OCCUPANCY
+   ========================================================= */
+
+.beds-grid .occupancy-states {
+    padding: 20px;
+    min-height: 300px;
+}
+
+.state-occupancy-row {
+    margin-bottom: 17px;
+}
+
+.state-occupancy-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.state-occupancy-top span {
+    color: #304968;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.state-occupancy-top strong {
+    color: #17345f;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.state-occupancy-bar {
+    width: 100%;
+    height: 7px;
+    background: #edf2f7;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.state-occupancy-bar i {
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+    background: #27c27b;
+    transition: width 0.4s ease;
+}
+
+.state-occupancy-bar i.state-warning {
+    background: #f4ad3d;
+}
+
+.state-occupancy-bar i.state-critical {
+    background: #f45c5c;
+}
+
+
+/* =========================================================
+   TABLE PANELS
+   ========================================================= */
+
+.beds-grid .compact-table {
+    min-height: 235px;
+    padding: 20px;
+}
+
+.beds-grid .compact-table h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.threshold {
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #fff1e0;
+    color: #d98720;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.threshold.low-threshold {
+    background: #eaf8f0;
+    color: #1ca467;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.beds-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.beds-grid table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.beds-grid th {
+    padding: 10px 8px;
+    text-align: left;
+    color: #8191a6;
+    background: #f7f9fc;
+    border-bottom: 1px solid #e8eef5;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.beds-grid td {
+    padding: 12px 8px;
+    color: #536981;
+    border-bottom: 1px solid #edf1f6;
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+.beds-grid tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.beds-grid tbody tr:hover {
+    background: #fafcff;
+}
+
+.beds-grid td strong {
+    color: #263f62;
+    font-size: 10px;
+}
+
+.beds-grid td .phc-id {
+    display: block;
+    margin-top: 3px;
+    color: #9aa8b9;
+    font-size: 8px;
+}
+
+.beds-grid td b {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.beds-grid td b.high {
+    color: #ef5350;
+}
+
+.beds-grid td b.low {
+    color: #19a86a;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.beds-empty {
+    text-align: center !important;
+    color: #8a9aae !important;
+    padding: 30px 12px !important;
+    font-size: 11px !important;
+}
+
+.beds-loading {
+    padding: 40px 10px;
+    text-align: center;
+    color: #8a9aae;
+    font-size: 11px;
+}
+
+.beds-error {
+    padding: 25px 10px;
+    text-align: center;
+    color: #e55b5b;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .beds-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .beds-grid .donut-panel,
+    .beds-grid .occupancy-states {
+        min-height: auto;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .beds-kpis {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .beds-grid .compact-table {
+        padding: 15px;
+    }
+
+    .beds-grid th,
+    .beds-grid td {
+        padding: 9px 6px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .beds-kpis {
+        grid-template-columns: 1fr;
+    }
+
+    .beds-grid {
+        gap: 10px;
+    }
+
+}
+
+/* =========================================================
+   BEDS OVERVIEW - DONUT FIX
+   ========================================================= */
+
+.beds-grid .donut.occupancy {
+    width: 165px !important;
+    height: 165px !important;
+    min-width: 165px;
+    min-height: 165px;
+
+    margin: 12px auto 18px !important;
+
+    border-radius: 50% !important;
+
+    background: conic-gradient(
+        #27c27b 0deg 221.4deg,
+        #e8edf3 221.4deg 360deg
+    ) !important;
+
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-shrink: 0;
+}
+
+.beds-grid .donut.occupancy::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    width: 127px !important;
+    height: 127px !important;
+
+    inset: auto !important;
+
+    background: #ffffff !important;
+
+    border-radius: 50% !important;
+
+    z-index: 1;
+}
+
+.beds-grid .donut.occupancy strong {
+    position: relative !important;
+
+    z-index: 2 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #17345f !important;
+
+    font-size: 27px !important;
+    font-weight: 750 !important;
+
+    line-height: 1.1 !important;
+
+    text-align: center !important;
+}
+
+.beds-grid .donut.occupancy strong small {
+    display: block !important;
+
+    margin-top: 6px !important;
+
+    color: #7d8da1 !important;
+
+    font-size: 9px !important;
+    font-weight: 500 !important;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   BEDS OVERVIEW - EMPTY TABLE STATE
+   ========================================================= */
+
+.beds-empty-cell {
+    height: 125px;
+    padding: 12px !important;
+    text-align: center !important;
+}
+
+.beds-empty-state {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    text-align: left;
+
+    min-height: 90px;
+}
+
+.beds-empty-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #eaf8f1;
+
+    color: #20aa6a;
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.beds-empty-state strong {
+    display: block;
+
+    color: #304968;
+
+    font-size: 11px;
+
+    margin-bottom: 4px;
+}
+
+.beds-empty-state small {
+    display: block;
+
+    color: #8a9aae;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+/* ============================================================
+   MEDICAL STAFF PAGE
+============================================================ */
+
+.medical-staff-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.5fr;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.staff-kpis article {
+    min-height: 105px;
+}
+
+.staff-kpis article strong {
+    display: block;
+    margin-top: 7px;
+}
+
+.staff-kpis article em {
+    display: block;
+    margin-top: 4px;
+    font-size: 9px;
+    font-style: normal;
+    color: #8a9aae;
+}
+
+
+/* ============================================================
+   PANEL HEAD
+============================================================ */
+
+.medical-staff-grid .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.medical-staff-grid .panel-head h3 {
+    margin: 0;
+}
+
+.medical-staff-grid .panel-head p {
+    margin: 4px 0 0;
+    color: #8a9aae;
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   DISTRIBUTION
+============================================================ */
+
+.staff-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.staff-distribution-row {
+    width: 100%;
+}
+
+.staff-distribution-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.staff-distribution-top span {
+    color: #304968;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.staff-distribution-top strong {
+    color: #17345f;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.staff-distribution-bar {
+    width: 100%;
+    height: 7px;
+    background: #edf2f7;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.staff-distribution-bar i {
+    display: block;
+    height: 100%;
+    border-radius: 20px;
+    background: #27c27b;
+    transition: width .6s ease;
+}
+
+
+/* ============================================================
+   STAFF TABLE
+============================================================ */
+
+.staff-overview-panel {
+    min-width: 0;
+}
+
+.staff-overview-panel .table-wrap,
+.staff-shortage-panel .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.staff-overview-panel table,
+.staff-shortage-panel table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+}
+
+.staff-overview-panel th,
+.staff-shortage-panel th {
+    text-align: left;
+    padding: 9px 8px;
+    color: #91a0b2;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.staff-overview-panel td,
+.staff-shortage-panel td {
+    padding: 11px 8px;
+    color: #52657d;
+    font-size: 10px;
+    border-bottom: 1px solid #edf1f5;
+    vertical-align: middle;
+}
+
+.staff-overview-panel td strong,
+.staff-shortage-panel td strong {
+    color: #304968;
+    font-weight: 700;
+}
+
+.staff-overview-panel tr:last-child td,
+.staff-shortage-panel tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ============================================================
+   AVAILABILITY RING
+============================================================ */
+
+.staff-availability-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.staff-ring-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px 0 20px;
+}
+
+.staff-ring {
+    width: 155px;
+    height: 155px;
+    min-width: 155px;
+    min-height: 155px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    /* Default fallback */
+    background: #e8edf3;
+}
+
+.staff-ring::after {
+    content: "";
+    position: absolute;
+
+    width: 117px;
+    height: 117px;
+
+    top: 19px;
+    left: 19px;
+
+    background: #ffffff;
+    border-radius: 50%;
+
+    z-index: 1;
+}
+
+.staff-ring strong {
+    position: relative;
+    z-index: 2;
+    color: #17345f;
+    font-size: 25px;
+    font-weight: 750;
+    line-height: 1;
+}
+
+.staff-ring small {
+    position: absolute;
+    z-index: 3;
+    margin-top: 38px;
+    color: #7d8da1;
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   STATUS LIST
+============================================================ */
+
+.staff-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.staff-status-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 10px;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.staff-status-item span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #53677f;
+    font-size: 10px;
+}
+
+.staff-status-item strong {
+    color: #17345f;
+    font-size: 11px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-dot.available {
+    background: #27c27b;
+}
+
+.status-dot.leave {
+    background: #f4ad3d;
+}
+
+.status-dot.unavailable {
+    background: #ef5b5b;
+}
+
+
+/* ============================================================
+   SHORTAGE PANEL
+============================================================ */
+
+.staff-shortage-panel {
+    min-width: 0;
+}
+
+.staff-gap-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #fff0f0;
+    color: #e45656;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.staff-state-name {
+    display: block;
+    margin-top: 3px;
+    color: #95a2b2;
+    font-size: 8px;
+}
+
+.staff-gap-value {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 27px;
+    padding: 4px 7px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.gap-low {
+    background: #edf9f3;
+    color: #20a66a;
+}
+
+.gap-medium {
+    background: #fff7e9;
+    color: #d99425;
+}
+
+.gap-high {
+    background: #fff0df;
+    color: #df7e20;
+}
+
+.gap-critical {
+    background: #fff0f0;
+    color: #df5050;
+}
+
+
+/* ============================================================
+   AVAILABILITY PILL
+============================================================ */
+
+.staff-availability-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    padding: 4px 7px;
+    border-radius: 12px;
+    font-size: 8px;
+    font-weight: 750;
+}
+
+.staff-good {
+    background: #eaf8f1;
+    color: #20a86a;
+}
+
+.staff-warning {
+    background: #fff7e9;
+    color: #d99527;
+}
+
+.staff-critical {
+    background: #fff0f0;
+    color: #df5555;
+}
+
+
+/* ============================================================
+   ACTION BUTTON
+============================================================ */
+
+.staff-action-btn {
+    border: 0;
+    background: #eef5ff;
+    color: #3573c8;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.staff-action-btn:hover {
+    background: #dfeeff;
+}
+
+
+/* ============================================================
+   EMPTY / LOADING
+============================================================ */
+
+.staff-loading,
+.staff-empty-cell {
+    text-align: center !important;
+    padding: 28px 12px !important;
+    color: #91a0b2 !important;
+    font-size: 10px !important;
+}
+
+.staff-empty {
+    padding: 25px;
+    text-align: center;
+    color: #91a0b2;
+    font-size: 10px;
+}
+
+.staff-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    min-height: 80px;
+    text-align: left;
+}
+
+.staff-empty-state > span {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eaf8f1;
+    color: #20aa6a;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.staff-empty-state strong {
+    display: block;
+    color: #304968;
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.staff-empty-state small {
+    color: #8a9aae;
+    font-size: 8px;
+}
+
+.staff-error {
+    color: #df5555 !important;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .medical-staff-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .staff-kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .staff-ring {
+        width: 135px;
+        height: 135px;
+        min-width: 135px;
+        min-height: 135px;
+    }
+
+    .staff-ring::after {
+        width: 101px;
+        height: 101px;
+    }
+
+}
