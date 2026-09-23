@@ -8,12 +8,6 @@ firebase-service-account.json
 test_firebase.py
 check_shortages.py
 
-# Trained ML model binaries
-ai/models/*.joblib
-
-# Trained ML model binaries
-ai/models/*.joblib
-
 # Generated temporal datasets
 data_pipeline/temporal/*.csv
 medicine_shortages_report.csv
